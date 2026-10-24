@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+/12279694_3840_2160_30fps.mp4

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#079bd3" />
+    <title>National Care Leavers Festival</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./src/styles.css" />
+    <style>
+      .preview-nav { display: flex; align-items: center; gap: 7px; }
+      .preview-menu { display: none; }
+      .hero h1 span, .section-heading h2 span, .why-heading h2 span, .programme-heading h2 span, .leaders-copy h2 span, .involved-heading h2 span { color: var(--teal); }
+      .day-card-content h3 { min-height: 48px; }
+      @media (max-width: 680px) {
+        .preview-menu { display: grid; width: 42px; height: 42px; place-items: center; border: 0; color: #fff; background: transparent; }
+        .preview-nav { position: absolute; top: 70px; right: 0; left: 0; display: none; align-items: stretch; padding: 12px 20px 20px; background: var(--blue); }
+        .preview-nav.open { display: grid; }
+        .preview-nav .nav-link:hover, .preview-nav .nav-link.active { color: #fff; background: rgb(255 255 255 / 13%); }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="#home">
+        <span class="brand-mark">N</span>
+        <span class="brand-copy"><strong>National Care Leavers Festival</strong><small>When care leavers care</small></span>
+      </a>
+      <button class="preview-menu" aria-label="Toggle navigation" aria-expanded="false"><span>☰</span></button>
+      <nav class="preview-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#home">Home</a>
+        <a class="nav-link edition-link" href="#edition-2025">2025 Edition</a>
+        <a class="nav-link edition-link" href="#home">2026 Edition</a>
+        <a class="nav-link" href="#about">The festival</a>
+        <a class="nav-link" href="#programme">Programme</a>
+        <a class="nav-link" href="#moments">Moments</a>
+        <a class="nav-link" href="#leaders">Care leaders</a>
+        <a class="nav-register" href="#get-involved">Get involved <span>→</span></a>
+      </nav>
+    </header>
+    <main id="main-content">
+      <section class="hero section-wrap" id="home">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="eyebrow-dot"></span> When care leavers care</span>
+          <h1>Lived experience.<br /><span>Leading the future.</span></h1>
+          <p class="hero-description">A national celebration of care leavers as leaders, advocates and changemakers. Together, we are shaping a brighter future for aftercare in India.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#get-involved">Join the festival <span>→</span></a>
+            <a class="button button-quiet" href="#programme">Explore the festival</a>
+          </div>
+          <div class="hero-facts">
+            <div class="fact"><span class="fact-icon">✳</span><span><small>Our focus</small><strong>Leadership &amp; community</strong></span></div>
+            <div class="fact"><span class="fact-icon">◎</span><span><small>Our belief</small><strong>Care leavers lead change</strong></span></div>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="Illustration celebrating community and leadership">
+          <div class="visual-glow"></div>
+          <div class="visual-stamp"><span>CARE<br />LEAVERS<br />LEAD</span><span class="stamp-star">✳</span></div>
+          <div class="visual-card">
+            <div class="visual-topline"><span>COMMUNITY</span><span>LEADERSHIP</span></div>
+            <div class="illustration has-hero-media">
+              <video class="hero-media" src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" aria-label="Temporary sample video preview; replace with an approved festival video" autoplay muted loop playsinline controls></video>
+            </div>
+            <div class="visual-caption"><span>National Care Leavers Festival</span><span class="caption-year">Care · Lead · Rise</span></div>
+          </div>
+          <div class="floating-note note-top">✳ <span>Voices at the centre</span></div>
+          <div class="floating-note note-bottom">35+ <span>care leaders</span></div>
+        </div>
+      </section>
+      <section class="intro-band">
+        <div class="section-wrap intro-content">
+          <span class="intro-index">01 / THE FESTIVAL</span>
+          <p>Not a story of what is missing. A celebration of what is possible when care leavers are <strong>believed, supported and leading change.</strong></p>
+          <a href="#about" class="intro-link" aria-label="Discover the festival">→</a>
+        </div>
+      </section>
+      <section class="edition-section section-space" id="edition-2025">
+        <div class="section-wrap">
+          <div class="edition-heading">
+            <div><span class="section-kicker">The story continues</span><h2>2025 Edition:<br /><span>look back, move forward.</span></h2></div>
+            <p>Revisit the people, stories and moments from last year’s festival. Add the official videos to bring this archive to life.</p>
+          </div>
+          <div class="archive-grid">
+            <article class="archive-card">
+              <div class="archive-poster poster-highlights"><span class="poster-edition">NATIONAL CARE LEAVERS FESTIVAL · 2025</span><span class="poster-play" aria-hidden="true">▶</span><span class="poster-title">Festival highlights</span><span class="poster-note">VIDEO COMING SOON</span></div>
+              <div class="archive-card-copy"><span class="archive-number">01 / 2025</span><h3>Festival highlights</h3><p>A look back at the moments that brought everyone together.</p></div>
+            </article>
+            <article class="archive-card">
+              <div class="archive-poster poster-voices"><span class="poster-edition">NATIONAL CARE LEAVERS FESTIVAL · 2025</span><span class="poster-play" aria-hidden="true">▶</span><span class="poster-title">Care leaver voices</span><span class="poster-note">VIDEO COMING SOON</span></div>
+              <div class="archive-card-copy"><span class="archive-number">02 / 2025</span><h3>Care leaver voices</h3><p>Stories, ideas and perspectives from the community.</p></div>
+            </article>
+            <article class="archive-card">
+              <div class="archive-poster poster-together"><span class="poster-edition">NATIONAL CARE LEAVERS FESTIVAL · 2025</span><span class="poster-play" aria-hidden="true">▶</span><span class="poster-title">Moments we made together</span><span class="poster-note">VIDEO COMING SOON</span></div>
+              <div class="archive-card-copy"><span class="archive-number">03 / 2025</span><h3>Moments we made together</h3><p>A celebration of connection, creativity and possibility.</p></div>
+            </article>
+          </div>
+          <div class="archive-footer"><span>✳ One festival. Many voices. A movement that keeps growing.</span><a href="#home">Explore the 2026 edition <span>→</span></a></div>
+        </div>
+      </section>
+      <section class="about-section section-wrap section-space" id="about">
+        <div class="section-heading"><span class="section-kicker">A new reality</span><h2>From doubt<br />to <span>confidence.</span></h2></div>
+        <div class="about-body">
+          <p>Across India, care leavers are turning lived experience into leadership. Through fellowships, networks and community-led initiatives, young people are creating opportunities and shaping how aftercare is understood.</p>
+          <p>This festival brings care leavers, practitioners and partners together to celebrate those achievements—and to keep building systems where every young person can thrive.</p>
+          <div class="values-grid">
+            <article class="value-card"><span>01</span><h3>Rights-based</h3><p>Moving beyond charity to dignity, opportunity and equal rights.</p></article>
+            <article class="value-card"><span>02</span><h3>Strength-driven</h3><p>Connecting lived experience, skills and leadership with opportunity.</p></article>
+            <article class="value-card"><span>03</span><h3>Systemic change</h3><p>Working together to improve aftercare, policy and workplaces.</p></article>
+            <article class="value-card"><span>04</span><h3>Evidence-led</h3><p>Building lasting solutions informed by lived experience.</p></article>
+          </div>
+        </div>
+      </section>
+      <section class="why-section section-space">
+        <div class="section-wrap">
+          <div class="why-heading"><div><span class="section-kicker">Why we come together</span><h2>More than an event.<br /><span>A movement.</span></h2></div><p>Building a future where care leavers have the voice, networks and opportunities to lead.</p></div>
+          <div class="reason-grid">
+            <article class="reason-card"><span class="reason-icon">✳</span><span class="reason-number">01</span><h3>A first-of-its-kind gathering</h3><p>Care-experienced leaders connect, learn and celebrate together.</p></article>
+            <article class="reason-card"><span class="reason-icon reason-icon-2">↗</span><span class="reason-number">02</span><h3>Lived experience, amplified</h3><p>Care leavers lead as advocates, changemakers and experts.</p></article>
+            <article class="reason-card"><span class="reason-icon reason-icon-3">◎</span><span class="reason-number">03</span><h3>Stronger aftercare systems</h3><p>Young people and partners co-create ideas for lasting change.</p></article>
+            <article class="reason-card"><span class="reason-icon reason-icon-4">⌘</span><span class="reason-number">04</span><h3>A community that lasts</h3><p>A national network built on connection and collective vision.</p></article>
+          </div>
+        </div>
+      </section>
+      <section class="programme-section section-space" id="programme">
+        <div class="section-wrap">
+          <div class="programme-heading"><div><span class="section-kicker">Four days, one shared vision</span><h2>Make room<br />for <span>what’s next.</span></h2></div><p>Learning, celebration and co-creation with care leaders from across India.</p></div>
+          <div class="day-grid">
+            <article class="day-card day-coral"><div class="day-card-top"><span>DAY 01</span><span>CONNECT</span></div><div class="day-card-content"><h3>Laughter, food &amp; culture</h3><ul><li>Interactive cooking</li><li>Theatre workshops</li><li>Poster presentations</li><li>Cultural celebration</li></ul></div><div class="day-card-footer"><span>Care · Community</span><span>01</span></div></article>
+            <article class="day-card day-blue"><div class="day-card-top"><span>DAY 02</span><span>IMAGINE</span></div><div class="day-card-content"><h3>Visioning &amp; systems</h3><ul><li>Appreciative inquiry</li><li>Visioning workshops</li><li>Systems thinking</li><li>Meet the network</li></ul></div><div class="day-card-footer"><span>Ideas · Action</span><span>02</span></div></article>
+            <article class="day-card day-gold"><div class="day-card-top"><span>DAY 03</span><span>CELEBRATE</span></div><div class="day-card-content"><h3>Graduation &amp; awards</h3><ul><li>Graduation celebration</li><li>Aftercare Hero Awards</li><li>Key announcements</li><li>Motivational dialogues</li></ul></div><div class="day-card-footer"><span>Achievement · Pride</span><span>03</span></div></article>
+            <article class="day-card day-teal"><div class="day-card-top"><span>DAY 04</span><span>LOOK AHEAD</span></div><div class="day-card-content"><h3>Outreach &amp; next steps</h3><ul><li>Stakeholder consultation</li><li>Shared commitments</li><li>Community connections</li><li>Closing celebration</li></ul></div><div class="day-card-footer"><span>Change · Together</span><span>04</span></div></article>
+          </div>
+        </div>
+      </section>
+      <section class="moments-section section-space" id="moments" aria-labelledby="moments-title">
+        <div class="section-wrap">
+          <div class="moments-heading">
+            <div><span class="section-kicker">The people make the festival</span><h2 id="moments-title">Big moments.<br /><span>Real connection.</span></h2></div>
+            <p>A photo wall for the friendships, ideas and celebrations that make this community what it is. Replace each space with your festival photos.</p>
+          </div>
+          <div class="moments-wall">
+            <figure class="moment-card moment-one"><div class="moment-photo" role="img" aria-label="Add a festival photo"><span class="moment-plus">+</span><span class="moment-add">Add a festival photo</span></div><figcaption><span>01 / COMMUNITY</span><strong>A moment of joy</strong></figcaption></figure>
+            <figure class="moment-card moment-two"><div class="moment-photo" role="img" aria-label="Add a festival photo"><span class="moment-plus">+</span><span class="moment-add">Add a festival photo</span></div><figcaption><span>02 / COMMUNITY</span><strong>Friends &amp; community</strong></figcaption></figure>
+            <figure class="moment-card moment-three"><div class="moment-photo" role="img" aria-label="Add a festival photo"><span class="moment-plus">+</span><span class="moment-add">Add a festival photo</span></div><figcaption><span>03 / COMMUNITY</span><strong>Care leaders in action</strong></figcaption></figure>
+            <figure class="moment-card moment-four"><div class="moment-photo" role="img" aria-label="Add a festival photo"><span class="moment-plus">+</span><span class="moment-add">Add a festival photo</span></div><figcaption><span>04 / COMMUNITY</span><strong>Celebrating together</strong></figcaption></figure>
+          </div>
+        </div>
+      </section>
+      <section class="leaders-section section-space" id="leaders" aria-labelledby="leaders-title">
+        <div class="section-wrap">
+          <div class="leaders-directory-heading">
+            <span class="section-kicker">Their stories. Their leadership.</span>
+            <h2 id="leaders-title">Meet the <span>care leaders.</span></h2>
+            <p>Care-experienced leaders are driving systemic change across India. Add their names, stories, locations and areas of work to introduce the people behind the movement.</p>
+            <label class="leader-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search by name, skills, or state..." aria-label="Search care leaders" /></label>
+          </div>
+          <div class="leader-card-grid">
+            <article class="leader-profile-card"><div class="leader-photo-wrap"><span class="leader-badge">CARE LEADER</span><div class="leader-photo" aria-label="Add leader photo"><span>+</span></div></div><div class="leader-profile-heading"><div><h3>Add leader name</h3><p>Add city, state</p></div><span class="leader-role">LIFT FELLOW</span></div><div class="leader-profile-content"><span class="leader-focus">Add focus area</span><p class="leader-bio">Add a short introduction about this care leader.</p><a class="leader-profile-link" href="#get-involved">Add profile details</a></div></article>
+            <article class="leader-profile-card"><div class="leader-photo-wrap"><span class="leader-badge">CARE LEADER</span><div class="leader-photo leader-photo-2" aria-label="Add leader photo"><span>+</span></div></div><div class="leader-profile-heading"><div><h3>Add leader name</h3><p>Add city, state</p></div><span class="leader-role">LIFT FELLOW</span></div><div class="leader-profile-content"><span class="leader-focus">Add focus area</span><p class="leader-bio">Add a short introduction about this care leader.</p><a class="leader-profile-link" href="#get-involved">Add profile details</a></div></article>
+            <article class="leader-profile-card"><div class="leader-photo-wrap"><span class="leader-badge">CARE LEADER</span><div class="leader-photo leader-photo-3" aria-label="Add leader photo"><span>+</span></div></div><div class="leader-profile-heading"><div><h3>Add leader name</h3><p>Add city, state</p></div><span class="leader-role">LIFT FELLOW</span></div><div class="leader-profile-content"><span class="leader-focus">Add focus area</span><p class="leader-bio">Add a short introduction about this care leader.</p><a class="leader-profile-link" href="#get-involved">Add profile details</a></div></article>
+          </div>
+        </div>
+      </section>
+      <section class="involved-section section-space" id="get-involved">
+        <div class="section-wrap"><div class="involved-panel">
+          <div class="involved-heading"><span class="section-kicker">Every voice matters</span><h2>There’s a place<br />for <span>you here.</span></h2><p>Be part of a community creating a stronger future for care leavers.</p></div>
+          <div class="involved-options">
+            <a class="involved-option" href="mailto:advocacy@udayancare.org"><span class="option-number">01</span><span><strong>Take part</strong><small>Join the festival community</small></span><span>→</span></a>
+            <a class="involved-option" href="mailto:advocacy@udayancare.org"><span class="option-number">02</span><span><strong>Share your story</strong><small>Help bring lived experience forward</small></span><span>→</span></a>
+            <a class="involved-option" href="mailto:advocacy@udayancare.org"><span class="option-number">03</span><span><strong>Partner with us</strong><small>Help make change possible</small></span><span>→</span></a>
+          </div>
+          <div class="involved-contact">Questions? <a href="mailto:advocacy@udayancare.org">advocacy@udayancare.org</a></div>
+        </div></div>
+      </section>
+    </main>
+    <footer class="site-footer"><div class="section-wrap">
+      <div class="footer-main">
+        <div class="footer-about"><a class="brand footer-brand" href="#home"><span class="brand-mark">N</span><span class="brand-copy"><strong>National Care Leavers Festival</strong><small>When care leavers care</small></span></a><p>Celebrating care leavers as leaders, changemakers and advocates.</p></div>
+        <div class="footer-links"><span>Explore</span><a href="#about">The festival</a><a href="#programme">Programme</a><a href="#leaders">Care leaders</a></div>
+        <div class="footer-links"><span>Connect</span><a href="mailto:advocacy@udayancare.org">Get in touch</a><a href="https://udayancare.org/" target="_blank" rel="noreferrer">Udayan Care ↗</a><a href="#get-involved">Get involved</a></div>
+        <div class="footer-date"><span>OUR SHARED FUTURE</span><strong>Care. Lead. Rise.</strong><small>Every voice belongs.</small></div>
+      </div>
+      <div class="footer-bottom"><span>National Care Leavers Festival</span><span>Designed around dignity, belonging and possibility.</span><a href="#home">Back to top ↑</a></div>
+    </div></footer>
+    <script>
+      const menu = document.querySelector('.preview-menu');
+      const nav = document.querySelector('.preview-nav');
+      menu.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        menu.setAttribute('aria-expanded', String(open));
+        menu.querySelector('span').textContent = open ? '×' : '☰';
+      });
+      nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        menu.setAttribute('aria-expanded', 'false');
+        menu.querySelector('span').textContent = '☰';
+      }));
+      const leaderSearch = document.querySelector('.leader-search input');
+      leaderSearch.addEventListener('input', () => {
+        const query = leaderSearch.value.trim().toLowerCase();
+        document.querySelectorAll('.leader-profile-card').forEach((card) => {
+          card.hidden = !card.textContent.toLowerCase().includes(query);
+        });
+      });
+    </script>
+  </body>
+</html>
