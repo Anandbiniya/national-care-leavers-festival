@@ -11,16 +11,8 @@ const festival = {
   venue: 'Don Bosco, Okhla',
   city: 'New Delhi, India',
   registrationUrl: '#get-involved',
-  contactEmail: 'advocacy@udayancare.org',
-  whatsappNumber: '',
 };
 
-const socialLinks = [
-  { label: 'Instagram', href: 'https://www.instagram.com/udayancare/' },
-  { label: 'Facebook', href: 'https://www.facebook.com/UdayanCare' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/udayan-care-ngo/' },
-  { label: 'YouTube', href: 'https://youtube.com/c/udayancarengo' },
-];
 const festivalWhatsAppChannel = 'https://whatsapp.com/channel/0029Vb8wWtGJP21BAIBQU322';
 
 const values = [
@@ -460,7 +452,7 @@ function FellowBlogs() {
             <span className="section-kicker">Ideas and reflections from fellows</span>
             <h2 id="blogs-title">In their <span>own words.</span></h2>
           </div>
-          <p>Read fellows’ perspectives and experiences. Each preview links to the full article on the Udayan Care website.</p>
+          <p>Read fellows’ perspectives and experiences, with a short preview and a link to each full article.</p>
         </div>
         <div className="blogs-grid">
           {fellowBlogs.map((blog, index) => (
@@ -474,7 +466,7 @@ function FellowBlogs() {
                   Read the full article <Icon name="arrow" size={16} />
                 </a>
               ) : (
-                <span className="blog-link blog-link-pending">Add the Udayan Care article link</span>
+                <span className="blog-link blog-link-pending">Add the full article link</span>
               )}
             </article>
           ))}
@@ -528,16 +520,18 @@ function Leaders() {
                   <h3>{leader.name}</h3>
                   <p>{leader.location}</p>
                 </div>
-                <span className="leader-role">LIFT FELLOW</span>
+                <span className="leader-role">FELLOW</span>
               </div>
               <div className="leader-profile-content">
                 <span className="leader-focus">{leader.focus}</span>
                 <p className="leader-bio">{leader.bio}</p>
                 <a
                   className="leader-profile-link"
-                  href={`mailto:${festival.contactEmail}?subject=${encodeURIComponent(`Care leader profile: ${leader.name}`)}`}
+                  href={festivalWhatsAppChannel}
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  <Icon name="mail" size={14} /> Add profile details
+                  <Icon name="arrow" size={14} /> Connect with the festival
                 </a>
               </div>
             </article>
@@ -585,17 +579,17 @@ function GetInvolved() {
             <p>Be part of a community creating a stronger future for care leavers.</p>
           </div>
           <div className="involved-options">
-            <a className="involved-option" href={`mailto:${festival.contactEmail}?subject=Festival%20participation`}>
+            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">
               <span className="option-number">01</span>
               <span><strong>Take part</strong><small>Join the festival community</small></span>
               <Icon name="arrow" />
             </a>
-            <a className="involved-option" href={`mailto:${festival.contactEmail}?subject=Share%20a%20care%20leaver%20story`}>
+            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">
               <span className="option-number">02</span>
               <span><strong>Share your story</strong><small>Help bring lived experience forward</small></span>
               <Icon name="arrow" />
             </a>
-            <a className="involved-option" href={`mailto:${festival.contactEmail}?subject=Festival%20partnership`}>
+            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">
               <span className="option-number">03</span>
               <span><strong>Partner with us</strong><small>Help make change possible</small></span>
               <Icon name="arrow" />
@@ -606,7 +600,7 @@ function GetInvolved() {
               <Icon name="arrow" />
             </a>
           </div>
-          <div className="involved-contact"><Icon name="mail" size={17} /> Questions? <a href={`mailto:${festival.contactEmail}`}>{festival.contactEmail}</a></div>
+          <div className="involved-contact"><Icon name="arrow" size={17} /> Questions? <a href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">Join the festival WhatsApp channel</a></div>
         </div>
       </div>
     </section>
@@ -634,16 +628,8 @@ function Footer() {
           </div>
           <div className="footer-links">
             <span>Connect</span>
-            <a href={`mailto:${festival.contactEmail}`}>{festival.contactEmail}</a>
-            <a href="https://udayancare.org/" target="_blank" rel="noreferrer">Udayan Care ↗</a>
+            <a href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">Festival WhatsApp channel ↗</a>
             <a href="#get-involved">Get involved</a>
-            <div className="footer-socials" aria-label="Udayan Care social media">
-              {socialLinks.map((social) => (
-                <a href={social.href} key={social.label} target="_blank" rel="noreferrer" aria-label={`Udayan Care on ${social.label}`}>
-                  {social.label === 'Instagram' ? '@udayancare' : social.label} ↗
-                </a>
-              ))}
-            </div>
           </div>
           <div className="footer-date"><span>{festival.year} FESTIVAL</span><strong>{festival.dates}</strong><small>{festival.city}</small></div>
         </div>
@@ -659,10 +645,6 @@ function Footer() {
 
 function JoinHelper() {
   const [open, setOpen] = useState(false);
-  const whatsappDigits = festival.whatsappNumber.replace(/\D/g, '');
-  const whatsappHref = /^\d{8,15}$/.test(whatsappDigits)
-    ? `https://wa.me/${whatsappDigits}?text=${encodeURIComponent('Hi, I would like to know how to join the National Care Leavers Festival.')}`
-    : '';
 
   return (
     <aside className="join-helper">
@@ -670,20 +652,15 @@ function JoinHelper() {
         <div className="join-helper-panel" role="dialog" aria-labelledby="join-helper-title">
           <div className="join-helper-heading">
             <div>
-              <span>OFFICIAL FESTIVAL CONTACT</span>
+              <span>FESTIVAL COMMUNITY</span>
               <h2 id="join-helper-title">Want to join us?</h2>
             </div>
             <button type="button" className="join-helper-close" onClick={() => setOpen(false)} aria-label="Close joining help">×</button>
           </div>
-          <p>This quick helper shares official contact options only. It is not an AI service; please don’t send personal or sensitive information.</p>
-          <a className="join-helper-link" href={`mailto:${festival.contactEmail}?subject=Joining%20the%20festival`}>
-            Email the festival team <Icon name="arrow" size={16} />
+          <p>Join the festival’s WhatsApp channel for community updates and ways to take part. Don’t share personal or sensitive information in public channels.</p>
+          <a className="join-helper-link" href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">
+            Join the WhatsApp channel <Icon name="arrow" size={16} />
           </a>
-          {whatsappHref && (
-            <a className="join-helper-link" href={whatsappHref} target="_blank" rel="noreferrer">
-              Continue to WhatsApp <Icon name="arrow" size={16} />
-            </a>
-          )}
         </div>
       )}
       <button

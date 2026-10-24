@@ -1,6 +1,6 @@
 # National Care Leavers Festival
 
-An editable, responsive React website inspired by the National Care Leavers Festival reference and Udayan Care/LIFT's blue and teal visual direction.
+An editable, responsive website for the National Care Leavers Festival.
 
 ## Run locally
 
@@ -13,7 +13,7 @@ An editable, responsive React website inspired by the National Care Leavers Fest
 
 Festival details and the registration URL are at the top of `src/main.jsx` in the `festival` object. The hero uses the uploaded `public/videos/festival-hero.mp4` as a full-section background video, with a photo fallback poster. Replace it with approved festival footage if needed.
 
-The safe joining helper provides official contact links only; it does not use AI or collect information. The “Join our WhatsApp channel” link in the Get Involved section opens the official festival channel. The navbar groups the 2025 and 2026 links under “Past festivals,” while fellow blogs remain in the page content rather than the header. The footer social URLs are verified Udayan Care links. Update the `fellowBlogs` array with fellows’ article titles, names, summaries and full Udayan Care article URLs; cards without a URL intentionally show a reminder instead of a broken link. The schedule, values and other page content are also in `src/main.jsx`. Add 2025 YouTube/Vimeo embed URLs to the `edition2025Videos` list to replace the video placeholders. Colours and responsive styles are in `src/styles.css`.
+The safe joining helper links directly to the festival WhatsApp channel; it does not use AI or collect information. The navbar groups the 2025 and 2026 links under “Past festivals,” while fellow blogs remain in the page content rather than the header. Update the `fellowBlogs` array with fellows’ article titles, names, summaries and full article URLs; cards without a URL intentionally show a reminder instead of a broken link. The schedule, values and other page content are also in `src/main.jsx`. Add 2025 YouTube/Vimeo embed URLs to the `edition2025Videos` list to replace the video placeholders. Colours and responsive styles are in `src/styles.css`.
 
 Small decorative flowers bloom when the community moments, fellow blogs and care leaders sections enter view. A brief, one-time flower burst plays alongside the subtle flowers, then fades away. The animation is disabled for visitors who prefer reduced motion.
 
