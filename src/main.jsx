@@ -19,7 +19,7 @@ const festivalPhotos = [
 const festival = {
   year: '2026',
   title: 'National Care Leavers Festival',
-  theme: 'Lived experience. Leading the future.',
+  theme: 'A movement led by care-experienced youth.',
   dates: 'January 17–20, 2026',
   shortDates: 'Jan 17–20, 2026',
   city: 'New Delhi, India',
@@ -29,8 +29,8 @@ const festival = {
 const festivalWhatsAppChannel = 'https://whatsapp.com/channel/0029Vb8wWtGJP21BAIBQU322';
 const festivalEmail = '2026nclf@gmail.com';
 const socialLinks = [
-  { name: 'Instagram', href: 'https://www.instagram.com/nclf2026?xtok=MWd0d2Jqc2lzMDViOQ==', icon: 'instagram' },
-  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?fb_profile_edit_entry_point=%7B%22click_point%22%3A%22edit_profile_button%22%2C%22feature%22%3A%22profile_header%22%7D&id=61595764058285&sk=about', icon: 'facebook' },
+  { name: 'Instagram', href: 'https://www.instagram.com/nclf2026', icon: 'instagram' },
+  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595764058285&sk=about', icon: 'facebook' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/nclf-cls-initiative-468474447/', icon: 'linkedin' },
 ];
 
@@ -57,17 +57,6 @@ const values = [
   },
 ];
 
-const days = [
-  {
-    day: 'Day 1',
-    poster: festivalPhotos[0],
-  },
-  {
-    day: 'Day 2',
-    poster: festivalPhotos[6],
-  },
-];
-
 const attendeeTestimonials = [
   { id: 'attendee-1', src: versionTwoTestimonial, poster: festivalPhotos[1] },
   { id: 'attendee-2', src: '/Day%203%20highlight.mp4', poster: festivalPhotos[4] },
@@ -75,10 +64,10 @@ const attendeeTestimonials = [
 ];
 
 const festivalMoments = [
-  { date: '17 JANUARY · CONNECTION', title: 'Start with connection', detail: 'Laughter Chef Experience, systems thinking and the first theatre session.', photo: festivalPhotos[0] },
-  { date: '18 JANUARY · REFLECTION', title: 'Make room to reflect', detail: 'Alumni visioning sessions and theatre practice bring people together.', photo: festivalPhotos[1] },
-  { date: '19 JANUARY · LEADERSHIP', title: 'Celebrate the journey', detail: 'The third LIFT Fellowship cohort graduates alongside theatre and LEAP.', photo: festivalPhotos[2] },
-  { date: '20 JANUARY · ADVOCACY', title: 'Bring voices to policy', detail: 'A stakeholder consultation focuses on aftercare in Delhi NCR.', photo: festivalPhotos[3] },
+  { date: '17 JAN · HEAL AND CONNECT', title: 'Heal and Connect', detail: 'Laughter Chef Experience, Systems Thinking Workshop, theatre begins', photo: festivalPhotos[0] },
+  { date: '18 JAN · RECONNECT AND REFLECT', title: 'Reconnect and Reflect', detail: 'Alumni visioning sessions, theatre practice', photo: festivalPhotos[1] },
+  { date: '19 JAN · GRADUATE AND LEAD', title: 'Graduate and Lead', detail: 'LIFT Fellowship graduation (3rd cohort), theatre performance, LEAP workshop', photo: festivalPhotos[2] },
+  { date: '20 JAN · SPEAK TO POLICY', title: 'Speak to Policy', detail: 'Stakeholder consultation on aftercare in Delhi NCR', photo: festivalPhotos[3] },
 ];
 
 function Icon({ name, size = 18 }) {
@@ -118,8 +107,8 @@ function Header() {
   const [activeSection, setActiveSection] = useState('home');
   const navItems = [
     ['Home', '#home', 'home'],
-    ['Festival Editions', '#festival-editions', 'festival-editions'],
-    ["Care Leavers' Stories", '#care-leavers-stories', 'care-leavers-stories'],
+    ['Festival editions', '#festival-editions', 'festival-editions'],
+    ["Care Leavers' stories", '#care-leavers-stories', 'care-leavers-stories'],
     ['Join the Movement', '#join-the-movement', 'join-the-movement'],
   ];
 
@@ -142,7 +131,7 @@ function Header() {
       <a className="brand" href="#home" aria-label={`${festival.title} home`} onClick={() => { setMenuOpen(false); setActiveSection('home'); }}>
         <span className="brand-mark" aria-hidden="true">N</span>
         <span className="brand-copy">
-          <strong>{festival.title}, 2027</strong>
+          <strong>{festival.title}</strong>
           <small>Care leavers lead.</small>
         </span>
       </a>
@@ -195,8 +184,8 @@ function Hero() {
         preload="auto"
       />
       <div className="hero-copy">
-        <span className="eyebrow"><span className="eyebrow-dot" /> A movement led by care-experienced youth</span>
-        <h1 id="hero-title">Lived experience.<br /><span>Leading the future.</span></h1>
+        {/* <span className="eyebrow"><span className="eyebrow-dot" /> A movement led by care-experienced youth</span> */}
+        <h1 id="hero-title">A movement led by<br /><span>care-experienced youth.</span></h1>
         <p className="hero-secondary">
           A national festival where care leavers lead. Celebrate their success, hear their stories,
           and discover the opportunities for care leavers across India.
@@ -218,16 +207,21 @@ function About() {
   return (
     <section className="about-section section-wrap section-space" id="about">
       <div className="section-heading">
-        <span className="section-kicker">First-of-its-kind festival for care leavers</span>
+        <span className="section-kicker">First of it's kind festival for Care Leavers</span>
         <h2>More than an event.<br /><span>A movement.</span></h2>
       </div>
       <div className="about-body">
         <p>
-          Building a future where care leavers have the voice, networks and opportunities to lead.
+          This festival isn’t about what’s missing. It’s about what’s possible when care leavers are believed, supported and leading the way.
         </p>
         <p>
-          A national festival bringing care-experienced people together to share experiences,
-          celebrate achievements and build a strong, connected community.
+          Celebrating a future where care leavers have the voice, the networks and the opportunities to lead.
+        </p>
+        <p>
+          A national festival to bring the diverse care experienced people at one place to share and build a strong community
+        </p>
+        <p>
+          a celebration of the Care Leavers, For the Care Leavers and By the Care Leavers
         </p>
         <div className="values-grid">
           {values.map((value) => (
@@ -250,11 +244,10 @@ function Edition2026() {
         <div className="edition-heading">
           <div>
             <span className="section-kicker">Festival Editions · January 2026</span>
-            <h2 id="edition-2026-title">2026 Edition:<br /><span>Honour the Journey</span></h2>
+            <h2 id="edition-2026-title">2026 Edition:<br /><span>Honour the journey</span></h2>
           </div>
           <p>
-            Revisit the four-day programme and moments from the 2026 festival. Explore the highlights
-            and celebrate the connections that continue to shape the movement.
+            A four-day learning experience created by care leavers for care leavers.
           </p>
         </div>
         <div className="edition-feature">
@@ -446,218 +439,6 @@ function FestivalMomentsWall() {
   );
 }
 
-function Programme() {
-  const [revealedDays, setRevealedDays] = useState({});
-  const [activeDay, setActiveDay] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
-  const touchStartTime = useRef(0);
-  const resumeTimeoutRef = useRef(null);
-
-  // Auto-slide on mobile: smoothly cycles between Day 1 and Day 2 every 3.5s
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      setActiveDay((prev) => (prev + 1) % days.length);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, [isPaused]);
-
-  const pauseTemporarily = (duration = 4000) => {
-    setIsPaused(true);
-    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
-    resumeTimeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, duration);
-  };
-
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
-    touchEndX.current = e.touches[0].clientX;
-    touchStartTime.current = Date.now();
-    setIsPaused(true);
-  };
-
-  const handleTouchMove = (e) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    const deltaX = touchStartX.current - touchEndX.current;
-    const deltaTime = Date.now() - touchStartTime.current;
-    if (Math.abs(deltaX) > 40 && deltaTime < 600) {
-      if (deltaX > 0) {
-        // Swiped left -> slide to Day 2
-        setActiveDay((prev) => (prev + 1) % days.length);
-      } else {
-        // Swiped right -> slide to Day 1
-        setActiveDay((prev) => (prev - 1 + days.length) % days.length);
-      }
-    }
-    pauseTemporarily(3500);
-  };
-
-  const selectDay = (index) => {
-    setActiveDay(index);
-    pauseTemporarily(4000);
-  };
-
-  return (
-    <section className="programme-section section-space" id="programme" aria-labelledby="programme-title">
-      <div className="section-wrap">
-        <div className="programme-heading">
-          <div>
-            <span className="section-kicker">Two-day festival · Schedule in development</span>
-            <h2 id="programme-title">Learning, celebration<br />and <span>co-creation.</span></h2>
-          </div>
-          <p>
-            Two days of celebration and connection with care leaders from across India.
-            Dates and programme details will be shared once confirmed.
-          </p>
-        </div>
-
-        {/* Mobile View: 1 card at a time with smooth sliding animation and auto-timer */}
-        <div
-          className="programme-mobile-slider"
-          aria-roledescription="carousel"
-          aria-label="Festival Programme"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {/* Day 1 / Day 2 selector tabs with auto-timing progress line */}
-          <div className="programme-mobile-tabs" role="tablist" aria-label="Programme Days">
-            {days.map((d, index) => (
-              <button
-                key={d.day}
-                type="button"
-                role="tab"
-                id={'programme-tab-' + index}
-                aria-selected={activeDay === index}
-                aria-controls={'programme-slide-' + index}
-                className={'programme-day-tab' + (activeDay === index ? ' is-active' : '')}
-                onClick={() => selectDay(index)}
-              >
-                <span className="programme-tab-label">{d.day}</span>
-                {activeDay === index && !isPaused && (
-                  <span className="programme-tab-progress" key={'prog-' + activeDay} />
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* Sliding Viewport & Track */}
-          <div className="programme-slider-viewport">
-            <div
-              className="programme-slider-track"
-              style={{ transform: 'translateX(-' + (activeDay * 100) + '%)' }}
-            >
-              {days.map((day, index) => (
-                <div
-                  className="programme-slide-item"
-                  key={day.day}
-                  id={'programme-slide-' + index}
-                  role="tabpanel"
-                  aria-labelledby={'programme-tab-' + index}
-                  aria-hidden={activeDay !== index}
-                >
-                  <button
-                    className={'day-card day-' + (index + 1) + (revealedDays[index] ? ' is-revealed' : '')}
-                    type="button"
-                    aria-pressed={Boolean(revealedDays[index])}
-                    aria-label={(revealedDays[index] ? 'Hide' : 'Reveal') + ' ' + day.day + ' festival photograph'}
-                    onClick={() => {
-                      setRevealedDays((revealed) => ({ ...revealed, [index]: !revealed[index] }));
-                    }}
-                  >
-                    <img className="day-card-image" src={day.poster} alt="" aria-hidden="true" loading="eager" />
-                    <div className="day-card-overlay" />
-                    <div className="day-card-top">
-                      <span className="day-status"><Icon name="lock" size={14} /> Coming soon</span>
-                      <span className="day-number">{day.day}</span>
-                    </div>
-                    <div className="day-card-content">
-                      <h3>{day.day}</h3>
-                      <p>Dates to Be Announced</p>
-                    </div>
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Navigation Controls: Chevrons and Dot Indicators */}
-          <div className="programme-mobile-nav">
-            <button
-              type="button"
-              className="programme-nav-btn"
-              onClick={() => selectDay((activeDay - 1 + days.length) % days.length)}
-              aria-label="Previous day"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m15 18-6-6 6-6" />
-              </svg>
-            </button>
-            <div className="programme-nav-dots">
-              {days.map((_, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  className={'programme-nav-dot' + (activeDay === index ? ' is-active' : '')}
-                  onClick={() => selectDay(index)}
-                  aria-label={'View Day ' + (index + 1)}
-                />
-              ))}
-            </div>
-            <button
-              type="button"
-              className="programme-nav-btn"
-              onClick={() => selectDay((activeDay + 1) % days.length)}
-              aria-label="Next day"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Desktop View: 2-column grid */}
-        <div className="programme-desktop-grid day-grid">
-          {days.map((day, index) => (
-            <button
-              className={'day-card day-' + (index + 1) + (revealedDays[index] ? ' is-revealed' : '')}
-              key={day.day}
-              type="button"
-              aria-pressed={Boolean(revealedDays[index])}
-              aria-label={(revealedDays[index] ? 'Hide' : 'Reveal') + ' ' + day.day + ' festival photograph'}
-              onClick={(event) => {
-                if (window.matchMedia('(hover: none)').matches || event.nativeEvent.pointerType === 'touch') {
-                  setRevealedDays((revealed) => ({ ...revealed, [index]: !revealed[index] }));
-                }
-              }}
-            >
-              <img className="day-card-image" src={day.poster} alt="" aria-hidden="true" loading="eager" />
-              <div className="day-card-overlay" />
-              <div className="day-card-top">
-                <span className="day-status"><Icon name="lock" size={14} /> Coming soon</span>
-                <span className="day-number">{day.day}</span>
-              </div>
-              <div className="day-card-content">
-                <h3>{day.day}</h3>
-                <p>Dates to Be Announced</p>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function CareLeaversStories() {
   const [search, setSearch] = useState('');
 
@@ -665,13 +446,10 @@ function CareLeaversStories() {
     <section className="leaders-section section-space" aria-labelledby="leaders-title">
       <div className="section-wrap">
         <div className="leaders-directory-heading">
-          <span className="section-kicker">Care Leavers’ Stories</span>
-          <h2 id="leaders-title">Meet the <span>Care Leaders.</span></h2>
-          <h3 className="community-subheading">Our Care Leavers’ Community</h3>
+          <span className="section-kicker">Care Leavers' stories</span>
+          <h2 id="leaders-title">Our Care Leavers' community</h2>
           <p>
-            The festival makes space for care-experienced leaders across India to share what matters
-            to them and the change they want to see. Individual profiles will appear here when
-            verified stories and image permissions are available.
+            Across India, care-experienced leaders are turning lived experience into lasting change. These are their stories: where they come from, what they are building and the impact they are creating.
           </p>
           <label className="leader-search">
             <Icon name="search" size={18} />
@@ -817,7 +595,7 @@ function Testimonials() {
     <section className="testimonials-section section-space" aria-labelledby="testimonials-title">
       <div className="section-wrap">
         <span className="section-kicker">Attendee voices</span>
-        <h2 id="testimonials-title">What the Attendees Have to Say About the Festival</h2>
+        <h2 id="testimonials-title">What the attendees have to say about the festival</h2>
         <div className="testimonial-grid" ref={testimonialGridRef} onScroll={updateActiveTestimonial}>
           {attendeeTestimonials.map((testimonial, index) => (
             <article
@@ -842,7 +620,7 @@ function Testimonials() {
               </div>
               <div className="testimonial-card-footer">
                 <strong>Attendee video {index + 1}</strong>
-                <span>{testimonial.src ? 'Festival video' : 'Video coming soon'}</span>
+                <span>Festival reflection</span>
               </div>
             </article>
           ))}
@@ -906,8 +684,8 @@ function Footer() {
           <div className="footer-links">
             <span>Explore</span>
             <a href="#home">Home</a>
-            <a href="#festival-editions">Festival Editions</a>
-            <a href="#care-leavers-stories">Care Leavers’ Stories</a>
+            <a href="#festival-editions">Festival editions</a>
+            <a href="#care-leavers-stories">Care Leavers' stories</a>
             <a href="#join-the-movement">Join the Movement</a>
           </div>
           <div className="footer-links">
@@ -983,7 +761,6 @@ function App() {
         <About />
         <div className="festival-editions-group" id="festival-editions">
           <Edition2026 />
-          <Programme />
         </div>
         <div className="stories-group" id="care-leavers-stories">
           <CareLeaversStories />
