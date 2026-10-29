@@ -447,6 +447,60 @@ function FestivalMomentsWall() {
 
 function Programme() {
   const [revealedDays, setRevealedDays] = useState({});
+  const [activeDay, setActiveDay] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const touchStartTime = useRef(0);
+  const resumeTimeoutRef = useRef(null);
+
+  // Auto-slide on mobile: smoothly cycles between Day 1 and Day 2 every 3.5s
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setActiveDay((prev) => (prev + 1) % days.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, [isPaused]);
+
+  const pauseTemporarily = (duration = 4000) => {
+    setIsPaused(true);
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    resumeTimeoutRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, duration);
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = e.touches[0].clientX;
+    touchStartTime.current = Date.now();
+    setIsPaused(true);
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const deltaX = touchStartX.current - touchEndX.current;
+    const deltaTime = Date.now() - touchStartTime.current;
+    if (Math.abs(deltaX) > 40 && deltaTime < 600) {
+      if (deltaX > 0) {
+        // Swiped left -> slide to Day 2
+        setActiveDay((prev) => (prev + 1) % days.length);
+      } else {
+        // Swiped right -> slide to Day 1
+        setActiveDay((prev) => (prev - 1 + days.length) % days.length);
+      }
+    }
+    pauseTemporarily(3500);
+  };
+
+  const selectDay = (index) => {
+    setActiveDay(index);
+    pauseTemporarily(4000);
+  };
 
   return (
     <section className="programme-section section-space" id="programme" aria-labelledby="programme-title">
@@ -461,14 +515,124 @@ function Programme() {
             Dates and programme details will be shared once confirmed.
           </p>
         </div>
-        <div className="day-grid">
+
+        {/* Mobile View: 1 card at a time with smooth sliding animation and auto-timer */}
+        <div
+          className="programme-mobile-slider"
+          aria-roledescription="carousel"
+          aria-label="Festival Programme"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Day 1 / Day 2 selector tabs with auto-timing progress line */}
+          <div className="programme-mobile-tabs" role="tablist" aria-label="Programme Days">
+            {days.map((d, index) => (
+              <button
+                key={d.day}
+                type="button"
+                role="tab"
+                id={'programme-tab-' + index}
+                aria-selected={activeDay === index}
+                aria-controls={'programme-slide-' + index}
+                className={'programme-day-tab' + (activeDay === index ? ' is-active' : '')}
+                onClick={() => selectDay(index)}
+              >
+                <span className="programme-tab-label">{d.day}</span>
+                {activeDay === index && !isPaused && (
+                  <span className="programme-tab-progress" key={'prog-' + activeDay} />
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Sliding Viewport & Track */}
+          <div className="programme-slider-viewport">
+            <div
+              className="programme-slider-track"
+              style={{ transform: 'translateX(-' + (activeDay * 100) + '%)' }}
+            >
+              {days.map((day, index) => (
+                <div
+                  className="programme-slide-item"
+                  key={day.day}
+                  id={'programme-slide-' + index}
+                  role="tabpanel"
+                  aria-labelledby={'programme-tab-' + index}
+                  aria-hidden={activeDay !== index}
+                >
+                  <button
+                    className={'day-card day-' + (index + 1) + (revealedDays[index] ? ' is-revealed' : '')}
+                    type="button"
+                    aria-pressed={Boolean(revealedDays[index])}
+                    aria-label={(revealedDays[index] ? 'Hide' : 'Reveal') + ' ' + day.day + ' festival photograph'}
+                    onClick={() => {
+                      setRevealedDays((revealed) => ({ ...revealed, [index]: !revealed[index] }));
+                    }}
+                  >
+                    <img className="day-card-image" src={day.poster} alt="" aria-hidden="true" loading="eager" />
+                    <div className="day-card-overlay" />
+                    <div className="day-card-top">
+                      <span className="day-status"><Icon name="lock" size={14} /> Coming soon</span>
+                      <span className="day-number">{day.day}</span>
+                    </div>
+                    <div className="day-card-content">
+                      <h3>{day.day}</h3>
+                      <p>Dates to Be Announced</p>
+                    </div>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigation Controls: Chevrons and Dot Indicators */}
+          <div className="programme-mobile-nav">
+            <button
+              type="button"
+              className="programme-nav-btn"
+              onClick={() => selectDay((activeDay - 1 + days.length) % days.length)}
+              aria-label="Previous day"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </button>
+            <div className="programme-nav-dots">
+              {days.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  className={'programme-nav-dot' + (activeDay === index ? ' is-active' : '')}
+                  onClick={() => selectDay(index)}
+                  aria-label={'View Day ' + (index + 1)}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              className="programme-nav-btn"
+              onClick={() => selectDay((activeDay + 1) % days.length)}
+              aria-label="Next day"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop View: 2-column grid */}
+        <div className="programme-desktop-grid day-grid">
           {days.map((day, index) => (
             <button
-              className={`day-card day-${index + 1}${revealedDays[index] ? ' is-revealed' : ''}`}
+              className={'day-card day-' + (index + 1) + (revealedDays[index] ? ' is-revealed' : '')}
               key={day.day}
               type="button"
               aria-pressed={Boolean(revealedDays[index])}
-              aria-label={`${revealedDays[index] ? 'Hide' : 'Reveal'} ${day.day} festival photograph`}
+              aria-label={(revealedDays[index] ? 'Hide' : 'Reveal') + ' ' + day.day + ' festival photograph'}
               onClick={(event) => {
                 if (window.matchMedia('(hover: none)').matches || event.nativeEvent.pointerType === 'touch') {
                   setRevealedDays((revealed) => ({ ...revealed, [index]: !revealed[index] }));

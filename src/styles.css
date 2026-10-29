@@ -2584,3 +2584,170 @@ h2 {
     display: none;
   }
 }
+
+
+/* Responsive View Switching for Programme: Desktop 2-column Grid vs Mobile Timed Slider */
+.programme-mobile-slider {
+  display: none;
+}
+
+.programme-desktop-grid {
+  display: grid;
+}
+
+@media (max-width: 768px) {
+  .programme-desktop-grid {
+    display: none !important;
+  }
+
+  .programme-mobile-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .programme-mobile-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 4px;
+  }
+
+  .programme-day-tab {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 24px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: var(--warm);
+    color: var(--dark-green);
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(36, 95, 48, 0.05);
+  }
+
+  .programme-day-tab.is-active {
+    background: var(--green);
+    border-color: var(--green);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(52, 122, 61, 0.25);
+  }
+
+  .programme-tab-label {
+    position: relative;
+    z-index: 1;
+  }
+
+  .programme-tab-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: var(--orange);
+    animation: programmeSlideTimer 3.5s linear infinite;
+    transform-origin: left;
+  }
+
+  @keyframes programmeSlideTimer {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .programme-slider-viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 10px 28px rgba(36, 95, 48, 0.08);
+  }
+
+  .programme-slider-track {
+    display: flex;
+    width: 100%;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .programme-slide-item {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .programme-slide-item .day-card {
+    min-height: clamp(300px, 78vw, 370px);
+    border-radius: 20px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .programme-mobile-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding-top: 2px;
+  }
+
+  .programme-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--warm);
+    color: var(--dark-green);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(36, 95, 48, 0.06);
+  }
+
+  .programme-nav-btn:active {
+    background: var(--green);
+    color: #ffffff;
+    transform: scale(0.92);
+  }
+
+  .programme-nav-dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .programme-nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(36, 95, 48, 0.22);
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .programme-nav-dot.is-active {
+    width: 24px;
+    background: var(--orange);
+  }
+}
