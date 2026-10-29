@@ -1,6 +1,6 @@
 # National Care Leavers Festival
 
-An editable, responsive website for the National Care Leavers Festival.
+A responsive website for the National Care Leavers Festival, centred on care-leaver leadership and the January 2026 edition.
 
 ## Run locally
 
@@ -11,13 +11,11 @@ An editable, responsive website for the National Care Leavers Festival.
 
 ## Edit the content
 
-Festival details and the registration URL are at the top of `src/main.jsx` in the `festival` object. The hero uses the uploaded `public/videos/festival-hero.mp4` as a full-section background video, with a photo fallback poster. Replace it with approved festival footage if needed.
+The festival details, January 2026 programme and WhatsApp link are in `src/main.jsx`. The four main navigation links point to Home, Festival Editions, Care Leavers’ Stories and Join the Movement. The 2026 gallery uses local photos from `public/photos` and `Day 3 highlight.mp4`.
 
-The safe joining helper links directly to the festival WhatsApp channel; it does not use AI or collect information. The navbar groups the 2025 and 2026 links under “Past festivals,” while fellow blogs remain in the page content rather than the header. Update the `fellowBlogs` array with fellows’ article titles, names, summaries and full article URLs; cards without a URL intentionally show a reminder instead of a broken link. The schedule, values and other page content are also in `src/main.jsx`. Add 2025 YouTube/Vimeo embed URLs to the `edition2025Videos` list to replace the video placeholders. Colours and responsive styles are in `src/styles.css`.
+The project files do not currently include verified care-leader biographies or an attendee-feedback document. The stories and testimonial areas avoid inventing profiles, quotes or attributions. The attendee-video carousel uses the two playable uploaded clips, `Version 2.mp4` and `Day 3 highlight.mp4`; its third card remains marked as coming soon until another playable clip and verified attendee feedback are available. `Day 3 highlight.mp4` is also used as the hero background and 2026 festival highlight; a local festival photo provides the hero poster/fallback. Other uploaded hero candidates are empty or use media the browser cannot decode.
 
-Small decorative flowers bloom when the community moments, fellow blogs and care leaders sections enter view. A brief, one-time flower burst plays alongside the subtle flowers, then fades away. The animation is disabled for visitors who prefer reduced motion.
-
-Before publishing, confirm the dates, venue, contact email, registration link, partner names/logos and all programme details with the festival organisers. The current example uses the 2026 dates visible on the reference website. The illustrations are CSS artwork, not official festival or partner logos.
+The footer contains the supplied festival email, Instagram, Facebook and LinkedIn links. Palette and responsive styles are in `src/styles.css`.
 
 ## Deploy to Netlify
 

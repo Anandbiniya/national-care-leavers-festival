@@ -1,128 +1,81 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import versionTwoTestimonial from '../Version 2.mp4';
 import './styles.css';
+
+const festivalPhotos = [
+  '/photos/festival-1.jpg',
+  '/photos/festival-2.jpg',
+  '/photos/festival-3.jpg',
+  '/photos/festival-4.jpg',
+  '/photos/festival-5.jpg',
+  '/photos/festival-6.jpg',
+  '/photos/festival-7.jpg',
+];
 
 const festival = {
   year: '2026',
   title: 'National Care Leavers Festival',
-  theme: 'From lived experience to leadership',
+  theme: 'Lived experience. Leading the future.',
   dates: 'January 17–20, 2026',
   shortDates: 'Jan 17–20, 2026',
-  venue: 'Don Bosco, Okhla',
   city: 'New Delhi, India',
-  registrationUrl: '#get-involved',
+  registrationUrl: '#join-the-movement',
 };
 
 const festivalWhatsAppChannel = 'https://whatsapp.com/channel/0029Vb8wWtGJP21BAIBQU322';
+const festivalEmail = '2026nclf@gmail.com';
+const socialLinks = [
+  { name: 'Instagram', href: 'https://www.instagram.com/nclf2026?xtok=MWd0d2Jqc2lzMDViOQ==', icon: 'instagram' },
+  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?fb_profile_edit_entry_point=%7B%22click_point%22%3A%22edit_profile_button%22%2C%22feature%22%3A%22profile_header%22%7D&id=61595764058285&sk=about', icon: 'facebook' },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/nclf-cls-initiative-468474447/', icon: 'linkedin' },
+];
 
 const values = [
   {
     number: '01',
-    title: 'Rights-based',
-    text: 'Moving beyond charity to dignity, opportunity and equal rights.',
+    title: 'Care leavers lead',
+    text: 'A celebration of care leavers, for care leavers and by care leavers.',
   },
   {
     number: '02',
-    title: 'Strength-driven',
-    text: 'Connecting lived experience, skills and leadership with opportunity.',
+    title: 'Achievements celebrated',
+    text: 'Recognising the leadership, success and contributions of care leavers.',
   },
   {
     number: '03',
-    title: 'Systemic change',
-    text: 'Working together to improve aftercare, policy and workplaces.',
+    title: 'Stories shared',
+    text: 'Making space for lived experience, ideas and voices from across India.',
   },
   {
     number: '04',
-    title: 'Evidence-led',
-    text: 'Building practical, lasting solutions informed by lived experience.',
-  },
-];
-
-const reasons = [
-  {
-    icon: '✳',
-    title: 'A first-of-its-kind gathering',
-    text: 'Care-experienced leaders from across India connect, learn and celebrate together.',
-  },
-  {
-    icon: '↗',
-    title: 'Lived experience, amplified',
-    text: 'Care leavers lead the conversation as advocates, changemakers and experts.',
-  },
-  {
-    icon: '◎',
-    title: 'Stronger aftercare systems',
-    text: 'Young people, practitioners and partners co-create ideas for lasting change.',
-  },
-  {
-    icon: '⌘',
-    title: 'A community that lasts',
-    text: 'A national network built on connection, shared experience and collective vision.',
+    title: 'Opportunity built',
+    text: 'Building the voice, networks and opportunities to shape the future of aftercare.',
   },
 ];
 
 const days = [
   {
-    date: 'JAN 17',
-    day: 'Day 01',
-    title: 'Laughter, food & culture',
-    items: ['Interactive cooking', 'Theatre workshops', 'Poster presentations', 'Cultural celebration'],
-    color: 'coral',
+    day: 'Day 1',
+    poster: festivalPhotos[0],
   },
   {
-    date: 'JAN 18',
-    day: 'Day 02',
-    title: 'Visioning & systems',
-    items: ['Appreciative inquiry', 'Visioning workshops', 'Systems thinking', 'Meet the network'],
-    color: 'blue',
-  },
-  {
-    date: 'JAN 19',
-    day: 'Day 03',
-    title: 'Graduation & awards',
-    items: ['Graduation ceremony', 'Aftercare Hero Awards', 'Key announcements', 'Motivational dialogues'],
-    color: 'gold',
-  },
-  {
-    date: 'JAN 20',
-    day: 'Day 04',
-    title: 'Outreach & next steps',
-    items: ['Stakeholder consultation', 'Delhi NCR focus', 'Shared commitments', 'Closing ceremony'],
-    color: 'teal',
+    day: 'Day 2',
+    poster: festivalPhotos[6],
   },
 ];
 
-const edition2025Videos = [
-  {
-    title: 'Festival highlights',
-    description: 'A look back at the moments that brought everyone together.',
-    embedUrl: '',
-    style: 'highlights',
-  },
-  {
-    title: 'Care leaver voices',
-    description: 'Stories, ideas and perspectives from the community.',
-    embedUrl: '',
-    style: 'voices',
-  },
-  {
-    title: 'Moments we made together',
-    description: 'A celebration of connection, creativity and possibility.',
-    embedUrl: '',
-    style: 'together',
-  },
+const attendeeTestimonials = [
+  { id: 'attendee-1', src: versionTwoTestimonial, poster: festivalPhotos[1] },
+  { id: 'attendee-2', src: '/Day%203%20highlight.mp4', poster: festivalPhotos[4] },
+  { id: 'attendee-3', src: null, poster: festivalPhotos[6] },
 ];
 
-const leaderProfiles = [
-  { id: 'leader-one', name: 'Add leader name', location: 'Add city, state', focus: 'Add focus area', bio: 'Add a short introduction about this care leader.' },
-  { id: 'leader-two', name: 'Add leader name', location: 'Add city, state', focus: 'Add focus area', bio: 'Add a short introduction about this care leader.' },
-  { id: 'leader-three', name: 'Add leader name', location: 'Add city, state', focus: 'Add focus area', bio: 'Add a short introduction about this care leader.' },
-];
-
-const fellowBlogs = [
-  { title: 'Add fellow article title', fellow: 'Add fellow name', summary: 'Add a short excerpt or summary of the article here.', url: '' },
-  { title: 'Add fellow article title', fellow: 'Add fellow name', summary: 'Add a short excerpt or summary of the article here.', url: '' },
-  { title: 'Add fellow article title', fellow: 'Add fellow name', summary: 'Add a short excerpt or summary of the article here.', url: '' },
+const festivalMoments = [
+  { date: '17 JANUARY · CONNECTION', title: 'Start with connection', detail: 'Laughter Chef Experience, systems thinking and the first theatre session.', photo: festivalPhotos[0] },
+  { date: '18 JANUARY · REFLECTION', title: 'Make room to reflect', detail: 'Alumni visioning sessions and theatre practice bring people together.', photo: festivalPhotos[1] },
+  { date: '19 JANUARY · LEADERSHIP', title: 'Celebrate the journey', detail: 'The third LIFT Fellowship cohort graduates alongside theatre and LEAP.', photo: festivalPhotos[2] },
+  { date: '20 JANUARY · ADVOCACY', title: 'Bring voices to policy', detail: 'A stakeholder consultation focuses on aftercare in Delhi NCR.', photo: festivalPhotos[3] },
 ];
 
 function Icon({ name, size = 18 }) {
@@ -147,6 +100,11 @@ function Icon({ name, size = 18 }) {
     close: <><path d="m18 6-12 12M6 6l12 12" /></>,
     mail: <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></>,
     sparkle: <><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3Z" /><path d="m19 14 1.2 2.8L23 18l-2.8 1.2L19 22l-1.2-2.8L15 18l2.8-1.2L19 14Z" /></>,
+    instagram: <><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="18" cy="6" r=".7" fill="currentColor" /></>,
+    facebook: <path d="M14.5 21v-8h2.8l.5-3h-3.3V8c0-1 .3-1.6 1.7-1.6h1.7V3.7c-.6-.1-1.5-.2-2.6-.2-2.7 0-4.5 1.6-4.5 4.6V10H8v3h2.8v8" />,
+    linkedin: <><rect x="3" y="9" width="4" height="12" /><path d="M5 5.5v.1M11 21V9h4v2c.8-1.5 2-2.2 3.4-2.2 2.5 0 3.6 1.6 3.6 4.7V21h-4v-7c0-1.5-.4-2.4-1.7-2.4-1.5 0-2.3 1-2.3 3V21Z" /></>,
+    lock: <><rect x="4" y="10" width="16" height="11" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" /></>,
+    play: <path d="m9 6 10 6-10 6V6Z" fill="currentColor" stroke="none" />,
   };
 
   return <svg {...shared}>{paths[name] || paths.sparkle}</svg>;
@@ -154,22 +112,35 @@ function Icon({ name, size = 18 }) {
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [pastFestivalsOpen, setPastFestivalsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const navItems = [
-    ['Home', '#home'],
-    ['The festival', '#about'],
-    ['Programme', '#programme'],
-    ['Moments', '#moments'],
-    ['Care leaders', '#leaders'],
+    ['Home', '#home', 'home'],
+    ['Festival Editions', '#festival-editions', 'festival-editions'],
+    ["Care Leavers' Stories", '#care-leavers-stories', 'care-leavers-stories'],
+    ['Join the Movement', '#join-the-movement', 'join-the-movement'],
   ];
+
+  useEffect(() => {
+    const sections = navItems
+      .map(([, , id]) => document.getElementById(id))
+      .filter(Boolean);
+    if (!('IntersectionObserver' in window)) return undefined;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActiveSection(entry.target.id);
+      });
+    }, { rootMargin: '-25% 0px -65% 0px' });
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <header className="site-header">
-      <a className="brand" href="#home" aria-label={`${festival.title} home`} onClick={() => setMenuOpen(false)}>
+      <a className="brand" href="#home" aria-label={`${festival.title} home`} onClick={() => { setMenuOpen(false); setActiveSection('home'); }}>
         <span className="brand-mark" aria-hidden="true">N</span>
         <span className="brand-copy">
-          <strong>{festival.title}, {festival.year}</strong>
-          <small>When care leavers care</small>
+          <strong>{festival.title}, 2027</strong>
+          <small>Care leavers lead.</small>
         </span>
       </a>
       <button
@@ -182,37 +153,20 @@ function Header() {
         <Icon name={menuOpen ? 'close' : 'menu'} size={23} />
       </button>
       <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label="Main navigation">
-        {navItems.map(([label, href], index) => (
+        {navItems.map(([label, href, id], index) => (
           <a
-            className={`nav-link${index === 0 ? ' active' : ''}`}
+            className={`nav-link${index === 3 ? ' nav-register' : ''}${activeSection === id ? ' active' : ''}`}
             href={href}
             key={label}
+            aria-current={activeSection === id ? 'location' : undefined}
             onClick={() => {
               setMenuOpen(false);
-              setPastFestivalsOpen(false);
+              setActiveSection(id);
             }}
           >
             {label}
           </a>
         ))}
-        <div className={`past-festivals${pastFestivalsOpen ? ' is-open' : ''}`}>
-          <button
-            className="nav-link past-festivals-toggle"
-            type="button"
-            aria-expanded={pastFestivalsOpen}
-            aria-controls="past-festivals-menu"
-            onClick={() => setPastFestivalsOpen((open) => !open)}
-          >
-            Past festivals <span aria-hidden="true">⌄</span>
-          </button>
-          <div className="past-festivals-menu" id="past-festivals-menu">
-            <a href="#edition-2025" onClick={() => { setMenuOpen(false); setPastFestivalsOpen(false); }}>2025 Edition</a>
-            <a href="#home" onClick={() => { setMenuOpen(false); setPastFestivalsOpen(false); }}>2026 Edition</a>
-          </div>
-        </div>
-        <a className="nav-register" href={festival.registrationUrl} onClick={() => { setMenuOpen(false); setPastFestivalsOpen(false); }}>
-          Get involved <Icon name="arrow" size={16} />
-        </a>
       </nav>
     </header>
   );
@@ -220,41 +174,37 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="hero" id="home" aria-labelledby="hero-title">
+    <section
+      className="hero"
+      id="home"
+      aria-labelledby="hero-title"
+      style={{ backgroundImage: `url("${festivalPhotos[0]}")` }}
+    >
       <video
         className="hero-background-video"
-        src="/videos/festival-hero.mp4"
-        poster="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=2000&q=90"
+        src="/Day%203%20highlight.mp4"
+        poster={festivalPhotos[0]}
         aria-hidden="true"
         autoPlay
         muted
         loop
         playsInline
+        preload="auto"
       />
       <div className="hero-copy">
-        <span className="eyebrow"><span className="eyebrow-dot" /> When care leavers care</span>
+        <span className="eyebrow"><span className="eyebrow-dot" /> A movement led by care-experienced youth</span>
         <h1 id="hero-title">Lived experience.<br /><span>Leading the future.</span></h1>
-        <p className="hero-description">
-          A national celebration of care leavers as leaders, advocates and changemakers.
-          Together, we are shaping a brighter future for aftercare in India.
+        <p className="hero-secondary">
+          A national festival where care leavers lead. Celebrate their success, hear their stories,
+          and discover the opportunities for care leavers across India.
         </p>
         <div className="hero-actions">
           <a className="button button-primary" href={festival.registrationUrl}>
-            Join the festival <Icon name="arrow" />
+            Join the movement <Icon name="arrow" />
           </a>
-          <a className="button button-quiet" href="#programme">
-            Explore the festival
+          <a className="button button-quiet" href="#festival-editions">
+            Explore the 2026 edition
           </a>
-        </div>
-        <div className="hero-facts">
-          <div className="fact">
-            <span className="fact-icon"><Icon name="sparkle" /></span>
-            <span><small>Our focus</small><strong>Leadership &amp; community</strong></span>
-          </div>
-          <div className="fact">
-            <span className="fact-icon"><Icon name="arrow" /></span>
-            <span><small>Our belief</small><strong>Care leavers lead change</strong></span>
-          </div>
         </div>
       </div>
     </section>
@@ -263,143 +213,168 @@ function Hero() {
 
 function About() {
   return (
-    <>
-      <section className="intro-band">
-        <div className="section-wrap intro-content">
-          <span className="intro-index">01 / THE FESTIVAL</span>
-          <p>
-            Not a story of what is missing. A celebration of what is possible when care leavers
-            are <strong>believed, supported and leading change.</strong>
-          </p>
-          <a href="#about" className="intro-link" aria-label="Discover the festival"><Icon name="arrow" /></a>
+    <section className="about-section section-wrap section-space" id="about">
+      <div className="section-heading">
+        <span className="section-kicker">First-of-its-kind festival for care leavers</span>
+        <h2>More than an event.<br /><span>A movement.</span></h2>
+      </div>
+      <div className="about-body">
+        <p>
+          Building a future where care leavers have the voice, networks and opportunities to lead.
+        </p>
+        <p>
+          A national festival bringing care-experienced people together to share experiences,
+          celebrate achievements and build a strong, connected community.
+        </p>
+        <div className="values-grid">
+          {values.map((value) => (
+            <article className="value-card" key={value.number}>
+              <span>{value.number}</span>
+              <h3>{value.title}</h3>
+              <p>{value.text}</p>
+            </article>
+          ))}
         </div>
-      </section>
-      <section className="about-section section-wrap section-space" id="about">
-        <div className="section-heading">
-          <span className="section-kicker">A new reality</span>
-          <h2>From doubt<br />to <span>confidence.</span></h2>
-        </div>
-        <div className="about-body">
-          <p>
-            Across India, care leavers are turning lived experience into leadership. Through
-            fellowships, networks and community-led initiatives, young people are creating
-            opportunities and shaping how aftercare is understood.
-          </p>
-          <p>
-            This festival brings care leavers, practitioners and partners together to celebrate
-            those achievements—and to keep building systems where every young person can thrive.
-          </p>
-          <div className="values-grid">
-            {values.map((value) => (
-              <article className="value-card" key={value.number}>
-                <span>{value.number}</span>
-                <h3>{value.title}</h3>
-                <p>{value.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
-function Edition2025() {
+function Edition2026() {
   return (
-    <section className="edition-section section-space" id="edition-2025" aria-labelledby="edition-2025-title">
+    <section className="edition-section section-space" aria-labelledby="edition-2026-title">
       <div className="section-wrap">
         <div className="edition-heading">
           <div>
-            <span className="section-kicker">The story continues</span>
-            <h2 id="edition-2025-title">2025 Edition:<br /><span>look back, move forward.</span></h2>
+            <span className="section-kicker">Festival Editions · January 2026</span>
+            <h2 id="edition-2026-title">2026 Edition:<br /><span>Honour the Journey</span></h2>
           </div>
-          <p>Revisit the people, stories and moments from last year’s festival. Add the official videos to bring this archive to life.</p>
+          <p>
+            Revisit the four-day programme and moments from the 2026 festival. Explore the highlights
+            and celebrate the connections that continue to shape the movement.
+          </p>
         </div>
-        <div className="archive-grid">
-          {edition2025Videos.map((video, index) => (
-            <article className="archive-card" key={video.title}>
-              {video.embedUrl ? (
-                <iframe
-                  className="archive-embed"
-                  src={video.embedUrl}
-                  title={video.title}
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                />
-              ) : (
-                <div className={`archive-poster poster-${video.style}`} aria-label={`${video.title} video placeholder`}>
-                  <span className="poster-edition">NATIONAL CARE LEAVERS FESTIVAL · 2025</span>
-                  <span className="poster-play" aria-hidden="true">▶</span>
-                  <span className="poster-title">{video.title}</span>
-                  <span className="poster-note">VIDEO COMING SOON</span>
-                </div>
-              )}
-              <div className="archive-card-copy">
-                <span className="archive-number">0{index + 1} / 2025</span>
-                <h3>{video.title}</h3>
-                <p>{video.description}</p>
-              </div>
-            </article>
-          ))}
+        <div className="edition-feature">
+          <div className="edition-feature-copy">
+            <span className="archive-number">2026 FESTIVAL FILM</span>
+            <h3>Festival highlights</h3>
+            <p>A look back at the connections, celebrations and shared moments from January 2026.</p>
+          </div>
+          <a className="edition-film-link" href="#home">
+            <span className="edition-film-play" aria-hidden="true">▶</span>
+            <span>
+              <strong>Watch the festival highlights</strong>
+              <small>Return to the film playing in the home-page hero</small>
+            </span>
+            <Icon name="arrow" size={20} />
+          </a>
         </div>
-        <div className="archive-footer">
-          <span><Icon name="sparkle" size={18} /> One festival. Many voices. A movement that keeps growing.</span>
-          <a href="#home">Explore the 2026 edition <Icon name="arrow" size={16} /></a>
+        <div className="moments-heading edition-gallery-heading">
+          <div>
+            <span className="section-kicker">From the 2026 festival</span>
+            <h3>Moments from the <span>festival.</span></h3>
+          </div>
         </div>
+        <FestivalMomentsWall />
+        <PhotoGallery />
       </div>
     </section>
   );
 }
 
-function WhyItMatters() {
+function FestivalMomentsWall() {
+  const wallRef = useRef(null);
+  const [revealedMoments, setRevealedMoments] = useState({});
+
+  useEffect(() => {
+    const wall = wallRef.current;
+    if (!wall || !('IntersectionObserver' in window)) return undefined;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setRevealedMoments(Object.fromEntries(festivalMoments.map((_, index) => [index, true])));
+      observer.disconnect();
+    }, { threshold: 0.1 });
+
+    observer.observe(wall);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="why-section section-space">
-      <div className="section-wrap">
-        <div className="why-heading">
-          <div>
-            <span className="section-kicker">Why we come together</span>
-            <h2>More than an event.<br /><span>A movement.</span></h2>
-          </div>
-          <p>Building a future where care leavers have the voice, networks and opportunities to lead.</p>
-        </div>
-        <div className="reason-grid">
-          {reasons.map((reason, index) => (
-            <article className="reason-card" key={reason.title}>
-              <span className={`reason-icon reason-icon-${index + 1}`}>{reason.icon}</span>
-              <span className="reason-number">0{index + 1}</span>
-              <h3>{reason.title}</h3>
-              <p>{reason.text}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
+    <div className="moments-wall" ref={wallRef}>
+      {festivalMoments.map((moment, index) => (
+        <article className={`moment-card moment-story moment-story-${index + 1}`} key={moment.date}>
+          <button
+            className="moment-card-button"
+            type="button"
+            aria-pressed={Boolean(revealedMoments[index])}
+            aria-label={`${revealedMoments[index] ? 'Show story' : 'Show photo'} for moment 0${index + 1}: ${moment.title}`}
+            onClick={() => setRevealedMoments((revealed) => ({ ...revealed, [index]: !revealed[index] }))}
+          >
+            <span className={`moment-card-inner${revealedMoments[index] ? ' is-revealed' : ''}`}>
+              <span className="moment-card-face moment-card-front" aria-hidden={Boolean(revealedMoments[index])}>
+                <span className="moment-story-number">0{index + 1}</span>
+                <span className="moment-story-date">{moment.date}</span>
+                <span className="moment-story-title">{moment.title}</span>
+                <span className="moment-story-detail">{moment.detail}</span>
+                <span className="moment-card-hint">Tap to see the photo</span>
+              </span>
+              <span className="moment-card-face moment-card-back" aria-hidden={!revealedMoments[index]}>
+                <img src={moment.photo} alt="" loading="lazy" decoding="async" />
+                <span className="moment-card-back-caption">
+                  <span className="moment-story-number">0{index + 1}</span>
+                  <span>{moment.title}</span>
+                </span>
+              </span>
+            </span>
+          </button>
+        </article>
+      ))}
+    </div>
   );
 }
 
 function Programme() {
+  const [revealedDays, setRevealedDays] = useState({});
+
   return (
-    <section className="programme-section section-space" id="programme">
+    <section className="programme-section section-space" id="programme" aria-labelledby="programme-title">
       <div className="section-wrap">
         <div className="programme-heading">
           <div>
-            <span className="section-kicker">Four days, one shared vision</span>
-            <h2>Make room<br />for <span>what’s next.</span></h2>
+            <span className="section-kicker">Two-day festival · Schedule in development</span>
+            <h2 id="programme-title">Learning, celebration<br />and <span>co-creation.</span></h2>
           </div>
-          <p>Learning, celebration and co-creation with care leaders from across India.</p>
+          <p>
+            Two days of celebration and connection with care leaders from across India.
+            Dates and programme details will be shared once confirmed.
+          </p>
         </div>
         <div className="day-grid">
-          {days.map((day) => (
-            <article className={`day-card day-${day.color}`} key={day.day}>
-              <div className="day-card-top"><span>{day.date}</span><span>{day.day}</span></div>
+          {days.map((day, index) => (
+            <button
+              className={`day-card day-${index + 1}${revealedDays[index] ? ' is-revealed' : ''}`}
+              key={day.day}
+              type="button"
+              aria-pressed={Boolean(revealedDays[index])}
+              aria-label={`${revealedDays[index] ? 'Hide' : 'Reveal'} ${day.day} festival photograph`}
+              onClick={(event) => {
+                if (window.matchMedia('(hover: none)').matches || event.nativeEvent.pointerType === 'touch') {
+                  setRevealedDays((revealed) => ({ ...revealed, [index]: !revealed[index] }));
+                }
+              }}
+            >
+              <img className="day-card-image" src={day.poster} alt="" aria-hidden="true" loading="eager" />
+              <div className="day-card-overlay" />
+              <div className="day-card-top">
+                <span className="day-status"><Icon name="lock" size={14} /> Coming soon</span>
+                <span className="day-number">{day.day}</span>
+              </div>
               <div className="day-card-content">
-                <h3>{day.title}</h3>
-                <ul>{day.items.map((item) => <li key={item}>{item}</li>)}</ul>
+                <h3>{day.day}</h3>
+                <p>Dates to Be Announced</p>
               </div>
-              <div className="day-card-footer"><span>National Care Leavers Festival</span><span>{festival.year}</span></div>
-            </article>
+            </button>
           ))}
         </div>
       </div>
@@ -407,93 +382,20 @@ function Programme() {
   );
 }
 
-function CommunityMoments() {
-  const moments = [
-    { number: '01', label: 'Add a festival photo', caption: 'A moment of joy', style: 'moment-one' },
-    { number: '02', label: 'Add a festival photo', caption: 'Friends & community', style: 'moment-two' },
-    { number: '03', label: 'Add a festival photo', caption: 'Care leaders in action', style: 'moment-three' },
-    { number: '04', label: 'Add a festival photo', caption: 'Celebrating together', style: 'moment-four' },
-  ];
-
-  return (
-    <section className="moments-section section-space bloom-section" id="moments" aria-labelledby="moments-title">
-      <BloomGarden />
-      <div className="section-wrap">
-        <div className="moments-heading">
-          <div>
-            <span className="section-kicker">The people make the festival</span>
-            <h2 id="moments-title">Big moments.<br /><span>Real connection.</span></h2>
-          </div>
-          <p>A photo wall for the friendships, ideas and celebrations that make this community what it is. Replace each space with your festival photos.</p>
-        </div>
-        <div className="moments-wall">
-          {moments.map((moment) => (
-            <figure className={`moment-card ${moment.style}`} key={moment.number}>
-              <div className="moment-photo" role="img" aria-label={moment.label}>
-                <span className="moment-plus" aria-hidden="true">+</span>
-                <span className="moment-add">{moment.label}</span>
-              </div>
-              <figcaption><span>{moment.number} / COMMUNITY</span><strong>{moment.caption}</strong></figcaption>
-            </figure>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FellowBlogs() {
-  return (
-    <section className="blogs-section section-space bloom-section" id="blogs" aria-labelledby="blogs-title">
-      <BloomGarden />
-      <div className="section-wrap">
-        <div className="blogs-heading">
-          <div>
-            <span className="section-kicker">Ideas and reflections from fellows</span>
-            <h2 id="blogs-title">In their <span>own words.</span></h2>
-          </div>
-          <p>Read fellows’ perspectives and experiences, with a short preview and a link to each full article.</p>
-        </div>
-        <div className="blogs-grid">
-          {fellowBlogs.map((blog, index) => (
-            <article className="blog-card" key={`fellow-blog-${index}`}>
-              <span className="blog-number">0{index + 1} / FELLOW VOICES</span>
-              <h3>{blog.title}</h3>
-              <p className="blog-byline">By {blog.fellow}</p>
-              <p className="blog-summary">{blog.summary}</p>
-              {blog.url ? (
-                <a className="blog-link" href={blog.url} target="_blank" rel="noreferrer">
-                  Read the full article <Icon name="arrow" size={16} />
-                </a>
-              ) : (
-                <span className="blog-link blog-link-pending">Add the full article link</span>
-              )}
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Leaders() {
+function CareLeaversStories() {
   const [search, setSearch] = useState('');
-  const filteredLeaders = leaderProfiles.filter((leader) =>
-    `${leader.name} ${leader.location} ${leader.focus} ${leader.bio}`
-      .toLowerCase()
-      .includes(search.trim().toLowerCase()),
-  );
 
   return (
-    <section className="leaders-section section-space bloom-section" id="leaders" aria-labelledby="leaders-title">
-      <BloomGarden />
+    <section className="leaders-section section-space" aria-labelledby="leaders-title">
       <div className="section-wrap">
         <div className="leaders-directory-heading">
-          <span className="section-kicker">Their stories. Their leadership.</span>
-          <h2 id="leaders-title">Meet the <span>care leaders.</span></h2>
+          <span className="section-kicker">Care Leavers’ Stories</span>
+          <h2 id="leaders-title">Meet the <span>Care Leaders.</span></h2>
+          <h3 className="community-subheading">Our Care Leavers’ Community</h3>
           <p>
-            Care-experienced leaders are driving systemic change across India. Add their names,
-            stories, locations and areas of work to introduce the people behind the movement.
+            The festival makes space for care-experienced leaders across India to share what matters
+            to them and the change they want to see. Individual profiles will appear here when
+            verified stories and image permissions are available.
           </p>
           <label className="leader-search">
             <Icon name="search" size={18} />
@@ -501,106 +403,259 @@ function Leaders() {
               type="search"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search by name, skills, or state..."
-              aria-label="Search care leaders"
+              placeholder="Search care-leaver stories..."
+              aria-label="Search care-leaver stories"
             />
           </label>
         </div>
-        <div className="leader-card-grid">
-          {filteredLeaders.map((leader, index) => (
-            <article className="leader-profile-card" key={leader.id}>
-              <div className="leader-photo-wrap">
-                <span className="leader-badge">CARE LEADER</span>
-                <div className={`leader-photo leader-photo-${index + 1}`} aria-label="Add leader photo">
-                  <span aria-hidden="true">{leader.name === 'Add leader name' ? '+' : leader.name.charAt(0)}</span>
-                </div>
-              </div>
-              <div className="leader-profile-heading">
-                <div>
-                  <h3>{leader.name}</h3>
-                  <p>{leader.location}</p>
-                </div>
-                <span className="leader-role">FELLOW</span>
-              </div>
-              <div className="leader-profile-content">
-                <span className="leader-focus">{leader.focus}</span>
-                <p className="leader-bio">{leader.bio}</p>
-                <a
-                  className="leader-profile-link"
-                  href={festivalWhatsAppChannel}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Icon name="arrow" size={14} /> Connect with the festival
-                </a>
-              </div>
-            </article>
-          ))}
-          {filteredLeaders.length === 0 && (
-            <p className="leader-empty">No care leaders match that search. Try another name, skill or state.</p>
-          )}
+        <div className="stories-empty-state" role="status" aria-live="polite">
+          <span className="section-kicker">{search.trim() ? 'No matching stories yet' : 'Stories coming soon'}</span>
+          <p>
+            Verified care-leaver profiles and their approved photographs were not included in the
+            available project files. They can be featured here once the source stories and image
+            permissions are available.
+          </p>
         </div>
       </div>
     </section>
   );
 }
 
-function BloomGarden() {
+function PhotoGallery() {
+  const galleryRef = useRef(null);
+  const photoRefs = useRef([]);
+
+  function updateActivePhoto() {
+    const gallery = galleryRef.current;
+    if (!gallery || !window.matchMedia('(max-width: 760px)').matches) return;
+
+    const activeIndex = photoRefs.current.reduce((closest, photo, index) => {
+      if (!photo) return closest;
+      const currentDistance = Math.abs(photo.offsetLeft - gallery.offsetLeft - gallery.scrollLeft);
+      const closestDistance = Math.abs(
+        photoRefs.current[closest].offsetLeft - gallery.offsetLeft - gallery.scrollLeft,
+      );
+      return currentDistance < closestDistance ? index : closest;
+    }, 0);
+    gallery.dataset.activeSlide = String(activeIndex);
+  }
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      const gallery = galleryRef.current;
+      if (
+        !gallery ||
+        !window.matchMedia('(max-width: 760px)').matches ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        document.hidden ||
+        gallery.matches(':focus-within') ||
+        (window.matchMedia('(hover: hover)').matches && gallery.matches(':hover'))
+      ) return;
+
+      const currentIndex = Number(gallery.dataset.activeSlide || 0);
+      const nextIndex = (currentIndex + 1) % festivalPhotos.length;
+      const nextPhoto = photoRefs.current[nextIndex];
+      if (!nextPhoto) return;
+
+      gallery.dataset.activeSlide = String(nextIndex);
+      gallery.scrollTo({
+        left: nextPhoto.offsetLeft - gallery.offsetLeft,
+        behavior: 'smooth',
+      });
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
   return (
-    <div className="bloom-garden" aria-hidden="true">
-      {[1, 2, 3].map((flower) => (
-        <span className={`bloom-flower bloom-flower-${flower}`} key={flower}>
-          <span className="bloom-petals">
-            <i /><i /><i /><i /><i /><i />
-            <b />
-          </span>
-        </span>
-      ))}
-      {[1, 2, 3, 4, 5].map((flower) => (
-        <span className={`bloom-burst bloom-burst-${flower}`} key={`burst-${flower}`}>
-          <span className="bloom-petals">
-            <i /><i /><i /><i /><i /><i />
-            <b />
-          </span>
-        </span>
-      ))}
+    <div className="photo-gallery" aria-labelledby="photo-gallery-title">
+      <div className="photo-gallery-heading">
+        <span className="section-kicker">Festival gallery · 2026</span>
+        <h3 id="photo-gallery-title">The people. The energy. <span>All together.</span></h3>
+        <p>Photographs from the National Care Leavers Festival.</p>
+      </div>
+      <div className="photo-gallery-grid" ref={galleryRef} onScroll={updateActivePhoto} aria-label="National Care Leavers Festival photographs">
+        {festivalPhotos.map((photo, index) => (
+          <figure
+            className={`photo-gallery-item photo-gallery-item-${index + 1}`}
+            key={photo}
+            ref={(element) => { photoRefs.current[index] = element; }}
+          >
+            <img
+              src={photo}
+              alt={`National Care Leavers Festival 2026, photograph ${index + 1}`}
+              loading={index < 3 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          </figure>
+        ))}
+      </div>
     </div>
+  );
+}
+
+function Testimonials() {
+  const videoRefs = useRef([]);
+  const testimonialGridRef = useRef(null);
+  const testimonialRefs = useRef([]);
+  const [playingVideo, setPlayingVideo] = useState(null);
+  const [playbackError, setPlaybackError] = useState(null);
+
+  function toggleVideo(index) {
+    const video = videoRefs.current[index];
+    if (!video) return;
+
+    if (video.paused) {
+      setPlaybackError(null);
+      video.play().catch(() => setPlaybackError(index));
+    } else {
+      video.pause();
+    }
+  }
+
+  function updateActiveTestimonial() {
+    const carousel = testimonialGridRef.current;
+    if (!carousel || !window.matchMedia('(max-width: 760px)').matches) return;
+
+    const activeIndex = testimonialRefs.current.reduce((closest, testimonial, index) => {
+      if (!testimonial) return closest;
+      const currentDistance = Math.abs(
+        testimonial.offsetLeft - carousel.offsetLeft - carousel.scrollLeft,
+      );
+      const closestDistance = Math.abs(
+        testimonialRefs.current[closest].offsetLeft - carousel.offsetLeft - carousel.scrollLeft,
+      );
+      return currentDistance < closestDistance ? index : closest;
+    }, 0);
+    carousel.dataset.activeSlide = String(activeIndex);
+  }
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      const carousel = testimonialGridRef.current;
+      if (
+        !carousel ||
+        !window.matchMedia('(max-width: 760px)').matches ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        document.hidden ||
+        carousel.matches(':focus-within') ||
+        (window.matchMedia('(hover: hover)').matches && carousel.matches(':hover')) ||
+        playingVideo !== null
+      ) return;
+
+      const currentIndex = Number(carousel.dataset.activeSlide || 0);
+      const nextIndex = (currentIndex + 1) % attendeeTestimonials.length;
+      const nextTestimonial = testimonialRefs.current[nextIndex];
+      if (!nextTestimonial) return;
+
+      carousel.dataset.activeSlide = String(nextIndex);
+      carousel.scrollTo({
+        left: nextTestimonial.offsetLeft - carousel.offsetLeft,
+        behavior: 'smooth',
+      });
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [playingVideo]);
+
+  return (
+    <section className="testimonials-section section-space" aria-labelledby="testimonials-title">
+      <div className="section-wrap">
+        <span className="section-kicker">Attendee voices</span>
+        <h2 id="testimonials-title">What the Attendees Have to Say About the Festival</h2>
+        <div className="testimonial-grid" ref={testimonialGridRef} onScroll={updateActiveTestimonial}>
+          {attendeeTestimonials.map((testimonial, index) => (
+            <article
+              className="testimonial-card"
+              key={testimonial.id}
+              ref={(element) => { testimonialRefs.current[index] = element; }}
+            >
+              <div className="testimonial-media">
+                {testimonial.src ? (
+                  <video
+                    ref={(element) => { videoRefs.current[index] = element; }}
+                    src={testimonial.src}
+                    poster={testimonial.poster}
+                    playsInline
+                    preload="none"
+                    aria-label={`Attendee festival video ${index + 1}`}
+                    onPlay={() => {
+                      videoRefs.current.forEach((video, candidate) => {
+                        if (candidate !== index && video && !video.paused) video.pause();
+                      });
+                      setPlayingVideo(index);
+                      setPlaybackError(null);
+                    }}
+                    onPause={() => setPlayingVideo((current) => current === index ? null : current)}
+                    onEnded={() => setPlayingVideo((current) => current === index ? null : current)}
+                  />
+                ) : (
+                  <img src={testimonial.poster} alt="" aria-hidden="true" />
+                )}
+                <button
+                  className={`testimonial-play${playingVideo === index ? ' is-playing' : ''}`}
+                  type="button"
+                  aria-label={testimonial.src
+                    ? `${playingVideo === index ? 'Pause' : 'Play'} attendee video ${index + 1}`
+                    : `Attendee video ${index + 1} coming soon`}
+                  aria-disabled={!testimonial.src}
+                  disabled={!testimonial.src}
+                  onClick={() => toggleVideo(index)}
+                >
+                  {testimonial.src && playingVideo === index
+                    ? <span className="testimonial-pause-icon" aria-hidden="true" />
+                    : <Icon name="play" size={24} />}
+                </button>
+                {!testimonial.src && <span className="testimonial-coming-soon">Video coming soon</span>}
+                {playbackError === index && (
+                  <span className="testimonial-error" role="status">This video could not be played. Please try again.</span>
+                )}
+              </div>
+              <div className="testimonial-card-footer">
+                <strong>Attendee video {index + 1}</strong>
+                <span>{testimonial.src ? 'Festival video' : 'Video coming soon'}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
 function GetInvolved() {
   return (
-    <section className="involved-section section-space" id="get-involved">
+    <section className="involved-section section-space" id="join-the-movement">
       <div className="section-wrap">
         <div className="involved-panel">
           <div className="involved-heading">
-            <span className="section-kicker">Every voice matters</span>
-            <h2>There’s a place<br />for <span>you here.</span></h2>
-            <p>Be part of a community creating a stronger future for care leavers.</p>
+            <span className="section-kicker">Join the Movement</span>
+            <h2>Keep the movement<br /><span>going.</span></h2>
+            <p>The January 2026 festival has passed, but the movement continues. Stay connected with care-experienced leaders and find ways to support the community.</p>
           </div>
           <div className="involved-options">
-            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">
+            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
               <span className="option-number">01</span>
-              <span><strong>Take part</strong><small>Join the festival community</small></span>
+              <span><strong>Connect with the community</strong><small>Stay in touch with care-experienced leaders</small></span>
               <Icon name="arrow" />
             </a>
-            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">
+            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
               <span className="option-number">02</span>
-              <span><strong>Share your story</strong><small>Help bring lived experience forward</small></span>
+              <span><strong>Share your creativity</strong><small>Bring your ideas and energy to the movement</small></span>
               <Icon name="arrow" />
             </a>
-            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">
+            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
               <span className="option-number">03</span>
-              <span><strong>Partner with us</strong><small>Help make change possible</small></span>
+              <span><strong>Join the celebration</strong><small>Help make the festival a great time</small></span>
               <Icon name="arrow" />
             </a>
-            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">
+            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
               <span className="option-number">04</span>
               <span><strong>Join our WhatsApp channel</strong><small>Follow festival news and updates</small></span>
               <Icon name="arrow" />
             </a>
           </div>
-          <div className="involved-contact"><Icon name="arrow" size={17} /> Questions? <a href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">Join the festival WhatsApp channel</a></div>
+          <div className="involved-contact"><Icon name="arrow" size={17} /> Questions? <a href={`mailto:${festivalEmail}`}>{festivalEmail}</a></div>
         </div>
       </div>
     </section>
@@ -615,27 +670,41 @@ function Footer() {
           <div className="footer-about">
             <a className="brand footer-brand" href="#home">
               <span className="brand-mark" aria-hidden="true">N</span>
-              <span className="brand-copy"><strong>{festival.title}</strong><small>When care leavers care</small></span>
+              <span className="brand-copy"><strong>{festival.title}</strong><small>Care leavers lead.</small></span>
             </a>
-            <p>Celebrating care leavers as leaders, changemakers and advocates.</p>
+            <p>A festival for care-experienced young people to connect, create and celebrate.</p>
           </div>
           <div className="footer-links">
             <span>Explore</span>
-            <a href="#about">The festival</a>
-            <a href="#programme">Programme</a>
-            <a href="#blogs">Fellows’ blogs</a>
-            <a href="#leaders">Care leaders</a>
+            <a href="#home">Home</a>
+            <a href="#festival-editions">Festival Editions</a>
+            <a href="#care-leavers-stories">Care Leavers’ Stories</a>
+            <a href="#join-the-movement">Join the Movement</a>
           </div>
           <div className="footer-links">
             <span>Connect</span>
-            <a href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">Festival WhatsApp channel ↗</a>
-            <a href="#get-involved">Get involved</a>
+            <a href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">Festival WhatsApp channel ↗</a>
+            <a href={`mailto:${festivalEmail}`}>{festivalEmail}</a>
+            <div className="footer-socials" aria-label="Festival social media">
+              {socialLinks.map((social) => (
+                <a
+                  href={social.href}
+                  key={social.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit the festival on ${social.name} (opens in a new tab)`}
+                >
+                  <Icon name={social.icon} size={19} />
+                  <span>{social.name}</span>
+                </a>
+              ))}
+            </div>
           </div>
           <div className="footer-date"><span>{festival.year} FESTIVAL</span><strong>{festival.dates}</strong><small>{festival.city}</small></div>
         </div>
         <div className="footer-bottom">
           <span>© {festival.year} National Care Leavers Festival</span>
-          <span>Designed around dignity, belonging and possibility.</span>
+          <span>Made for creativity, friendship and celebration.</span>
           <a href="#home">Back to top ↑</a>
         </div>
       </div>
@@ -658,7 +727,7 @@ function JoinHelper() {
             <button type="button" className="join-helper-close" onClick={() => setOpen(false)} aria-label="Close joining help">×</button>
           </div>
           <p>Join the festival’s WhatsApp channel for community updates and ways to take part. Don’t share personal or sensitive information in public channels.</p>
-          <a className="join-helper-link" href={festivalWhatsAppChannel} target="_blank" rel="noreferrer">
+          <a className="join-helper-link" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
             Join the WhatsApp channel <Icon name="arrow" size={16} />
           </a>
         </div>
@@ -676,39 +745,21 @@ function JoinHelper() {
 }
 
 function App() {
-  useEffect(() => {
-    const sections = document.querySelectorAll('.bloom-section');
-    if (!('IntersectionObserver' in window)) {
-      sections.forEach((section) => section.classList.add('is-blooming'));
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-blooming');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
       <Header />
       <main id="main-content">
         <Hero />
-        <Edition2025 />
         <About />
-        <WhyItMatters />
-        <Programme />
-        <CommunityMoments />
-        <FellowBlogs />
-        <Leaders />
+        <div className="festival-editions-group" id="festival-editions">
+          <Edition2026 />
+          <Programme />
+        </div>
+        <div className="stories-group" id="care-leavers-stories">
+          <CareLeaversStories />
+          <Testimonials />
+        </div>
         <GetInvolved />
       </main>
       <Footer />
