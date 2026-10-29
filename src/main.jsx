@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import versionTwoTestimonial from '../Version 2.mp4';
+import BrandVideoPlayer from './components/ui/BrandVideoPlayer';
+import TiltCascadeCarousel from './components/ui/tilt-cascade-carousel';
 import './styles.css';
 
 const festivalPhotos = [
@@ -284,52 +286,161 @@ function Edition2026() {
 
 function FestivalMomentsWall() {
   const wallRef = useRef(null);
-  const [revealedMoments, setRevealedMoments] = useState({});
+  const [activeFlipped, setActiveFlipped] = useState(0);
+  const [userOverrides, setUserOverrides] = useState({});
+  const [isPaused, setIsPaused] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+
+  const momentCascadeItems = festivalMoments.map((moment, index) => ({
+    title: moment.title,
+    number: "0" + (index + 1),
+    date: moment.date,
+    detail: moment.detail,
+    caption: moment.date,
+    src: moment.photo,
+    alt: "National Care Leavers Festival moment 0" + (index + 1) + ": " + moment.title,
+  }));
 
   useEffect(() => {
     const wall = wallRef.current;
-    if (!wall || !('IntersectionObserver' in window)) return undefined;
+    if (!wall || !('IntersectionObserver' in window)) {
+      setIsInView(true);
+      return undefined;
+    }
 
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      setRevealedMoments(Object.fromEntries(festivalMoments.map((_, index) => [index, true])));
-      observer.disconnect();
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.15 }
+    );
 
     observer.observe(wall);
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!isInView || isPaused) return undefined;
+
+    const interval = setInterval(() => {
+      setActiveFlipped((prev) => (prev + 1) % festivalMoments.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isInView, isPaused]);
+
+  const toggleCard = (index) => {
+    setUserOverrides((prev) => {
+      const current = prev[index] !== undefined ? prev[index] : (activeFlipped === index);
+      return { ...prev, [index]: !current };
+    });
+  };
+
+  const isCardRevealed = (index) => {
+    if (userOverrides[index] !== undefined) {
+      return userOverrides[index];
+    }
+    return activeFlipped === index;
+  };
+
+  const jumpToCard = (index) => {
+    setActiveFlipped(index);
+    setUserOverrides((prev) => ({ ...prev, [index]: true }));
+  };
+
   return (
-    <div className="moments-wall" ref={wallRef}>
-      {festivalMoments.map((moment, index) => (
-        <article className={`moment-card moment-story moment-story-${index + 1}`} key={moment.date}>
+    <div
+      className="moments-wrap"
+      ref={wallRef}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* Mobile-only view: Tilt Cascade Carousel */}
+      <div className="moments-mobile-view">
+        <TiltCascadeCarousel
+          items={momentCascadeItems}
+          height="410px"
+          slideSize="clamp(210px, 68vw, 260px)"
+          angle={16}
+          drop={0.32}
+          inactiveScale={0.72}
+          autoplay={3800}
+          autoFlip={true}
+          flipDelay={1700}
+          loop={true}
+          controls={false}
+          background="transparent"
+          ariaLabel="National Care Leavers Festival Moments"
+        />
+      </div>
+
+      {/* Desktop view: 3s sequential auto-flip wall */}
+      <div className="moments-desktop-view">
+        <div className="moments-controls">
+          <div className="moments-steps" aria-label="Moments flip sequence">
+            {festivalMoments.map((moment, index) => (
+              <button
+                key={moment.date}
+                type="button"
+                className={"moments-step-btn" + (activeFlipped === index ? " active" : "")}
+                onClick={() => jumpToCard(index)}
+                aria-label={"Show Moment 0" + (index + 1)}
+              >
+                <strong>0{index + 1}</strong>
+                <span>{moment.title}</span>
+              </button>
+            ))}
+          </div>
           <button
-            className="moment-card-button"
             type="button"
-            aria-pressed={Boolean(revealedMoments[index])}
-            aria-label={`${revealedMoments[index] ? 'Show story' : 'Show photo'} for moment 0${index + 1}: ${moment.title}`}
-            onClick={() => setRevealedMoments((revealed) => ({ ...revealed, [index]: !revealed[index] }))}
+            className="moments-auto-badge"
+            onClick={() => setIsPaused(!isPaused)}
+            aria-label={isPaused ? "Resume auto-flip sequence" : "Pause auto-flip sequence"}
           >
-            <span className={`moment-card-inner${revealedMoments[index] ? ' is-revealed' : ''}`}>
-              <span className="moment-card-face moment-card-front" aria-hidden={Boolean(revealedMoments[index])}>
-                <span className="moment-story-number">0{index + 1}</span>
-                <span className="moment-story-date">{moment.date}</span>
-                <span className="moment-story-title">{moment.title}</span>
-                <span className="moment-story-detail">{moment.detail}</span>
-                <span className="moment-card-hint">Tap to see the photo</span>
-              </span>
-              <span className="moment-card-face moment-card-back" aria-hidden={!revealedMoments[index]}>
-                <img src={moment.photo} alt="" loading="lazy" decoding="async" />
-                <span className="moment-card-back-caption">
-                  <span className="moment-story-number">0{index + 1}</span>
-                  <span>{moment.title}</span>
-                </span>
-              </span>
-            </span>
+            <span className={"moments-dot" + (isPaused ? " is-paused" : "")} />
+            <span>{isPaused ? "Paused · Tap to play" : "Auto 3s flip · 1 to 4"}</span>
           </button>
-        </article>
-      ))}
+        </div>
+
+        <div className="moments-wall">
+          {festivalMoments.map((moment, index) => {
+            const revealed = isCardRevealed(index);
+            const isActive = activeFlipped === index && !isPaused;
+            return (
+              <article
+                className={"moment-card moment-story moment-story-" + (index + 1) + (isActive ? " is-active" : "")}
+                key={moment.date}
+              >
+                <button
+                  className="moment-card-button"
+                  type="button"
+                  aria-pressed={Boolean(revealed)}
+                  aria-label={(revealed ? "Show story" : "Show photo") + " for moment 0" + (index + 1) + ": " + moment.title}
+                  onClick={() => toggleCard(index)}
+                >
+                  <span className={"moment-card-inner" + (revealed ? " is-revealed" : "")}>
+                    <span className="moment-card-face moment-card-front" aria-hidden={Boolean(revealed)}>
+                      {isActive && <span className="moment-progress-bar" key={activeFlipped} />}
+                      <span className="moment-story-number">0{index + 1}</span>
+                      <span className="moment-story-date">{moment.date}</span>
+                      <span className="moment-story-title">{moment.title}</span>
+                      <span className="moment-story-detail">{moment.detail}</span>
+                      <span className="moment-card-hint">Tap to see the photo</span>
+                    </span>
+                    <span className="moment-card-face moment-card-back" aria-hidden={!revealed}>
+                      <img src={moment.photo} alt={"National Care Leavers Festival moment 0" + (index + 1)} loading="lazy" decoding="async" />
+                      <span className="moment-card-back-caption">
+                        <span className="moment-story-number">0{index + 1}</span>
+                        <span>{moment.title}</span>
+                      </span>
+                    </span>
+                  </span>
+                </button>
+              </article>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
@@ -495,23 +606,8 @@ function PhotoGallery() {
 }
 
 function Testimonials() {
-  const videoRefs = useRef([]);
   const testimonialGridRef = useRef(null);
   const testimonialRefs = useRef([]);
-  const [playingVideo, setPlayingVideo] = useState(null);
-  const [playbackError, setPlaybackError] = useState(null);
-
-  function toggleVideo(index) {
-    const video = videoRefs.current[index];
-    if (!video) return;
-
-    if (video.paused) {
-      setPlaybackError(null);
-      video.play().catch(() => setPlaybackError(index));
-    } else {
-      video.pause();
-    }
-  }
 
   function updateActiveTestimonial() {
     const carousel = testimonialGridRef.current;
@@ -530,34 +626,6 @@ function Testimonials() {
     carousel.dataset.activeSlide = String(activeIndex);
   }
 
-  useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      const carousel = testimonialGridRef.current;
-      if (
-        !carousel ||
-        !window.matchMedia('(max-width: 760px)').matches ||
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-        document.hidden ||
-        carousel.matches(':focus-within') ||
-        (window.matchMedia('(hover: hover)').matches && carousel.matches(':hover')) ||
-        playingVideo !== null
-      ) return;
-
-      const currentIndex = Number(carousel.dataset.activeSlide || 0);
-      const nextIndex = (currentIndex + 1) % attendeeTestimonials.length;
-      const nextTestimonial = testimonialRefs.current[nextIndex];
-      if (!nextTestimonial) return;
-
-      carousel.dataset.activeSlide = String(nextIndex);
-      carousel.scrollTo({
-        left: nextTestimonial.offsetLeft - carousel.offsetLeft,
-        behavior: 'smooth',
-      });
-    }, 5000);
-
-    return () => window.clearInterval(intervalId);
-  }, [playingVideo]);
-
   return (
     <section className="testimonials-section section-space" aria-labelledby="testimonials-title">
       <div className="section-wrap">
@@ -572,43 +640,17 @@ function Testimonials() {
             >
               <div className="testimonial-media">
                 {testimonial.src ? (
-                  <video
-                    ref={(element) => { videoRefs.current[index] = element; }}
+                  <BrandVideoPlayer
                     src={testimonial.src}
                     poster={testimonial.poster}
-                    playsInline
-                    preload="none"
-                    aria-label={`Attendee festival video ${index + 1}`}
-                    onPlay={() => {
-                      videoRefs.current.forEach((video, candidate) => {
-                        if (candidate !== index && video && !video.paused) video.pause();
-                      });
-                      setPlayingVideo(index);
-                      setPlaybackError(null);
-                    }}
-                    onPause={() => setPlayingVideo((current) => current === index ? null : current)}
-                    onEnded={() => setPlayingVideo((current) => current === index ? null : current)}
+                    title={"Attendee video " + (index + 1)}
+                    autoPlayOnVisible={true}
                   />
                 ) : (
-                  <img src={testimonial.poster} alt="" aria-hidden="true" />
-                )}
-                <button
-                  className={`testimonial-play${playingVideo === index ? ' is-playing' : ''}`}
-                  type="button"
-                  aria-label={testimonial.src
-                    ? `${playingVideo === index ? 'Pause' : 'Play'} attendee video ${index + 1}`
-                    : `Attendee video ${index + 1} coming soon`}
-                  aria-disabled={!testimonial.src}
-                  disabled={!testimonial.src}
-                  onClick={() => toggleVideo(index)}
-                >
-                  {testimonial.src && playingVideo === index
-                    ? <span className="testimonial-pause-icon" aria-hidden="true" />
-                    : <Icon name="play" size={24} />}
-                </button>
-                {!testimonial.src && <span className="testimonial-coming-soon">Video coming soon</span>}
-                {playbackError === index && (
-                  <span className="testimonial-error" role="status">This video could not be played. Please try again.</span>
+                  <div className="testimonial-placeholder-media">
+                    <img src={testimonial.poster} alt="" aria-hidden="true" />
+                    <span className="testimonial-coming-soon">Video coming soon</span>
+                  </div>
                 )}
               </div>
               <div className="testimonial-card-footer">
