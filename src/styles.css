@@ -2977,3 +2977,66 @@ h2 {
   border-color: rgba(52, 122, 61, 0.4);
   box-shadow: 0 10px 24px rgba(36, 95, 48, 0.16);
 }
+
+
+/* Exact Original Asymmetric 7-Photo Layout for Desktop (1 Big Hero + 6 Surrounding) */
+.photo-gallery-desktop-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(4, clamp(90px, 9.5vw, 130px)) minmax(155px, 14vw);
+  gap: 14px;
+  width: 100%;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+}
+
+.photo-gallery-desktop-grid .festival-gallery-img {
+  width: 100%;
+  height: 100% !important;
+  border-radius: 14px;
+  object-fit: cover !important;
+  display: block;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item-1 {
+  grid-column: 1 / span 7;
+  grid-row: 1 / span 4;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item-2 {
+  grid-column: 8 / span 5;
+  grid-row: 1 / span 2;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item-3 {
+  grid-column: 8 / span 5;
+  grid-row: 3 / span 2;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item-4 {
+  grid-column: 1 / span 3;
+  grid-row: 5;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item-5 {
+  grid-column: 4 / span 3;
+  grid-row: 5;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item-6 {
+  grid-column: 7 / span 3;
+  grid-row: 5;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item-7 {
+  grid-column: 10 / span 3;
+  grid-row: 5;
+}

@@ -751,20 +751,21 @@ function PhotoGallery() {
         <p>Photographs from the National Care Leavers Festival.</p>
       </div>
 
-      {/* Desktop View: Shared Element Interactive Masonry Gallery */}
+      {/* Desktop View: Shared Element Interactive Grid (1 big featured hero + 6 surrounding layout) */}
       <div className="photo-gallery-desktop-view">
         <Gallery>
-          <GalleryGrid>
+          <div className="photo-gallery-grid photo-gallery-desktop-grid">
             {festivalPhotos.map((photo, index) => (
               <GalleryImage
                 key={'desktop-photo-' + index}
                 id={'festival-photo-' + index}
                 src={photo}
                 alt={'National Care Leavers Festival 2026, photograph ' + (index + 1)}
-                className="festival-gallery-thumb"
+                className={'photo-gallery-item photo-gallery-item-' + (index + 1) + ' festival-gallery-thumb'}
+                imgClassName="festival-gallery-img"
               />
             ))}
-          </GalleryGrid>
+          </div>
         </Gallery>
       </div>
 

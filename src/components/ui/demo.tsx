@@ -55,3 +55,4 @@ export default function GalleryDemo() {
     </div>
   );
 }
+

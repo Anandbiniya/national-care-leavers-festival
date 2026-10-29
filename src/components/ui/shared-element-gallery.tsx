@@ -93,11 +93,13 @@ export function GalleryImage({
   alt,
   id,
   className,
+  imgClassName,
 }: {
   src: string
   alt?: string
   id: string
   className?: string
+  imgClassName?: string
 }) {
   const context = React.useContext(GalleryContext)
   if (!context) throw new Error("GalleryImage must be used within a Gallery")
@@ -107,7 +109,7 @@ export function GalleryImage({
       whileHover="hover"
       whileTap="tap"
       className={cn(
-        "relative mb-4 break-inside-avoid cursor-zoom-in rounded-xl overflow-hidden",
+        "relative cursor-zoom-in rounded-xl overflow-hidden",
         className
       )}
       onClick={() => context.setSelectedImage({ id, src, alt })}
@@ -116,10 +118,10 @@ export function GalleryImage({
         layoutId={`image-${id}`}
         src={src}
         alt={alt || "Gallery Image"}
-        className="w-full h-auto object-cover rounded-xl"
+        className={cn("w-full h-auto object-cover rounded-xl", imgClassName)}
         variants={{
-          hover: { scale: 0.98 },
-          tap: { scale: 0.95 },
+          hover: { scale: 0.985 },
+          tap: { scale: 0.96 },
         }}
         transition={spring}
       />
