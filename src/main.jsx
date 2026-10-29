@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import versionTwoTestimonial from '../Version 2.mp4';
 import BrandVideoPlayer from './components/ui/BrandVideoPlayer';
 import TiltCascadeCarousel from './components/ui/tilt-cascade-carousel';
+import { Gallery, GalleryGrid, GalleryImage } from './components/ui/shared-element-gallery';
 import './styles.css';
 
 const festivalPhotos = [
@@ -749,21 +750,42 @@ function PhotoGallery() {
         <h3 id="photo-gallery-title">The people. The energy. <span>All together.</span></h3>
         <p>Photographs from the National Care Leavers Festival.</p>
       </div>
-      <div className="photo-gallery-grid" ref={galleryRef} onScroll={updateActivePhoto} aria-label="National Care Leavers Festival photographs">
-        {festivalPhotos.map((photo, index) => (
-          <figure
-            className={`photo-gallery-item photo-gallery-item-${index + 1}`}
-            key={photo}
-            ref={(element) => { photoRefs.current[index] = element; }}
-          >
-            <img
-              src={photo}
-              alt={`National Care Leavers Festival 2026, photograph ${index + 1}`}
-              loading={index < 3 ? 'eager' : 'lazy'}
-              decoding="async"
-            />
-          </figure>
-        ))}
+
+      {/* Desktop View: Shared Element Interactive Masonry Gallery */}
+      <div className="photo-gallery-desktop-view">
+        <Gallery>
+          <GalleryGrid>
+            {festivalPhotos.map((photo, index) => (
+              <GalleryImage
+                key={'desktop-photo-' + index}
+                id={'festival-photo-' + index}
+                src={photo}
+                alt={'National Care Leavers Festival 2026, photograph ' + (index + 1)}
+                className="festival-gallery-thumb"
+              />
+            ))}
+          </GalleryGrid>
+        </Gallery>
+      </div>
+
+      {/* Mobile View: Horizontal Auto-scrolling Gallery */}
+      <div className="photo-gallery-mobile-view">
+        <div className="photo-gallery-grid" ref={galleryRef} onScroll={updateActivePhoto} aria-label="National Care Leavers Festival photographs">
+          {festivalPhotos.map((photo, index) => (
+            <figure
+              className={'photo-gallery-item photo-gallery-item-' + (index + 1)}
+              key={photo}
+              ref={(element) => { photoRefs.current[index] = element; }}
+            >
+              <img
+                src={photo}
+                alt={'National Care Leavers Festival 2026, photograph ' + (index + 1)}
+                loading={index < 3 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            </figure>
+          ))}
+        </div>
       </div>
     </div>
   );
