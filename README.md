@@ -17,6 +17,10 @@ The project files do not currently include verified care-leader biographies or a
 
 The footer contains the supplied festival email, Instagram, Facebook and LinkedIn links. Palette and responsive styles are in `src/styles.css`.
 
+The floating festival guide in `src/components/FestivalChatbot.jsx` answers curated festival FAQs in English and all 22 languages listed in India's Eighth Schedule. Language selection, suggested questions and FAQ replies run locally in the browser; chat messages are not sent to an external AI or translation service. Questions outside the supported FAQs are directed to the official email contact. The additional language copy is an initial draft and should be reviewed by native speakers before publication.
+
+The chatbot also supports voice input and spoken replies through browser-native speech recognition and speech synthesis, with girl/boy voice preferences when matching voices are available. Recognition language, microphones and voices vary by browser and device. Microphone permission is required; this site does not store audio, but the browser's speech-recognition provider may process voice input according to its own privacy policy. Speech features are not an AI voice service.
+
 ## Deploy to Netlify
 
 Connect this folder to a Netlify site, set the build command to `npm run build`, and set the publish directory to `dist`.

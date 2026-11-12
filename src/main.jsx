@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import versionTwoTestimonial from '../Version 2.mp4';
 import BrandVideoPlayer from './components/ui/BrandVideoPlayer';
+import FestivalChatbot from './components/FestivalChatbot';
 import TiltCascadeCarousel from './components/ui/tilt-cascade-carousel';
 import { Gallery, GalleryGrid, GalleryImage } from './components/ui/shared-element-gallery';
 import './styles.css';
@@ -102,6 +103,17 @@ function Icon({ name, size = 18 }) {
   return <svg {...shared}>{paths[name] || paths.sparkle}</svg>;
 }
 
+function BrandMark() {
+  return (
+    <span className="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 48 48" focusable="false">
+        <path d="M13 34V14l22 20V14" />
+        <circle cx="36" cy="12" r="4" />
+      </svg>
+    </span>
+  );
+}
+
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -129,7 +141,7 @@ function Header() {
   return (
     <header className="site-header">
       <a className="brand" href="#home" aria-label={`${festival.title} home`} onClick={() => { setMenuOpen(false); setActiveSection('home'); }}>
-        <span className="brand-mark" aria-hidden="true">N</span>
+        <BrandMark />
         <span className="brand-copy">
           <strong>{festival.title}</strong>
           <small>Care leavers lead.</small>
@@ -676,7 +688,7 @@ function Footer() {
         <div className="footer-main">
           <div className="footer-about">
             <a className="brand footer-brand" href="#home">
-              <span className="brand-mark" aria-hidden="true">N</span>
+              <BrandMark />
               <span className="brand-copy"><strong>{festival.title}</strong><small>Care leavers lead.</small></span>
             </a>
             <p>A festival for care-experienced young people to connect, create and celebrate.</p>
@@ -719,38 +731,6 @@ function Footer() {
   );
 }
 
-function JoinHelper() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <aside className="join-helper">
-      {open && (
-        <div className="join-helper-panel" role="dialog" aria-labelledby="join-helper-title">
-          <div className="join-helper-heading">
-            <div>
-              <span>FESTIVAL COMMUNITY</span>
-              <h2 id="join-helper-title">Want to join us?</h2>
-            </div>
-            <button type="button" className="join-helper-close" onClick={() => setOpen(false)} aria-label="Close joining help">×</button>
-          </div>
-          <p>Join the festival’s WhatsApp channel for community updates and ways to take part. Don’t share personal or sensitive information in public channels.</p>
-          <a className="join-helper-link" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
-            Join the WhatsApp channel <Icon name="arrow" size={16} />
-          </a>
-        </div>
-      )}
-      <button
-        type="button"
-        className="join-helper-toggle"
-        aria-expanded={open}
-        onClick={() => setOpen((isOpen) => !isOpen)}
-      >
-        {open ? 'Close' : 'Join the festival'}
-      </button>
-    </aside>
-  );
-}
-
 function App() {
   return (
     <>
@@ -769,7 +749,7 @@ function App() {
         <GetInvolved />
       </main>
       <Footer />
-      <JoinHelper />
+      <FestivalChatbot email={festivalEmail} whatsappUrl={festivalWhatsAppChannel} />
     </>
   );
 }
