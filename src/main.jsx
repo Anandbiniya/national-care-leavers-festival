@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import FestivalChatbot from './components/FestivalChatbot';
+import CareLeaverStories from './components/CareLeaverStories';
+import VideoBites from './components/VideoBites';
 import { Gallery, GalleryImage } from './components/ui/shared-element-gallery';
 import anandBiniyaPhoto from './assets/care-leaders/Anand Biniya.png';
 import './styles.css';
@@ -212,14 +214,15 @@ function Header() {
         type="button"
         aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
         aria-expanded={menuOpen}
+        aria-controls="primary-navigation"
         onClick={() => setMenuOpen((open) => !open)}
       >
         <Icon name={menuOpen ? 'close' : 'menu'} size={23} />
       </button>
-      <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label="Main navigation">
-        {navItems.map(([label, href, id], index) => (
+      <nav id="primary-navigation" className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label="Main navigation">
+        {navItems.map(([label, href, id]) => (
           <a
-            className={`nav-link${index === 3 ? ' nav-register' : ''}${activeSection === id ? ' active' : ''}`}
+            className={`nav-link${activeSection === id ? ' active' : ''}`}
             href={href}
             key={label}
             aria-current={activeSection === id ? 'location' : undefined}
@@ -257,9 +260,6 @@ function Hero() {
           Find your community, celebrate lived experience and help lead what comes next.
         </p>
         <div className="hero-actions">
-          <a className="button button-primary" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
-            Join the community <Icon name="arrow" />
-          </a>
           <a className="button button-quiet" href="#festival-editions">
             Explore the 2026 edition
           </a>
@@ -637,6 +637,8 @@ function App() {
           <Edition2026 />
         </div>
         <CareLeaders />
+        <VideoBites />
+        <CareLeaverStories />
         <GetInvolved />
       </main>
       <Footer />
