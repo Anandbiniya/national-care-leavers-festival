@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import versionTwoTestimonial from '../Version 2.mp4';
-import BrandVideoPlayer from './components/ui/BrandVideoPlayer';
 import FestivalChatbot from './components/FestivalChatbot';
-import TiltCascadeCarousel from './components/ui/tilt-cascade-carousel';
-import { Gallery, GalleryGrid, GalleryImage } from './components/ui/shared-element-gallery';
+import { Gallery, GalleryImage } from './components/ui/shared-element-gallery';
+import anandBiniyaPhoto from './assets/care-leaders/Anand Biniya.png';
 import './styles.css';
 
 const festivalPhotos = [
@@ -20,55 +18,102 @@ const festivalPhotos = [
 const festival = {
   year: '2026',
   title: 'National Care Leavers Festival',
-  theme: 'A movement led by care-experienced youth.',
-  dates: 'January 17–20, 2026',
-  shortDates: 'Jan 17–20, 2026',
-  city: 'New Delhi, India',
-  registrationUrl: '#join-the-movement',
 };
+
+const galleryPhotos = [
+  {
+    src: festivalPhotos[1],
+    alt: 'Care leavers and festival participants gathered onstage during the 2026 edition.',
+  },
+  {
+    src: festivalPhotos[2],
+    alt: 'Festival participants sharing a moment onstage at the 2026 edition.',
+  },
+  {
+    src: festivalPhotos[5],
+    alt: 'A large group of care leavers and supporters at the 2026 edition.',
+  },
+  {
+    src: festivalPhotos[6],
+    alt: 'Festival attendees gathered together at the National Care Leavers Festival 2026.',
+  },
+];
 
 const festivalWhatsAppChannel = 'https://whatsapp.com/channel/0029Vb8wWtGJP21BAIBQU322';
 const festivalEmail = '2026nclf@gmail.com';
+const festivalRegistrationUrl = import.meta.env.VITE_NCLF_2027_REGISTRATION_URL?.trim()
+  || 'https://docs.google.com/forms/d/e/1FAIpQLSc-seG9SIs3vbD4_CG4_aMJZmwT2rNuont91x2R3i72VD47mQ/viewform?usp=header';
+const festivalEmailLink = (subject) => `mailto:${festivalEmail}?subject=${encodeURIComponent(subject)}`;
 const socialLinks = [
   { name: 'Instagram', href: 'https://www.instagram.com/nclf2026', icon: 'instagram' },
   { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595764058285&sk=about', icon: 'facebook' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/nclf-cls-initiative-468474447/', icon: 'linkedin' },
 ];
 
-const values = [
+const careLeaders = [
   {
-    number: '01',
-    title: 'Care leavers lead',
-    text: 'A celebration of care leavers, for care leavers and by care leavers.',
+    name: 'Anand Biniya',
+    designation: 'Associate Product & Operations Manager · IFACET, IIT Kanpur Foundation for Advanced Technology',
+    summary: 'Anand Biniya is a care leaver, community builder and technology enthusiast passionate about creating opportunities for care-experienced young people.',
+    biography: 'Anand Biniya is a care leaver, community builder and technology enthusiast passionate about creating opportunities for care-experienced young people. Drawing from his lived experience of institutional care, he actively works towards strengthening support systems, promoting youth participation and creating inclusive spaces for care leavers. With a background in technology, product development and operations, he brings together social impact and digital innovation to address challenges faced by young people transitioning out of institutional care. He believes in the power of lived experiences, collective action and leadership in shaping a future where every care leaver has the opportunity to thrive.',
+    photo: anandBiniyaPhoto,
   },
   {
-    number: '02',
-    title: 'Achievements celebrated',
-    text: 'Recognising the leadership, success and contributions of care leavers.',
+    name: 'Jimadi Das',
+    designation: 'Outreach Worker · FiT, Udayan Care',
+    summary: 'A social worker at Udayan Care, working in child protection, family strengthening, community development, youth participation and child care reform advocacy.',
+    biography: 'A social worker at Udayan Care, working in child protection, family strengthening, community development, youth participation and child care reform advocacy.',
+    photo: '/care-leaders/jimadi-das.png',
   },
   {
-    number: '03',
-    title: 'Stories shared',
-    text: 'Making space for lived experience, ideas and voices from across India.',
+    name: 'Masooma',
+    designation: 'Counsellor · FiT, Udayan Care',
+    summary: 'Works towards the holistic development, protection and empowerment of vulnerable children and families.',
+    biography: 'Works towards the holistic development, protection and empowerment of vulnerable children and families through counselling, case management, life skills education, community engagement and coordinated support services.',
+    photo: '/care-leaders/masooma.png',
   },
   {
-    number: '04',
-    title: 'Opportunity built',
-    text: 'Building the voice, networks and opportunities to shape the future of aftercare.',
+    name: 'Rajkumar Sharma',
+    designation: 'Assistant Programme Coordinator, National LIFT for Care Leavers · A.R.T., Udayan Care; Global Fellow, South Asian Fellowship; Bachelor of Social Work student, IGNOU',
+    summary: 'India’s first openly transgender woman with lived care experience, empowering care leavers to embrace their identities, drive change and lead a national Care Leaders’ project.',
+    biography: 'India’s first openly transgender woman with lived care experience, empowering care leavers to embrace their identities, drive change and lead a national Care Leaders’ project.',
+    photo: '/care-leaders/rajkumar-sharma.png',
   },
-];
-
-const attendeeTestimonials = [
-  { id: 'attendee-1', src: versionTwoTestimonial, poster: festivalPhotos[1] },
-  { id: 'attendee-2', src: '/Day%203%20highlight.mp4', poster: festivalPhotos[4] },
-  { id: 'attendee-3', src: null, poster: festivalPhotos[6] },
+  {
+    name: 'Shakul Ali',
+    designation: 'Community Mobiliser · FiT, Udayan Care',
+    summary: 'Currently pursuing a Bachelor of Social Work (BSW), building a strong foundation in social work principles, community development and human behaviour.',
+    biography: 'Currently pursuing a Bachelor of Social Work (BSW), building a strong foundation in social work principles, community development and human behaviour. My studies are shaping my ability to understand individual and family needs and respond with empathy and practical support. I am eager to apply what I have learned in real-world settings and contribute to meaningful social change.',
+    photo: '/care-leaders/shakul-ali-updated.png',
+  },
+  {
+    name: 'Sohail',
+    designation: 'Entitlement Officer · FiT, Udayan Care',
+    summary: 'Works closely with communities and young people, learning from their stories and experiences and building positive connections.',
+    biography: 'Work closely with communities and young people, and I enjoy every part of it. Their stories and experiences have taught me valuable lessons that have helped me grow personally and professionally. I love meeting new people, building connections, and learning from others, because every interaction is a chance to learn something new and make a positive difference in society.',
+    photo: '/care-leaders/sohail.png',
+  },
+  {
+    name: 'Summi Munir',
+    designation: 'Counsellor · FiT, Udayan Care',
+    summary: 'A psychology professional passionate about social work and community well-being, dedicated to empowering families and nurturing individuals’ emotional and social growth.',
+    biography: 'A psychology professional passionate about social work and community well-being, dedicated to empowering families and nurturing individuals’ emotional and social growth. Working for a social cause gives my journey purpose and brings out my best.',
+    photo: '/care-leaders/summi-munir-updated.png',
+  },
+  {
+    name: 'Surja',
+    designation: 'Programme Coordinator, AOP (Delhi) & GCLC Secretariat · A.R.T., Udayan Care; Journalism & Mass Communication student, IGNOU',
+    summary: 'A passionate advocate with three years of experience supporting care-experienced youth and care leavers.',
+    biography: 'A passionate advocate with three years of experience supporting care-experienced youth and care leavers. I believe in the power of participation, empathy and initiative. I love connecting with people, managing impactful projects and sharing real stories through my blog. My goal is to create safe spaces where care leavers can speak up, be heard and shape their own futures.',
+    photo: '/care-leaders/surja.png',
+  },
 ];
 
 const festivalMoments = [
-  { date: '17 JAN · HEAL AND CONNECT', title: 'Heal and Connect', detail: 'Laughter Chef Experience, Systems Thinking Workshop, theatre begins', photo: festivalPhotos[0] },
-  { date: '18 JAN · RECONNECT AND REFLECT', title: 'Reconnect and Reflect', detail: 'Alumni visioning sessions, theatre practice', photo: festivalPhotos[1] },
-  { date: '19 JAN · GRADUATE AND LEAD', title: 'Graduate and Lead', detail: 'LIFT Fellowship graduation (3rd cohort), theatre performance, LEAP workshop', photo: festivalPhotos[2] },
-  { date: '20 JAN · SPEAK TO POLICY', title: 'Speak to Policy', detail: 'Stakeholder consultation on aftercare in Delhi NCR', photo: festivalPhotos[3] },
+  { date: '17 JANUARY · DAY 1', title: 'Heal and Connect', detail: 'Laughter Chef Experience, Systems Thinking Workshop, theatre begins', photo: festivalPhotos[0] },
+  { date: '18 JANUARY · DAY 2', title: 'Reconnect and Reflect', detail: 'Alumni visioning sessions, theatre practice', photo: festivalPhotos[1] },
+  { date: '19 JANUARY · DAY 3', title: 'Graduate and Lead', detail: 'LIFT Fellowship graduation (3rd cohort), theatre performance, LEAP workshop', photo: festivalPhotos[2] },
+  { date: '20 JANUARY · DAY 4', title: 'Speak to Policy', detail: 'Stakeholder consultation on aftercare in Delhi NCR', photo: festivalPhotos[3] },
 ];
 
 function Icon({ name, size = 18 }) {
@@ -117,9 +162,11 @@ function BrandMark() {
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const menuToggleRef = useRef(null);
   const navItems = [
     ['Home', '#home', 'home'],
     ['Festival editions', '#festival-editions', 'festival-editions'],
+    ['Care Leaders', '#care-leaders', 'care-leaders'],
     ["Care Leavers' stories", '#care-leavers-stories', 'care-leavers-stories'],
     ['Join the Movement', '#join-the-movement', 'join-the-movement'],
   ];
@@ -138,16 +185,29 @@ function Header() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        menuToggleRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [menuOpen]);
+
   return (
     <header className="site-header">
       <a className="brand" href="#home" aria-label={`${festival.title} home`} onClick={() => { setMenuOpen(false); setActiveSection('home'); }}>
         <BrandMark />
         <span className="brand-copy">
           <strong>{festival.title}</strong>
-          <small>Care leavers lead.</small>
+          <small>Lived experience. Leading the future.</small>
         </span>
       </a>
       <button
+        ref={menuToggleRef}
         className="menu-toggle"
         type="button"
         aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
@@ -182,29 +242,23 @@ function Hero() {
       className="hero"
       id="home"
       aria-labelledby="hero-title"
-      style={{ backgroundImage: `url("${festivalPhotos[0]}")` }}
     >
-      <video
-        className="hero-background-video"
-        src="/Day%203%20highlight.mp4"
-        poster={festivalPhotos[0]}
+      <img
+        className="hero-background-image"
+        src={festivalPhotos[0]}
+        alt=""
         aria-hidden="true"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
+        fetchpriority="high"
+        decoding="async"
       />
       <div className="hero-copy">
-        {/* <span className="eyebrow"><span className="eyebrow-dot" /> A movement led by care-experienced youth</span> */}
         <h1 id="hero-title">A movement led by<br /><span>care-experienced youth.</span></h1>
         <p className="hero-secondary">
-          A national festival where care leavers lead. Celebrate their success, hear their stories,
-          and discover the opportunities for care leavers across India.
+          Find your community, celebrate lived experience and help lead what comes next.
         </p>
         <div className="hero-actions">
-          <a className="button button-primary" href={festival.registrationUrl}>
-            Join the movement <Icon name="arrow" />
+          <a className="button button-primary" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
+            Join the community <Icon name="arrow" />
           </a>
           <a className="button button-quiet" href="#festival-editions">
             Explore the 2026 edition
@@ -221,29 +275,6 @@ function About() {
       <div className="section-heading">
         <span className="section-kicker">First of it's kind festival for Care Leavers</span>
         <h2>More than an event.<br /><span>A movement.</span></h2>
-      </div>
-      <div className="about-body">
-        <p>
-          This festival isn’t about what’s missing. It’s about what’s possible when care leavers are believed, supported and leading the way.
-        </p>
-        <p>
-          Celebrating a future where care leavers have the voice, the networks and the opportunities to lead.
-        </p>
-        <p>
-          A national festival to bring the diverse care experienced people at one place to share and build a strong community
-        </p>
-        <p>
-          a celebration of the Care Leavers, For the Care Leavers and By the Care Leavers
-        </p>
-        <div className="values-grid">
-          {values.map((value) => (
-            <article className="value-card" key={value.number}>
-              <span>{value.number}</span>
-              <h3>{value.title}</h3>
-              <p>{value.text}</p>
-            </article>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -262,26 +293,23 @@ function Edition2026() {
             A four-day learning experience created by care leavers for care leavers.
           </p>
         </div>
-        <div className="edition-feature">
-          <div className="edition-feature-copy">
-            <span className="archive-number">2026 FESTIVAL FILM</span>
-            <h3>Festival highlights</h3>
-            <p>A look back at the connections, celebrations and shared moments from January 2026.</p>
-          </div>
-          <a className="edition-film-link" href="#home">
-            <span className="edition-film-play" aria-hidden="true">▶</span>
-            <span>
-              <strong>Watch the festival highlights</strong>
-              <small>Return to the film playing in the home-page hero</small>
-            </span>
-            <Icon name="arrow" size={20} />
-          </a>
+        <div className="edition-video">
+          <video
+            src="/Day%203%20highlight.mp4"
+            poster={festivalPhotos[0]}
+            controls
+            playsInline
+            preload="metadata"
+            aria-label="National Care Leavers Festival 2026 highlights"
+          >
+            Your browser does not support embedded video. You can play the festival highlights in a video-capable browser.
+          </video>
         </div>
         <div className="moments-heading edition-gallery-heading">
           <div>
-            <span className="section-kicker">From the 2026 festival</span>
-            <h3>Moments from the <span>festival.</span></h3>
+            <h3 className="moments-primary-heading">From the 2026 Edition</h3>
           </div>
+          <a className="text-link" href="#festival-gallery">View all moments <Icon name="arrow" size={17} /></a>
         </div>
         <FestivalMomentsWall />
         <PhotoGallery />
@@ -291,199 +319,117 @@ function Edition2026() {
 }
 
 function FestivalMomentsWall() {
-  const wallRef = useRef(null);
-  const [activeFlipped, setActiveFlipped] = useState(0);
-  const [userOverrides, setUserOverrides] = useState({});
-  const [isPaused, setIsPaused] = useState(false);
-  const [isInView, setIsInView] = useState(false);
-
-  const momentCascadeItems = festivalMoments.map((moment, index) => ({
-    title: moment.title,
-    number: "0" + (index + 1),
-    date: moment.date,
-    detail: moment.detail,
-    caption: moment.date,
-    src: moment.photo,
-    alt: "National Care Leavers Festival moment 0" + (index + 1) + ": " + moment.title,
-  }));
-
-  useEffect(() => {
-    const wall = wallRef.current;
-    if (!wall || !('IntersectionObserver' in window)) {
-      setIsInView(true);
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(wall);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!isInView || isPaused) return undefined;
-
-    const interval = setInterval(() => {
-      setActiveFlipped((prev) => (prev + 1) % festivalMoments.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [isInView, isPaused]);
-
-  const toggleCard = (index) => {
-    setUserOverrides((prev) => {
-      const current = prev[index] !== undefined ? prev[index] : (activeFlipped === index);
-      return { ...prev, [index]: !current };
-    });
-  };
-
-  const isCardRevealed = (index) => {
-    if (userOverrides[index] !== undefined) {
-      return userOverrides[index];
-    }
-    return activeFlipped === index;
-  };
-
-  const jumpToCard = (index) => {
-    setActiveFlipped(index);
-    setUserOverrides((prev) => ({ ...prev, [index]: true }));
-  };
-
   return (
-    <div
-      className="moments-wrap"
-      ref={wallRef}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      {/* Mobile-only view: Tilt Cascade Carousel */}
-      <div className="moments-mobile-view">
-        <TiltCascadeCarousel
-          items={momentCascadeItems}
-          height="410px"
-          slideSize="clamp(210px, 68vw, 260px)"
-          angle={16}
-          drop={0.32}
-          inactiveScale={0.72}
-          autoplay={3800}
-          autoFlip={true}
-          flipDelay={1700}
-          loop={true}
-          controls={false}
-          background="transparent"
-          ariaLabel="National Care Leavers Festival Moments"
-        />
-      </div>
-
-      {/* Desktop view: 3s sequential auto-flip wall */}
-      <div className="moments-desktop-view">
-        <div className="moments-controls">
-          <div className="moments-steps" aria-label="Moments flip sequence">
-            {festivalMoments.map((moment, index) => (
-              <button
-                key={moment.date}
-                type="button"
-                className={"moments-step-btn" + (activeFlipped === index ? " active" : "")}
-                onClick={() => jumpToCard(index)}
-                aria-label={"Show Moment 0" + (index + 1)}
-              >
-                <strong>0{index + 1}</strong>
-                <span>{moment.title}</span>
-              </button>
-            ))}
+    <div className="moment-day-grid">
+      {festivalMoments.map((moment) => (
+        <article className="moment-day-card" key={moment.date}>
+          <img
+            src={moment.photo}
+            alt={`National Care Leavers Festival, ${moment.date}`}
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="moment-day-copy">
+            <span className="moment-day-date">{moment.date}</span>
+            <p>{moment.detail}</p>
+            <h4>{moment.title}</h4>
           </div>
-          <button
-            type="button"
-            className="moments-auto-badge"
-            onClick={() => setIsPaused(!isPaused)}
-            aria-label={isPaused ? "Resume auto-flip sequence" : "Pause auto-flip sequence"}
-          >
-            <span className={"moments-dot" + (isPaused ? " is-paused" : "")} />
-            <span>{isPaused ? "Paused · Tap to play" : "Auto 3s flip · 1 to 4"}</span>
-          </button>
-        </div>
-
-        <div className="moments-wall">
-          {festivalMoments.map((moment, index) => {
-            const revealed = isCardRevealed(index);
-            const isActive = activeFlipped === index && !isPaused;
-            return (
-              <article
-                className={"moment-card moment-story moment-story-" + (index + 1) + (isActive ? " is-active" : "")}
-                key={moment.date}
-              >
-                <button
-                  className="moment-card-button"
-                  type="button"
-                  aria-pressed={Boolean(revealed)}
-                  aria-label={(revealed ? "Show story" : "Show photo") + " for moment 0" + (index + 1) + ": " + moment.title}
-                  onClick={() => toggleCard(index)}
-                >
-                  <span className={"moment-card-inner" + (revealed ? " is-revealed" : "")}>
-                    <span className="moment-card-face moment-card-front" aria-hidden={Boolean(revealed)}>
-                      {isActive && <span className="moment-progress-bar" key={activeFlipped} />}
-                      <span className="moment-story-number">0{index + 1}</span>
-                      <span className="moment-story-date">{moment.date}</span>
-                      <span className="moment-story-title">{moment.title}</span>
-                      <span className="moment-story-detail">{moment.detail}</span>
-                      <span className="moment-card-hint">Tap to see the photo</span>
-                    </span>
-                    <span className="moment-card-face moment-card-back" aria-hidden={!revealed}>
-                      <img src={moment.photo} alt={"National Care Leavers Festival moment 0" + (index + 1)} loading="lazy" decoding="async" />
-                      <span className="moment-card-back-caption">
-                        <span className="moment-story-number">0{index + 1}</span>
-                        <span>{moment.title}</span>
-                      </span>
-                    </span>
-                  </span>
-                </button>
-              </article>
-            );
-          })}
-        </div>
-      </div>
+        </article>
+      ))}
     </div>
   );
 }
 
-function CareLeaversStories() {
-  const [search, setSearch] = useState('');
+function CareLeaders() {
+  const [selectedLeader, setSelectedLeader] = useState(null);
+  const dialogRef = useRef(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (selectedLeader && !dialog.open) dialog.showModal();
+    if (!selectedLeader && dialog.open) dialog.close();
+  }, [selectedLeader]);
 
   return (
-    <section className="leaders-section section-space" aria-labelledby="leaders-title">
-      <div className="section-wrap">
-        <div className="leaders-directory-heading">
-          <span className="section-kicker">Care Leavers' stories</span>
-          <h2 id="leaders-title">Our Care Leavers' community</h2>
-          <p>
-            Across India, care-experienced leaders are turning lived experience into lasting change. These are their stories: where they come from, what they are building and the impact they are creating.
-          </p>
-          <label className="leader-search">
-            <Icon name="search" size={18} />
-            <input
-              type="search"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search care-leaver stories..."
-              aria-label="Search care-leaver stories"
-            />
-          </label>
+    <>
+      <section className="care-leaders-section section-space" id="care-leaders" aria-labelledby="care-leaders-title">
+        <div className="section-wrap">
+          <header className="care-leaders-heading">
+            <h2 id="care-leaders-title">THE PEOPLE BEHIND<br /><span>THE MOVEMENT</span></h2>
+          </header>
+
+          <div className="care-leaders-grid">
+            {careLeaders.map((leader, index) => (
+              <button
+                className="care-leader-card"
+                key={leader.name}
+                type="button"
+                aria-haspopup="dialog"
+                aria-label={`Read ${leader.name}'s full profile`}
+                onClick={() => setSelectedLeader(leader)}
+              >
+                <span className="care-leader-photo">
+                  <img
+                    src={leader.photo}
+                    alt={`${leader.name}, Care Leader at the National Care Leavers Festival`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span className="care-leader-number">0{index + 1}</span>
+                </span>
+                <span className="care-leader-copy">
+                  <span className="care-leader-name">{leader.name}</span>
+                  <span className="care-leader-designation">{leader.designation}</span>
+                  <span className="care-leader-summary">{leader.summary}</span>
+                  <span className="care-leader-link">Read full profile <Icon name="arrow" size={17} /></span>
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="stories-empty-state" role="status" aria-live="polite">
-          <span className="section-kicker">{search.trim() ? 'No matching stories yet' : 'Stories coming soon'}</span>
-          <p>
-            Verified care-leaver profiles and their approved photographs were not included in the
-            available project files. They can be featured here once the source stories and image
-            permissions are available.
-          </p>
-        </div>
-      </div>
-    </section>
+      </section>
+
+      <dialog
+        ref={dialogRef}
+        className="care-leader-dialog"
+        aria-labelledby="care-leader-dialog-title"
+        onClose={() => setSelectedLeader(null)}
+        onCancel={() => setSelectedLeader(null)}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            dialogRef.current?.close();
+          }
+        }}
+        onClick={(event) => {
+          if (event.target === dialogRef.current) dialogRef.current.close();
+        }}
+      >
+        {selectedLeader && (
+          <article className="care-leader-dialog-content">
+            <div className="care-leader-dialog-photo">
+              <img src={selectedLeader.photo} alt={`${selectedLeader.name}, Care Leader at the National Care Leavers Festival`} />
+            </div>
+            <div className="care-leader-dialog-copy">
+              <button
+                className="care-leader-dialog-close"
+                type="button"
+                aria-label="Close profile"
+                onClick={() => dialogRef.current?.close()}
+              >
+                <Icon name="close" size={20} />
+              </button>
+              <span className="section-kicker">Care Leader · National Care Leavers Festival</span>
+              <h2 id="care-leader-dialog-title">{selectedLeader.name}</h2>
+              <p className="care-leader-dialog-designation">{selectedLeader.designation}</p>
+              <p className="care-leader-dialog-biography">{selectedLeader.biography}</p>
+            </div>
+          </article>
+        )}
+      </dialog>
+    </>
   );
 }
 
@@ -519,7 +465,7 @@ function PhotoGallery() {
       ) return;
 
       const currentIndex = Number(gallery.dataset.activeSlide || 0);
-      const nextIndex = (currentIndex + 1) % festivalPhotos.length;
+      const nextIndex = (currentIndex + 1) % galleryPhotos.length;
       const nextPhoto = photoRefs.current[nextIndex];
       if (!nextPhoto) return;
 
@@ -534,23 +480,22 @@ function PhotoGallery() {
   }, []);
 
   return (
-    <div className="photo-gallery" aria-labelledby="photo-gallery-title">
+    <div className="photo-gallery" id="festival-gallery" aria-labelledby="photo-gallery-title">
       <div className="photo-gallery-heading">
-        <span className="section-kicker">Festival gallery · 2026</span>
+        <span className="section-kicker">Festival gallery · 2026 Edition</span>
         <h3 id="photo-gallery-title">The people. The energy. <span>All together.</span></h3>
-        <p>Photographs from the National Care Leavers Festival.</p>
       </div>
 
       {/* Desktop View: Shared Element Interactive Grid (1 big featured hero + 6 surrounding layout) */}
       <div className="photo-gallery-desktop-view">
         <Gallery>
           <div className="photo-gallery-grid photo-gallery-desktop-grid">
-            {festivalPhotos.map((photo, index) => (
+            {galleryPhotos.map((photo, index) => (
               <GalleryImage
                 key={'desktop-photo-' + index}
                 id={'festival-photo-' + index}
-                src={photo}
-                alt={'National Care Leavers Festival 2026, photograph ' + (index + 1)}
+                src={photo.src}
+                alt={photo.alt}
                 className={'photo-gallery-item photo-gallery-item-' + (index + 1) + ' festival-gallery-thumb'}
                 imgClassName="festival-gallery-img"
               />
@@ -561,17 +506,17 @@ function PhotoGallery() {
 
       {/* Mobile View: Horizontal Auto-scrolling Gallery */}
       <div className="photo-gallery-mobile-view">
-        <div className="photo-gallery-grid" ref={galleryRef} onScroll={updateActivePhoto} aria-label="National Care Leavers Festival photographs">
-          {festivalPhotos.map((photo, index) => (
+        <div className="photo-gallery-grid" ref={galleryRef} onScroll={updateActivePhoto} role="region" aria-label="National Care Leavers Festival photo gallery">
+          {galleryPhotos.map((photo, index) => (
             <figure
               className={'photo-gallery-item photo-gallery-item-' + (index + 1)}
-              key={photo}
+              key={photo.src}
               ref={(element) => { photoRefs.current[index] = element; }}
             >
               <img
-                src={photo}
-                alt={'National Care Leavers Festival 2026, photograph ' + (index + 1)}
-                loading={index < 3 ? 'eager' : 'lazy'}
+                src={photo.src}
+                alt={photo.alt}
+                loading="lazy"
                 decoding="async"
               />
             </figure>
@@ -579,66 +524,6 @@ function PhotoGallery() {
         </div>
       </div>
     </div>
-  );
-}
-
-function Testimonials() {
-  const testimonialGridRef = useRef(null);
-  const testimonialRefs = useRef([]);
-
-  function updateActiveTestimonial() {
-    const carousel = testimonialGridRef.current;
-    if (!carousel || !window.matchMedia('(max-width: 760px)').matches) return;
-
-    const activeIndex = testimonialRefs.current.reduce((closest, testimonial, index) => {
-      if (!testimonial) return closest;
-      const currentDistance = Math.abs(
-        testimonial.offsetLeft - carousel.offsetLeft - carousel.scrollLeft,
-      );
-      const closestDistance = Math.abs(
-        testimonialRefs.current[closest].offsetLeft - carousel.offsetLeft - carousel.scrollLeft,
-      );
-      return currentDistance < closestDistance ? index : closest;
-    }, 0);
-    carousel.dataset.activeSlide = String(activeIndex);
-  }
-
-  return (
-    <section className="testimonials-section section-space" aria-labelledby="testimonials-title">
-      <div className="section-wrap">
-        <span className="section-kicker">Attendee voices</span>
-        <h2 id="testimonials-title">What the attendees have to say about the festival</h2>
-        <div className="testimonial-grid" ref={testimonialGridRef} onScroll={updateActiveTestimonial}>
-          {attendeeTestimonials.map((testimonial, index) => (
-            <article
-              className="testimonial-card"
-              key={testimonial.id}
-              ref={(element) => { testimonialRefs.current[index] = element; }}
-            >
-              <div className="testimonial-media">
-                {testimonial.src ? (
-                  <BrandVideoPlayer
-                    src={testimonial.src}
-                    poster={testimonial.poster}
-                    title={"Attendee video " + (index + 1)}
-                    autoPlayOnVisible={true}
-                  />
-                ) : (
-                  <div className="testimonial-placeholder-media">
-                    <img src={testimonial.poster} alt="" aria-hidden="true" />
-                    <span className="testimonial-coming-soon">Video coming soon</span>
-                  </div>
-                )}
-              </div>
-              <div className="testimonial-card-footer">
-                <strong>Attendee video {index + 1}</strong>
-                <span>Festival reflection</span>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -650,27 +535,36 @@ function GetInvolved() {
           <div className="involved-heading">
             <span className="section-kicker">Join the Movement</span>
             <h2>Keep the movement<br /><span>going.</span></h2>
-            <p>The January 2026 festival has passed, but the movement continues. Stay connected with care-experienced leaders and find ways to support the community.</p>
+            <p>The January 2026 festival has passed, but the movement continues. Choose how you would like to stay connected or contribute.</p>
           </div>
           <div className="involved-options">
-            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
+            <a
+              className="involved-option"
+              href={festivalRegistrationUrl || undefined}
+              target={festivalRegistrationUrl ? '_blank' : undefined}
+              rel={festivalRegistrationUrl ? 'noopener noreferrer' : undefined}
+              aria-disabled={!festivalRegistrationUrl}
+            >
               <span className="option-number">01</span>
-              <span><strong>Connect with the community</strong><small>Stay in touch with care-experienced leaders</small></span>
+              <span>
+                <strong>Join the 2027 Festival</strong>
+                <small>{festivalRegistrationUrl ? 'Register for the festival' : 'Registration link to be configured'}</small>
+              </span>
               <Icon name="arrow" />
             </a>
-            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
+            <a className="involved-option" href={festivalEmailLink('Volunteering with the National Care Leavers Festival')}>
               <span className="option-number">02</span>
-              <span><strong>Share your creativity</strong><small>Bring your ideas and energy to the movement</small></span>
+              <span><strong>Become a Volunteer</strong><small>Contact the team to discuss volunteering</small></span>
               <Icon name="arrow" />
             </a>
-            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
+            <a className="involved-option" href={festivalEmailLink('Partnering with the National Care Leavers Festival')}>
               <span className="option-number">03</span>
-              <span><strong>Join the celebration</strong><small>Help make the festival a great time</small></span>
+              <span><strong>Partner With Us</strong><small>Explore a partnership with the festival team</small></span>
               <Icon name="arrow" />
             </a>
-            <a className="involved-option" href={festivalWhatsAppChannel} target="_blank" rel="noopener noreferrer">
+            <a className="involved-option" href={festivalEmailLink('Supporting the National Care Leavers Festival')}>
               <span className="option-number">04</span>
-              <span><strong>Join our WhatsApp channel</strong><small>Follow festival news and updates</small></span>
+              <span><strong>Support the Movement</strong><small>Contact the team to discuss ways to help</small></span>
               <Icon name="arrow" />
             </a>
           </div>
@@ -689,7 +583,7 @@ function Footer() {
           <div className="footer-about">
             <a className="brand footer-brand" href="#home">
               <BrandMark />
-              <span className="brand-copy"><strong>{festival.title}</strong><small>Care leavers lead.</small></span>
+              <span className="brand-copy"><strong>{festival.title}</strong><small>Lived experience. Leading the future.</small></span>
             </a>
             <p>A festival for care-experienced young people to connect, create and celebrate.</p>
           </div>
@@ -697,6 +591,7 @@ function Footer() {
             <span>Explore</span>
             <a href="#home">Home</a>
             <a href="#festival-editions">Festival editions</a>
+            <a href="#care-leaders">Care Leaders</a>
             <a href="#care-leavers-stories">Care Leavers' stories</a>
             <a href="#join-the-movement">Join the Movement</a>
           </div>
@@ -719,7 +614,6 @@ function Footer() {
               ))}
             </div>
           </div>
-          <div className="footer-date"><span>{festival.year} FESTIVAL</span><strong>{festival.dates}</strong><small>{festival.city}</small></div>
         </div>
         <div className="footer-bottom">
           <span>© {festival.year} National Care Leavers Festival</span>
@@ -742,10 +636,7 @@ function App() {
         <div className="festival-editions-group" id="festival-editions">
           <Edition2026 />
         </div>
-        <div className="stories-group" id="care-leavers-stories">
-          <CareLeaversStories />
-          <Testimonials />
-        </div>
+        <CareLeaders />
         <GetInvolved />
       </main>
       <Footer />

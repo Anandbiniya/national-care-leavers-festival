@@ -34,15 +34,6 @@ const spring = {
 export function Gallery({ children }: { children: React.ReactNode }) {
   const [selectedImage, setSelectedImage] = React.useState<ImageData | null>(null)
 
-  // Handle escape key
-  React.useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSelectedImage(null)
-    }
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
-
   // Lock body scroll when modal is open
   React.useEffect(() => {
     if (selectedImage) {
@@ -105,19 +96,24 @@ export function GalleryImage({
   if (!context) throw new Error("GalleryImage must be used within a Gallery")
 
   return (
-    <motion.div
+    <motion.button
+      type="button"
       whileHover="hover"
       whileTap="tap"
+      aria-label={`View image: ${alt || "Festival gallery image"}`}
       className={cn(
         "relative cursor-zoom-in rounded-xl overflow-hidden",
         className
       )}
+      style={{ display: "block", width: "100%", padding: 0, border: 0, background: "transparent", textAlign: "left" }}
       onClick={() => context.setSelectedImage({ id, src, alt })}
     >
       <motion.img
         layoutId={`image-${id}`}
         src={src}
         alt={alt || "Gallery Image"}
+        loading="lazy"
+        decoding="async"
         className={cn("w-full h-auto object-cover rounded-xl", imgClassName)}
         variants={{
           hover: { scale: 0.985 },
@@ -136,7 +132,7 @@ export function GalleryImage({
         className="absolute inset-0 bg-black/10 pointer-events-none rounded-xl"
         transition={{ duration: 0.2 }}
       />
-    </motion.div>
+    </motion.button>
   )
 }
 
@@ -148,18 +144,50 @@ function GalleryModal() {
   if (!context) return null
 
   const { selectedImage, setSelectedImage } = context
+  const closeButtonRef = React.useRef<HTMLButtonElement>(null)
+  const previousFocusRef = React.useRef<HTMLElement | null>(null)
+
+  React.useEffect(() => {
+    if (!selectedImage) return
+
+    previousFocusRef.current = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null
+    closeButtonRef.current?.focus()
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedImage(null)
+      if (event.key === "Tab") {
+        event.preventDefault()
+        closeButtonRef.current?.focus()
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      previousFocusRef.current?.focus()
+      previousFocusRef.current = null
+    }
+  }, [selectedImage, setSelectedImage])
 
   return (
     <AnimatePresence>
       {selectedImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Festival photo viewer"
+        >
           {/* Frosted glass backdrop */}
           <motion.div
+            aria-hidden="true"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="absolute inset-0 bg-black/80 backdrop-blur-2xl"
+            style={{ cursor: "pointer" }}
             onClick={() => setSelectedImage(null)}
           />
 
@@ -178,7 +206,6 @@ function GalleryModal() {
                 setSelectedImage(null)
               }
             }}
-            onClick={() => setSelectedImage(null)}
           >
             {/* The Shared Element */}
             <motion.img
@@ -198,8 +225,10 @@ function GalleryModal() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ delay: 0.1, duration: 0.2 }}
             className="absolute top-6 right-6 z-50 p-2.5 bg-white/10 text-white rounded-full backdrop-blur-md hover:bg-white/20 transition-colors"
+            type="button"
+            ref={closeButtonRef}
+            aria-label="Close photo viewer"
             onClick={() => setSelectedImage(null)}
-            aria-label="Close gallery"
           >
             <X className="w-5 h-5" />
           </motion.button>

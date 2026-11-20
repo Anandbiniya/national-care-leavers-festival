@@ -4,7 +4,7 @@ const locales = {
     dir: 'ltr',
     title: 'Festival guide',
     status: 'Here to help',
-    welcome: 'Hi! I’m the festival guide. Ask me about dates, the programme or how to stay involved.',
+    welcome: 'Welcome! I’m your National Care Leavers Festival guide. Ask me about the 2026 festival, its programme or ways to stay connected with the movement.',
     placeholder: 'Type your question…',
     send: 'Send message',
     close: 'Close chat',
