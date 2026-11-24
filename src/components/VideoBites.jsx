@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const fallbackThumbnail = '/photos/festival-1.jpg';
+const fallbackThumbnail = '/day-1/DSC05593.JPG';
 const videoBites = [
   {
     personName: 'Care Leavers and Festival Participants',
     title: 'A look back at the 2026 Festival',
     description: 'Shared moments of connection, learning and celebration from the National Care Leavers Festival 2026.',
-    thumbnail: '/photos/festival-1.jpg',
+    thumbnail: '/day-1/DSC05611.JPG',
     videoUrl: '/Day%203%20highlight.mp4',
     duration: '2:59',
     displayOrder: 1,

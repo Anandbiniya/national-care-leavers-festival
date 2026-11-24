@@ -17,29 +17,23 @@ const festivalPhotos = [
   '/photos/festival-7.jpg',
 ];
 
+const day1Photos = [
+  '/day-1/DSC05551.JPG',
+  '/day-1/DSC05562.JPG',
+  '/day-1/DSC05563.JPG',
+  '/day-1/DSC05588.JPG',
+  '/day-1/DSC05593.JPG',
+];
+
 const festival = {
   year: '2026',
   title: 'National Care Leavers Festival',
 };
 
-const galleryPhotos = [
-  {
-    src: festivalPhotos[1],
-    alt: 'Care leavers and festival participants gathered onstage during the 2026 edition.',
-  },
-  {
-    src: festivalPhotos[2],
-    alt: 'Festival participants sharing a moment onstage at the 2026 edition.',
-  },
-  {
-    src: festivalPhotos[5],
-    alt: 'A large group of care leavers and supporters at the 2026 edition.',
-  },
-  {
-    src: festivalPhotos[6],
-    alt: 'Festival attendees gathered together at the National Care Leavers Festival 2026.',
-  },
-];
+const galleryPreviewPhotos = day1Photos.map((src, index) => ({
+  src,
+  alt: `National Care Leavers Festival Day 1 moment ${index + 1}.`,
+}));
 
 const festivalWhatsAppChannel = 'https://whatsapp.com/channel/0029Vb8wWtGJP21BAIBQU322';
 const festivalEmail = '2026nclf@gmail.com';
@@ -112,10 +106,10 @@ const careLeaders = [
 ];
 
 const festivalMoments = [
-  { date: '17 JANUARY · DAY 1', title: 'Heal and Connect', detail: 'Laughter Chef Experience, Systems Thinking Workshop, theatre begins', photo: festivalPhotos[0] },
-  { date: '18 JANUARY · DAY 2', title: 'Reconnect and Reflect', detail: 'Alumni visioning sessions, theatre practice', photo: festivalPhotos[1] },
-  { date: '19 JANUARY · DAY 3', title: 'Graduate and Lead', detail: 'LIFT Fellowship graduation (3rd cohort), theatre performance, LEAP workshop', photo: festivalPhotos[2] },
-  { date: '20 JANUARY · DAY 4', title: 'Speak to Policy', detail: 'Stakeholder consultation on aftercare in Delhi NCR', photo: festivalPhotos[3] },
+  { date: '17 JANUARY · DAY 1', title: 'Heal and Connect', detail: 'Making space to laugh, share experiences and begin building trust through creative and systems-led activities.', photo: day1Photos[0] || festivalPhotos[0] },
+  { date: '18 JANUARY · DAY 2', title: 'Reconnect and Reflect', detail: 'Returning to shared memories, reconnecting with alumni and reflecting on the journeys that brought everyone together.', photo: day1Photos[1] || festivalPhotos[1] },
+  { date: '19 JANUARY · DAY 3', title: 'Graduate and Lead', detail: 'Celebrating the LIFT Fellowship journey and exploring how theatre, learning and leadership can create the next opportunity.', photo: day1Photos[2] || festivalPhotos[2] },
+  { date: '20 JANUARY · DAY 4', title: 'Speak to Policy', detail: 'Bringing care-experienced voices into a stakeholder conversation about aftercare and the future of support.', photo: day1Photos[3] || festivalPhotos[3] },
 ];
 
 function Icon({ name, size = 18 }) {
@@ -168,6 +162,7 @@ function Header() {
   const navItems = [
     ['Home', '#home', 'home'],
     ['Festival editions', '#festival-editions', 'festival-editions'],
+    ['Gallery', '#festival-gallery', 'festival-gallery'],
     ['Care Leaders', '#care-leaders', 'care-leaders'],
     ["Care Leavers' stories", '#care-leavers-stories', 'care-leavers-stories'],
     ['Join the Movement', '#join-the-movement', 'join-the-movement'],
@@ -248,20 +243,24 @@ function Hero() {
     >
       <img
         className="hero-background-image"
-        src={festivalPhotos[0]}
+        src={day1Photos[0] || festivalPhotos[0]}
         alt=""
         aria-hidden="true"
         fetchpriority="high"
         decoding="async"
       />
       <div className="hero-copy">
+        <span className="hero-kicker">National Care Leavers Festival</span>
         <h1 id="hero-title">A movement led by<br /><span>care-experienced youth.</span></h1>
         <p className="hero-secondary">
-          Find your community, celebrate lived experience and help lead what comes next.
+          We exist. Our voices matter. Together, we are creating belonging, opportunity and a future shaped by care-experienced leadership.
         </p>
         <div className="hero-actions">
-          <a className="button button-quiet" href="#festival-editions">
-            Explore the 2026 edition
+          <a className="button button-primary" href="#about">
+            Explore the Movement
+          </a>
+          <a className="button button-quiet" href="#day-1-highlight">
+            Watch Our Journey
           </a>
         </div>
       </div>
@@ -273,8 +272,16 @@ function About() {
   return (
     <section className="about-section section-wrap section-space" id="about">
       <div className="section-heading">
-        <span className="section-kicker">First of it's kind festival for Care Leavers</span>
+        <span className="section-kicker">First of its kind festival for Care Leavers</span>
         <h2>More than an event.<br /><span>A movement.</span></h2>
+      </div>
+      <div className="about-copy">
+        <p className="about-lead">
+          The movement exists because care-experienced young people deserve to be seen, heard and recognised as leaders—not only as beneficiaries of change.
+        </p>
+        <p>
+          It brings lived experience into everyday action: building belonging, strengthening friendships, creating opportunities and challenging the systems that shape life after care.
+        </p>
       </div>
     </section>
   );
@@ -293,10 +300,10 @@ function Edition2026() {
             A four-day learning experience created by care leavers for care leavers.
           </p>
         </div>
-        <div className="edition-video">
+        <div className="edition-video" id="day-1-highlight">
           <video
             src="/Day%203%20highlight.mp4"
-            poster={festivalPhotos[0]}
+            poster={day1Photos[4] || festivalPhotos[0]}
             controls
             playsInline
             preload="metadata"
@@ -313,6 +320,7 @@ function Edition2026() {
         </div>
         <FestivalMomentsWall />
         <PhotoGallery />
+        <FestivalImpact />
       </div>
     </section>
   );
@@ -340,6 +348,32 @@ function FestivalMomentsWall() {
   );
 }
 
+function FestivalImpact() {
+  const impacts = [
+    { number: '04', title: 'Days of lived experience', detail: 'A full journey of connection, reflection, graduation and policy conversation.' },
+    { number: '04', title: 'Purposes brought together', detail: 'Healing, reflection, leadership and policy voice shaped the 2026 edition.' },
+    { number: '01', title: 'Shared movement', detail: 'Care-experienced people connected across the festival to lead and create change.' },
+  ];
+
+  return (
+    <section className="festival-impact" aria-labelledby="festival-impact-title">
+      <div className="festival-impact-heading">
+        <span className="section-kicker">The Impact We Are Building</span>
+        <h3 id="festival-impact-title">A festival that moves beyond the moment</h3>
+      </div>
+      <div className="festival-impact-grid">
+        {impacts.map((impact) => (
+          <article className="festival-impact-card" key={impact.title}>
+            <span className="festival-impact-number">{impact.number}</span>
+            <h4>{impact.title}</h4>
+            <p>{impact.detail}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function CareLeaders() {
   const [selectedLeader, setSelectedLeader] = useState(null);
   const dialogRef = useRef(null);
@@ -358,6 +392,9 @@ function CareLeaders() {
         <div className="section-wrap">
           <header className="care-leaders-heading">
             <h2 id="care-leaders-title">THE PEOPLE BEHIND<br /><span>THE MOVEMENT</span></h2>
+            <p className="care-leaders-introduction">
+              Care Leaders bring lived experience, professional insight and community purpose to every part of the movement.
+            </p>
           </header>
 
           <div className="care-leaders-grid">
@@ -436,6 +473,31 @@ function CareLeaders() {
 function PhotoGallery() {
   const galleryRef = useRef(null);
   const photoRefs = useRef([]);
+  const [galleryPhotos, setGalleryPhotos] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+
+    fetch('/day-1/manifest.json')
+      .then((response) => {
+        if (!response.ok) throw new Error('Could not load the Day 1 gallery.');
+        return response.json();
+      })
+      .then((names) => {
+        if (!active) return;
+        setGalleryPhotos(names.map((name, index) => ({
+          src: `/day-1/${encodeURIComponent(name)}`,
+          alt: `National Care Leavers Festival Day 1 moment ${index + 1}.`,
+        })));
+      })
+      .catch(() => {
+        if (active) setGalleryPhotos(galleryPreviewPhotos);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   function updateActivePhoto() {
     const gallery = galleryRef.current;
@@ -477,7 +539,7 @@ function PhotoGallery() {
     }, 5000);
 
     return () => window.clearInterval(intervalId);
-  }, []);
+  }, [galleryPhotos.length]);
 
   return (
     <div className="photo-gallery" id="festival-gallery" aria-labelledby="photo-gallery-title">
@@ -524,6 +586,36 @@ function PhotoGallery() {
         </div>
       </div>
     </div>
+  );
+}
+
+function CommunityOrganisations() {
+  const organisations = [
+    'Udayan Care',
+    'IFACET, IIT Kanpur',
+    'FiT',
+    'A.R.T.',
+    'IGNOU',
+    'South Asian Fellowship',
+  ];
+
+  return (
+    <section className="community-organisations section-space" aria-labelledby="community-organisations-title">
+      <div className="section-wrap">
+        <header className="community-organisations-heading">
+          <span className="section-kicker">Community connections</span>
+          <h2 id="community-organisations-title">Organisations represented in the movement</h2>
+          <p>
+            The people behind the movement bring experience from organisations across care, education, advocacy and community development.
+          </p>
+        </header>
+        <div className="community-organisations-list" aria-label="Organisations represented by Care Leaders">
+          {organisations.map((organisation) => (
+            <span className="community-organisation" key={organisation}>{organisation}</span>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -639,6 +731,7 @@ function App() {
         <CareLeaders />
         <VideoBites />
         <CareLeaverStories />
+        <CommunityOrganisations />
         <GetInvolved />
       </main>
       <Footer />

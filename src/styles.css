@@ -546,7 +546,7 @@ h2 {
   width: 100%;
   height: 100%;
   border-radius: inherit;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .photo-gallery-item-1 {
@@ -3063,10 +3063,10 @@ h2 {
 
 @media (max-width: 768px) {
   .photo-gallery-desktop-view {
-    display: block !important;
+    display: none !important;
   }
   .photo-gallery-mobile-view {
-    display: none !important;
+    display: block !important;
   }
 }
 
@@ -3275,50 +3275,66 @@ h2 {
 
 .photo-gallery-desktop-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: none;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: clamp(180px, 22vw, 260px);
   gap: clamp(12px, 2vw, 24px);
-  width: min(100%, 760px);
+  width: min(100%, 920px);
   margin-inline: auto;
 }
 
 .photo-gallery-desktop-grid .photo-gallery-item {
   margin: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   min-width: 0;
-  aspect-ratio: 1;
-  border-radius: 50%;
+  aspect-ratio: auto;
+  border-radius: 16px;
   overflow: hidden;
   position: relative;
+  background: var(--warm);
 }
 
 .photo-gallery-desktop-grid .festival-gallery-img {
   width: 100%;
   height: 100% !important;
-  border-radius: 50%;
-  object-fit: cover !important;
+  border-radius: 16px;
+  object-fit: contain !important;
   display: block;
 }
 
 .photo-gallery-desktop-grid .photo-gallery-item-1 {
-  grid-column: 1;
-  grid-row: 1;
+  grid-column: auto;
+  grid-row: auto;
 }
 
 .photo-gallery-desktop-grid .photo-gallery-item-2 {
-  grid-column: 2;
-  grid-row: 1;
+  grid-column: auto;
+  grid-row: auto;
 }
 
 .photo-gallery-desktop-grid .photo-gallery-item-3 {
-  grid-column: 1;
-  grid-row: 2;
+  grid-column: auto;
+  grid-row: auto;
 }
 
 .photo-gallery-desktop-grid .photo-gallery-item-4 {
-  grid-column: 2;
-  grid-row: 2;
+  grid-column: auto;
+  grid-row: auto;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item-5 {
+  grid-column: auto;
+  grid-row: auto;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item-6 {
+  grid-column: auto;
+  grid-row: auto;
+}
+
+.photo-gallery-desktop-grid .photo-gallery-item-7 {
+  grid-column: auto;
+  grid-row: auto;
 }
 
 /* Consistent spacing rhythm across the page */
@@ -3888,5 +3904,309 @@ h2 {
 
   .care-leaver-stories-heading h2 {
     font-size: clamp(30px, 8vw, 40px);
+  }
+}
+
+/* 2026 experience, impact and community refinements */
+.hero-kicker {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 999px;
+  color: var(--white);
+  background: rgb(23 68 34 / 44%);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+.hero h1 {
+  margin-top: 22px;
+}
+
+.hero-secondary {
+  max-width: 760px;
+  color: rgb(255 255 255 / 92%);
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.65;
+  text-wrap: balance;
+}
+
+.about-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+  align-items: end;
+  gap: clamp(32px, 7vw, 84px);
+}
+
+.about-section .section-heading h2 {
+  margin-bottom: 0;
+}
+
+.about-copy {
+  padding: 20px 0 4px;
+  border-top: 1px solid var(--border);
+}
+
+.about-copy p {
+  margin: 0;
+  color: var(--secondary);
+  font-size: clamp(16px, 1.6vw, 18px);
+  line-height: 1.8;
+}
+
+.about-copy .about-lead {
+  margin-bottom: 16px;
+  color: var(--dark-green);
+  font-family: Manrope, sans-serif;
+  font-size: clamp(21px, 2.2vw, 26px);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.moment-day-card {
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+.moment-day-card:hover {
+  transform: translateY(-4px);
+  border-color: rgb(52 122 61 / 44%);
+  box-shadow: 0 16px 34px rgb(36 95 48 / 12%);
+}
+
+.festival-impact {
+  margin-top: clamp(64px, 8vw, 96px);
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--light-orange);
+}
+
+.festival-impact-heading {
+  display: grid;
+  justify-items: start;
+  max-width: 700px;
+  margin-bottom: 28px;
+}
+
+.festival-impact-heading h3 {
+  margin: 12px 0 0;
+  color: var(--deep-green);
+  font-size: clamp(28px, 3.6vw, 42px);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.festival-impact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.festival-impact-card {
+  min-height: 210px;
+  padding: 22px;
+  border: 1px solid rgb(255 138 69 / 28%);
+  border-radius: 16px;
+  background: rgb(255 252 248 / 92%);
+}
+
+.festival-impact-number {
+  display: block;
+  margin-bottom: 28px;
+  color: var(--orange-text);
+  font-family: Manrope, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.festival-impact-card h4 {
+  margin: 0 0 10px;
+  color: var(--deep-green);
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.25;
+}
+
+.festival-impact-card p {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.care-story-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: min(100%, 980px);
+  margin-inline: auto;
+}
+
+.care-story-theme {
+  min-height: 210px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--warm);
+  box-shadow: 0 8px 24px rgb(36 95 48 / 6%);
+}
+
+.care-story-theme-number {
+  display: block;
+  margin-bottom: 38px;
+  color: var(--orange-text);
+  font-family: Manrope, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.care-story-theme h3 {
+  margin: 0 0 9px;
+  color: var(--dark-green);
+  font-size: clamp(18px, 2vw, 22px);
+}
+
+.care-story-theme p {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.care-story-submit {
+  display: flex;
+  width: min(100%, 980px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 22px auto 0;
+  padding: 24px;
+  border-radius: 16px;
+  color: var(--white);
+  background: var(--deep-green);
+}
+
+.care-story-submit .section-kicker {
+  color: var(--light-orange);
+}
+
+.care-story-submit h3 {
+  margin: 8px 0 0;
+  color: var(--white);
+  font-size: clamp(20px, 2.4vw, 28px);
+}
+
+.community-organisations {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--warm);
+}
+
+.community-organisations-heading {
+  max-width: 760px;
+  margin-bottom: 28px;
+}
+
+.community-organisations-heading h2 {
+  margin: 14px 0 12px;
+  color: var(--dark-green);
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.08;
+}
+
+.community-organisations-heading p {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.community-organisations-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.community-organisation {
+  display: grid;
+  min-height: 86px;
+  place-items: center;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--dark-green);
+  background: var(--white);
+  font-family: Manrope, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  text-align: center;
+  box-shadow: 0 8px 20px rgb(36 95 48 / 5%);
+}
+
+@keyframes gentle-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-copy {
+  animation: gentle-rise .65s ease-out both;
+}
+
+.moment-day-card,
+.festival-impact-card,
+.care-story-theme,
+.community-organisation {
+  transition-duration: .22s;
+}
+
+@media (max-width: 760px) {
+  .about-section {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .about-copy {
+    padding-top: 16px;
+  }
+
+  .festival-impact {
+    margin-top: 52px;
+  }
+
+  .festival-impact-grid,
+  .care-story-theme-grid,
+  .community-organisations-list {
+    grid-template-columns: 1fr;
+  }
+
+  .festival-impact-card,
+  .care-story-theme {
+    min-height: 0;
+  }
+
+  .festival-impact-number,
+  .care-story-theme-number {
+    margin-bottom: 20px;
+  }
+
+  .care-story-submit {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .care-story-submit .button {
+    width: 100%;
   }
 }
