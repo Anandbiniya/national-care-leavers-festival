@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import FestivalChatbot from './components/FestivalChatbot';
-import CareLeaverStories from './components/CareLeaverStories';
 import VideoBites from './components/VideoBites';
 import { Gallery, GalleryImage } from './components/ui/shared-element-gallery';
 import anandBiniyaPhoto from './assets/care-leaders/Anand Biniya.png';
@@ -30,10 +29,32 @@ const festival = {
   title: 'National Care Leavers Festival',
 };
 
-const galleryPreviewPhotos = day1Photos.map((src, index) => ({
-  src,
-  alt: `National Care Leavers Festival Day 1 moment ${index + 1}.`,
-}));
+const galleryPreviewCount = 6;
+
+const day2PreviewPaths = [
+  '/day-2/DSC06956.JPG',
+  '/day-2/DSC06958.JPG',
+];
+
+const day3PreviewPaths = [
+  '/day-3/DSC07779.JPG',
+  '/day-3/DSC07389.JPG',
+];
+
+const galleryPreviewPhotos = day1Photos.slice(0, 2).flatMap((src, index) => [
+  {
+    src,
+    alt: `National Care Leavers Festival Day 1 moment ${index + 1}.`,
+  },
+  {
+    src: day2PreviewPaths[index],
+    alt: `National Care Leavers Festival Day 2 moment ${index + 1}.`,
+  },
+  {
+    src: day3PreviewPaths[index],
+    alt: `National Care Leavers Festival Day 3 moment ${index + 1}.`,
+  },
+]);
 
 const festivalWhatsAppChannel = 'https://whatsapp.com/channel/0029Vb8wWtGJP21BAIBQU322';
 const festivalEmail = '2026nclf@gmail.com';
@@ -107,8 +128,8 @@ const careLeaders = [
 
 const festivalMoments = [
   { date: '17 JANUARY · DAY 1', title: 'Heal and Connect', detail: 'Making space to laugh, share experiences and begin building trust through creative and systems-led activities.', photo: day1Photos[0] || festivalPhotos[0] },
-  { date: '18 JANUARY · DAY 2', title: 'Reconnect and Reflect', detail: 'Returning to shared memories, reconnecting with alumni and reflecting on the journeys that brought everyone together.', photo: day1Photos[1] || festivalPhotos[1] },
-  { date: '19 JANUARY · DAY 3', title: 'Graduate and Lead', detail: 'Celebrating the LIFT Fellowship journey and exploring how theatre, learning and leadership can create the next opportunity.', photo: day1Photos[2] || festivalPhotos[2] },
+  { date: '18 JANUARY · DAY 2', title: 'Reconnect and Reflect', detail: 'Returning to shared memories, reconnecting with alumni and reflecting on the journeys that brought everyone together.', photo: '/day-2/DSC06961.JPG' },
+  { date: '19 JANUARY · DAY 3', title: 'Graduate and Lead', detail: 'Celebrating the LIFT Fellowship journey and exploring how theatre, learning and leadership can create the next opportunity.', photo: '/day-3/DSC07389.JPG' },
   { date: '20 JANUARY · DAY 4', title: 'Speak to Policy', detail: 'Bringing care-experienced voices into a stakeholder conversation about aftercare and the future of support.', photo: day1Photos[3] || festivalPhotos[3] },
 ];
 
@@ -164,7 +185,6 @@ function Header() {
     ['Festival editions', '#festival-editions', 'festival-editions'],
     ['Gallery', '#festival-gallery', 'festival-gallery'],
     ['Care Leaders', '#care-leaders', 'care-leaders'],
-    ["Care Leavers' stories", '#care-leavers-stories', 'care-leavers-stories'],
     ['Join the Movement', '#join-the-movement', 'join-the-movement'],
   ];
 
@@ -303,7 +323,7 @@ function Edition2026() {
         <div className="edition-video" id="day-1-highlight">
           <video
             src="/Day%203%20highlight.mp4"
-            poster={day1Photos[4] || festivalPhotos[0]}
+            poster={day3PreviewPaths[0]}
             controls
             playsInline
             preload="metadata"
@@ -471,75 +491,59 @@ function CareLeaders() {
 }
 
 function PhotoGallery() {
-  const galleryRef = useRef(null);
-  const photoRefs = useRef([]);
   const [galleryPhotos, setGalleryPhotos] = useState([]);
+  const [galleryLoadError, setGalleryLoadError] = useState(false);
+  const [showAllPhotos, setShowAllPhotos] = useState(false);
+  const visiblePhotos = showAllPhotos
+    ? galleryPhotos
+    : galleryPhotos.slice(0, galleryPreviewCount);
 
   useEffect(() => {
     let active = true;
 
-    fetch('/day-1/manifest.json')
+    const loadManifest = (day) => fetch(`/${day}/manifest.json`)
       .then((response) => {
-        if (!response.ok) throw new Error('Could not load the Day 1 gallery.');
+        if (!response.ok) throw new Error(`Could not load the ${day} photo gallery.`);
         return response.json();
-      })
-      .then((names) => {
+      });
+
+    Promise.all([loadManifest('day-1'), loadManifest('day-2'), loadManifest('day-3')])
+      .then(([day1Names, day2Names, day3Names]) => {
         if (!active) return;
-        setGalleryPhotos(names.map((name, index) => ({
+        const day1GalleryPhotos = day1Names.map((name, index) => ({
           src: `/day-1/${encodeURIComponent(name)}`,
           alt: `National Care Leavers Festival Day 1 moment ${index + 1}.`,
-        })));
+        }));
+        const day2GalleryPhotos = day2Names.map((name, index) => ({
+          src: `/day-2/${encodeURIComponent(name)}`,
+          alt: `National Care Leavers Festival Day 2 moment ${index + 1}.`,
+        }));
+        const day3GalleryPhotos = day3Names.map((name, index) => ({
+          src: `/day-3/${encodeURIComponent(name)}`,
+          alt: `National Care Leavers Festival Day 3 moment ${index + 1}.`,
+        }));
+        const allGalleryPhotos = [];
+
+        for (let index = 0; index < Math.max(day1GalleryPhotos.length, day2GalleryPhotos.length, day3GalleryPhotos.length); index += 1) {
+          if (day1GalleryPhotos[index]) allGalleryPhotos.push(day1GalleryPhotos[index]);
+          if (day2GalleryPhotos[index]) allGalleryPhotos.push(day2GalleryPhotos[index]);
+          if (day3GalleryPhotos[index]) allGalleryPhotos.push(day3GalleryPhotos[index]);
+        }
+
+        setGalleryPhotos(allGalleryPhotos);
       })
-      .catch(() => {
-        if (active) setGalleryPhotos(galleryPreviewPhotos);
+      .catch((error) => {
+        console.error('Could not load the festival photo galleries.', error);
+        if (active) {
+          setGalleryPhotos(galleryPreviewPhotos);
+          setGalleryLoadError(true);
+        }
       });
 
     return () => {
       active = false;
     };
   }, []);
-
-  function updateActivePhoto() {
-    const gallery = galleryRef.current;
-    if (!gallery || !window.matchMedia('(max-width: 760px)').matches) return;
-
-    const activeIndex = photoRefs.current.reduce((closest, photo, index) => {
-      if (!photo) return closest;
-      const currentDistance = Math.abs(photo.offsetLeft - gallery.offsetLeft - gallery.scrollLeft);
-      const closestDistance = Math.abs(
-        photoRefs.current[closest].offsetLeft - gallery.offsetLeft - gallery.scrollLeft,
-      );
-      return currentDistance < closestDistance ? index : closest;
-    }, 0);
-    gallery.dataset.activeSlide = String(activeIndex);
-  }
-
-  useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      const gallery = galleryRef.current;
-      if (
-        !gallery ||
-        !window.matchMedia('(max-width: 760px)').matches ||
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-        document.hidden ||
-        gallery.matches(':focus-within') ||
-        (window.matchMedia('(hover: hover)').matches && gallery.matches(':hover'))
-      ) return;
-
-      const currentIndex = Number(gallery.dataset.activeSlide || 0);
-      const nextIndex = (currentIndex + 1) % galleryPhotos.length;
-      const nextPhoto = photoRefs.current[nextIndex];
-      if (!nextPhoto) return;
-
-      gallery.dataset.activeSlide = String(nextIndex);
-      gallery.scrollTo({
-        left: nextPhoto.offsetLeft - gallery.offsetLeft,
-        behavior: 'smooth',
-      });
-    }, 5000);
-
-    return () => window.clearInterval(intervalId);
-  }, [galleryPhotos.length]);
 
   return (
     <div className="photo-gallery" id="festival-gallery" aria-labelledby="photo-gallery-title">
@@ -548,74 +552,64 @@ function PhotoGallery() {
         <h3 id="photo-gallery-title">The people. The energy. <span>All together.</span></h3>
       </div>
 
-      {/* Desktop View: Shared Element Interactive Grid (1 big featured hero + 6 surrounding layout) */}
-      <div className="photo-gallery-desktop-view">
-        <Gallery>
-          <div className="photo-gallery-grid photo-gallery-desktop-grid">
-            {galleryPhotos.map((photo, index) => (
-              <GalleryImage
-                key={'desktop-photo-' + index}
-                id={'festival-photo-' + index}
-                src={photo.src}
-                alt={photo.alt}
-                className={'photo-gallery-item photo-gallery-item-' + (index + 1) + ' festival-gallery-thumb'}
-                imgClassName="festival-gallery-img"
-              />
+      <div id="festival-gallery-images">
+        {/* Desktop View: Shared Element Interactive Grid */}
+        <div className="photo-gallery-desktop-view">
+          <Gallery>
+            <div className="photo-gallery-grid photo-gallery-desktop-grid">
+              {visiblePhotos.map((photo, index) => (
+                <GalleryImage
+                  key={'desktop-photo-' + index}
+                  id={'festival-photo-' + index}
+                  src={photo.src}
+                  alt={photo.alt}
+                  className={'photo-gallery-item photo-gallery-item-' + (index + 1) + ' festival-gallery-thumb'}
+                  imgClassName="festival-gallery-img"
+                />
+              ))}
+            </div>
+          </Gallery>
+        </div>
+
+        {/* Mobile View: Responsive Image Grid */}
+        <div className="photo-gallery-mobile-view">
+          <div className="photo-gallery-grid" role="region" aria-label="National Care Leavers Festival photo gallery">
+            {visiblePhotos.map((photo, index) => (
+              <figure
+                className={'photo-gallery-item photo-gallery-item-' + (index + 1)}
+                key={photo.src}
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
             ))}
           </div>
-        </Gallery>
-      </div>
-
-      {/* Mobile View: Horizontal Auto-scrolling Gallery */}
-      <div className="photo-gallery-mobile-view">
-        <div className="photo-gallery-grid" ref={galleryRef} onScroll={updateActivePhoto} role="region" aria-label="National Care Leavers Festival photo gallery">
-          {galleryPhotos.map((photo, index) => (
-            <figure
-              className={'photo-gallery-item photo-gallery-item-' + (index + 1)}
-              key={photo.src}
-              ref={(element) => { photoRefs.current[index] = element; }}
-            >
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                loading="lazy"
-                decoding="async"
-              />
-            </figure>
-          ))}
         </div>
       </div>
+
+      {galleryPhotos.length > galleryPreviewCount && (
+        <div className="photo-gallery-actions">
+          <button
+            type="button"
+            className="button button-primary"
+            aria-controls="festival-gallery-images"
+            aria-expanded={showAllPhotos}
+            onClick={() => setShowAllPhotos((showingAll) => !showingAll)}
+          >
+            {showAllPhotos ? 'Show Fewer Images' : 'View All Images'}
+          </button>
+        </div>
+      )}
+      {galleryLoadError && (
+        <p className="photo-gallery-error" role="alert">
+          Some festival photos could not be loaded. Please refresh to try again.
+        </p>
+      )}
     </div>
-  );
-}
-
-function CommunityOrganisations() {
-  const organisations = [
-    'Udayan Care',
-    'IFACET, IIT Kanpur',
-    'FiT',
-    'A.R.T.',
-    'IGNOU',
-    'South Asian Fellowship',
-  ];
-
-  return (
-    <section className="community-organisations section-space" aria-labelledby="community-organisations-title">
-      <div className="section-wrap">
-        <header className="community-organisations-heading">
-          <span className="section-kicker">Community connections</span>
-          <h2 id="community-organisations-title">Organisations represented in the movement</h2>
-          <p>
-            The people behind the movement bring experience from organisations across care, education, advocacy and community development.
-          </p>
-        </header>
-        <div className="community-organisations-list" aria-label="Organisations represented by Care Leaders">
-          {organisations.map((organisation) => (
-            <span className="community-organisation" key={organisation}>{organisation}</span>
-          ))}
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -684,7 +678,6 @@ function Footer() {
             <a href="#home">Home</a>
             <a href="#festival-editions">Festival editions</a>
             <a href="#care-leaders">Care Leaders</a>
-            <a href="#care-leavers-stories">Care Leavers' stories</a>
             <a href="#join-the-movement">Join the Movement</a>
           </div>
           <div className="footer-links">
@@ -730,8 +723,6 @@ function App() {
         </div>
         <CareLeaders />
         <VideoBites />
-        <CareLeaverStories />
-        <CommunityOrganisations />
         <GetInvolved />
       </main>
       <Footer />

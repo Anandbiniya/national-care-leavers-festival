@@ -2044,23 +2044,17 @@ h2 {
   }
 
   .photo-gallery-grid {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
     gap: 12px;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .photo-gallery-grid::-webkit-scrollbar {
-    display: none;
+    overflow: visible;
   }
 
   .photo-gallery-item {
-    flex: 0 0 90%;
     aspect-ratio: 4 / 3;
-    scroll-snap-align: start;
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .day-card {
@@ -3276,10 +3270,24 @@ h2 {
 .photo-gallery-desktop-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: none;
   grid-auto-rows: clamp(180px, 22vw, 260px);
   gap: clamp(12px, 2vw, 24px);
   width: min(100%, 920px);
   margin-inline: auto;
+}
+
+.photo-gallery-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.photo-gallery-error {
+  margin: 16px 0 0;
+  color: var(--orange-text);
+  font-weight: 700;
+  text-align: center;
 }
 
 .photo-gallery-desktop-grid .photo-gallery-item {
@@ -3771,82 +3779,6 @@ h2 {
   line-height: 1.7;
 }
 
-/* Care Leavers' Stories */
-.care-leaver-stories-section {
-  background: var(--white);
-}
-
-.care-leaver-stories-heading {
-  max-width: 820px;
-  margin: 0 auto 30px;
-  text-align: center;
-}
-
-.care-leaver-stories-heading h2 {
-  margin: 15px 0 12px;
-  color: var(--dark-green);
-  font-size: clamp(36px, 4.5vw, 54px);
-  font-weight: 800;
-  line-height: 1.06;
-  text-wrap: balance;
-}
-
-.care-leaver-stories-heading p {
-  margin: 0;
-  color: var(--secondary);
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.care-story-placeholder {
-  width: min(100%, 820px);
-  margin-inline: auto;
-  padding: clamp(24px, 4vw, 42px);
-  border: 1px dashed var(--green);
-  border-left: 4px solid var(--orange);
-  border-radius: 18px;
-  background: var(--warm);
-  box-shadow: var(--shadow-card);
-  text-align: center;
-}
-
-.care-story-placeholder-label {
-  display: inline-flex;
-  padding: 6px 11px;
-  border-radius: 999px;
-  color: var(--orange-text);
-  background: var(--light-orange);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .08em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.care-story-placeholder h3 {
-  margin: 16px 0 8px;
-  color: var(--dark-green);
-  font-size: clamp(22px, 3vw, 30px);
-  font-weight: 800;
-  line-height: 1.2;
-}
-
-.care-story-placeholder p {
-  margin: 0;
-  color: var(--secondary);
-  font-size: 15px;
-  line-height: 1.7;
-}
-
-.care-story-placeholder-attribution {
-  display: block;
-  margin-top: 16px;
-  color: var(--dark-green);
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.5;
-}
-
 @media (max-width: 960px) {
   .video-bites-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3897,14 +3829,6 @@ h2 {
     padding: 14px 16px 18px;
   }
 
-  .care-leaver-stories-heading {
-    margin-bottom: 24px;
-    text-align: left;
-  }
-
-  .care-leaver-stories-heading h2 {
-    font-size: clamp(30px, 8vw, 40px);
-  }
 }
 
 /* 2026 experience, impact and community refinements */
@@ -4039,116 +3963,6 @@ h2 {
   line-height: 1.65;
 }
 
-.care-story-theme-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  width: min(100%, 980px);
-  margin-inline: auto;
-}
-
-.care-story-theme {
-  min-height: 210px;
-  padding: 24px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--warm);
-  box-shadow: 0 8px 24px rgb(36 95 48 / 6%);
-}
-
-.care-story-theme-number {
-  display: block;
-  margin-bottom: 38px;
-  color: var(--orange-text);
-  font-family: Manrope, sans-serif;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: .12em;
-}
-
-.care-story-theme h3 {
-  margin: 0 0 9px;
-  color: var(--dark-green);
-  font-size: clamp(18px, 2vw, 22px);
-}
-
-.care-story-theme p {
-  margin: 0;
-  color: var(--secondary);
-  font-size: 14px;
-  line-height: 1.65;
-}
-
-.care-story-submit {
-  display: flex;
-  width: min(100%, 980px);
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  margin: 22px auto 0;
-  padding: 24px;
-  border-radius: 16px;
-  color: var(--white);
-  background: var(--deep-green);
-}
-
-.care-story-submit .section-kicker {
-  color: var(--light-orange);
-}
-
-.care-story-submit h3 {
-  margin: 8px 0 0;
-  color: var(--white);
-  font-size: clamp(20px, 2.4vw, 28px);
-}
-
-.community-organisations {
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--warm);
-}
-
-.community-organisations-heading {
-  max-width: 760px;
-  margin-bottom: 28px;
-}
-
-.community-organisations-heading h2 {
-  margin: 14px 0 12px;
-  color: var(--dark-green);
-  font-size: clamp(32px, 4vw, 48px);
-  line-height: 1.08;
-}
-
-.community-organisations-heading p {
-  margin: 0;
-  color: var(--secondary);
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.community-organisations-list {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.community-organisation {
-  display: grid;
-  min-height: 86px;
-  place-items: center;
-  padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--dark-green);
-  background: var(--white);
-  font-family: Manrope, sans-serif;
-  font-size: 15px;
-  font-weight: 800;
-  text-align: center;
-  box-shadow: 0 8px 20px rgb(36 95 48 / 5%);
-}
-
 @keyframes gentle-rise {
   from {
     opacity: 0;
@@ -4165,9 +3979,7 @@ h2 {
 }
 
 .moment-day-card,
-.festival-impact-card,
-.care-story-theme,
-.community-organisation {
+.festival-impact-card {
   transition-duration: .22s;
 }
 
@@ -4185,28 +3997,15 @@ h2 {
     margin-top: 52px;
   }
 
-  .festival-impact-grid,
-  .care-story-theme-grid,
-  .community-organisations-list {
+  .festival-impact-grid {
     grid-template-columns: 1fr;
   }
 
-  .festival-impact-card,
-  .care-story-theme {
+  .festival-impact-card {
     min-height: 0;
   }
 
-  .festival-impact-number,
-  .care-story-theme-number {
+  .festival-impact-number {
     margin-bottom: 20px;
-  }
-
-  .care-story-submit {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .care-story-submit .button {
-    width: 100%;
   }
 }
