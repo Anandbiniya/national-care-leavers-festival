@@ -11,7 +11,8 @@ export default function BrandVideoPlayer({
   src,
   poster,
   title = 'Festival video',
-  autoPlayOnVisible = true,
+  autoPlayOnVisible = false,
+  playerId = 'featured-2026',
   className = '',
 }) {
   const wrapRef = useRef(null);
@@ -22,7 +23,7 @@ export default function BrandVideoPlayer({
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [isFull, setIsFull] = useState(false);
   const [canPip, setCanPip] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
@@ -42,16 +43,24 @@ export default function BrandVideoPlayer({
     const v = videoRef.current;
     if (!v) return;
     if (v.paused) {
-      if (isMuted && !hasStarted) {
-        v.muted = false;
-        setIsMuted(false);
-      }
+      v.muted = isMuted;
+      window.dispatchEvent(new CustomEvent('nclf:video-play', { detail: { sourceId: playerId } }));
       v.play().catch(() => {});
     } else {
       v.pause();
     }
     wakeControls();
-  }, [isMuted, hasStarted, wakeControls]);
+  }, [isMuted, playerId, wakeControls]);
+
+  useEffect(() => {
+    const handleGlobalPlay = (event) => {
+      if (event.detail?.sourceId !== playerId && videoRef.current && !videoRef.current.paused) {
+        videoRef.current.pause();
+      }
+    };
+    window.addEventListener('nclf:video-play', handleGlobalPlay);
+    return () => window.removeEventListener('nclf:video-play', handleGlobalPlay);
+  }, [playerId]);
 
   const toggleMute = () => {
     const v = videoRef.current;

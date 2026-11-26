@@ -3,11 +3,12 @@ import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 
-// --- Types ---
 export interface ImageData {
   id: string
   src: string
   alt?: string
+  width?: number
+  height?: number
 }
 
 interface GalleryContextType {
@@ -17,24 +18,9 @@ interface GalleryContextType {
 
 const GalleryContext = React.createContext<GalleryContextType | null>(null)
 
-// --- Physics ---
-const spring = {
-  type: "spring",
-  stiffness: 350,
-  damping: 35,
-  mass: 1,
-}
-
-// --- Components ---
-
-/**
- * Root Gallery Provider
- * Manages the state of the expanded image and renders the Modal.
- */
 export function Gallery({ children }: { children: React.ReactNode }) {
   const [selectedImage, setSelectedImage] = React.useState<ImageData | null>(null)
 
-  // Lock body scroll when modal is open
   React.useEffect(() => {
     if (selectedImage) {
       document.body.style.overflow = "hidden"
@@ -54,9 +40,6 @@ export function Gallery({ children }: { children: React.ReactNode }) {
   )
 }
 
-/**
- * Responsive Masonry Grid
- */
 export function GalleryGrid({
   children,
   className,
@@ -76,9 +59,6 @@ export function GalleryGrid({
   )
 }
 
-/**
- * Individual Gallery Image Thumbnail
- */
 export function GalleryImage({
   src,
   alt,
@@ -93,52 +73,41 @@ export function GalleryImage({
   imgClassName?: string
 }) {
   const context = React.useContext(GalleryContext)
+  const [isPortrait, setIsPortrait] = React.useState(false)
   if (!context) throw new Error("GalleryImage must be used within a Gallery")
-
   return (
-    <motion.button
+    <button
       type="button"
-      whileHover="hover"
-      whileTap="tap"
+      data-orientation={isPortrait ? "portrait" : "landscape"}
       aria-label={`View image: ${alt || "Festival gallery image"}`}
       className={cn(
         "relative cursor-zoom-in rounded-xl overflow-hidden",
         className
       )}
-      style={{ display: "block", width: "100%", padding: 0, border: 0, background: "transparent", textAlign: "left" }}
-      onClick={() => context.setSelectedImage({ id, src, alt })}
+      style={{ display: "block", width: "100%", padding: 0, border: 0, textAlign: "left" }}
+      onClick={() => context.setSelectedImage({
+        id,
+        src,
+        alt,
+      })}
     >
-      <motion.img
-        layoutId={`image-${id}`}
+      <img
         src={src}
         alt={alt || "Gallery Image"}
         loading="lazy"
         decoding="async"
-        className={cn("w-full h-auto object-cover rounded-xl", imgClassName)}
-        variants={{
-          hover: { scale: 0.985 },
-          tap: { scale: 0.96 },
+        onLoad={(event) => {
+          const img = event.currentTarget
+          if (img.naturalHeight > img.naturalWidth) {
+            setIsPortrait(true)
+          }
         }}
-        transition={spring}
+        className={cn("w-full h-full rounded-xl", isPortrait ? "object-contain" : "object-cover", imgClassName)}
       />
-      
-      {/* Subtle hover overlay for premium feel */}
-      <motion.div
-        variants={{
-          hover: { opacity: 1 },
-          tap: { opacity: 1 },
-        }}
-        initial={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/10 pointer-events-none rounded-xl"
-        transition={{ duration: 0.2 }}
-      />
-    </motion.button>
+    </button>
   )
 }
 
-/**
- * Expanded View Modal with Drag-to-Dismiss
- */
 function GalleryModal() {
   const context = React.useContext(GalleryContext)
   if (!context) return null
@@ -179,51 +148,37 @@ function GalleryModal() {
           aria-modal="true"
           aria-label="Festival photo viewer"
         >
-          {/* Frosted glass backdrop */}
           <motion.div
             aria-hidden="true"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
             className="absolute inset-0 bg-black/80 backdrop-blur-2xl"
             style={{ cursor: "pointer" }}
             onClick={() => setSelectedImage(null)}
           />
 
-          {/* Interactive container for drag gesture */}
           <motion.div
             className="relative z-10 w-full h-full flex items-center justify-center cursor-zoom-out"
-            drag="y"
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={0.8}
-            onDragEnd={(e, info) => {
-              // Dismiss if dragged far enough or fast enough
-              if (
-                Math.abs(info.offset.y) > 100 ||
-                Math.abs(info.velocity.y) > 300
-              ) {
-                setSelectedImage(null)
-              }
-            }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.22 }}
+            onClick={() => setSelectedImage(null)}
           >
-            {/* The Shared Element */}
-            <motion.img
-              layoutId={`image-${selectedImage.id}`}
+            <img
               src={selectedImage.src}
               alt={selectedImage.alt || "Selected gallery image"}
-              className="w-auto h-auto max-w-[95vw] max-h-[90vh] rounded-xl shadow-2xl object-contain will-change-transform"
-              draggable={false} // Prevent native drag to allow framer-motion drag
-              transition={spring}
+              width={selectedImage.width}
+              height={selectedImage.height}
+              className="w-auto h-auto max-w-[95vw] max-h-[90vh] rounded-xl shadow-2xl object-contain"
+              draggable={false}
+              onClick={(e) => e.stopPropagation()}
             />
           </motion.div>
 
-          {/* Close Button */}
-          <motion.button
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ delay: 0.1, duration: 0.2 }}
+          <button
             className="absolute top-6 right-6 z-50 p-2.5 bg-white/10 text-white rounded-full backdrop-blur-md hover:bg-white/20 transition-colors"
             type="button"
             ref={closeButtonRef}
@@ -231,7 +186,7 @@ function GalleryModal() {
             onClick={() => setSelectedImage(null)}
           >
             <X className="w-5 h-5" />
-          </motion.button>
+          </button>
         </div>
       )}
     </AnimatePresence>

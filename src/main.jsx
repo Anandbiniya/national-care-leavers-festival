@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { HeartHandshake, Megaphone, Sparkles } from 'lucide-react';
 import FestivalChatbot from './components/FestivalChatbot';
 import VideoBites from './components/VideoBites';
 import { Gallery, GalleryImage } from './components/ui/shared-element-gallery';
@@ -29,7 +30,39 @@ const festival = {
   title: 'National Care Leavers Festival',
 };
 
-const galleryPreviewCount = 6;
+const galleryPreviewCount = 4;
+const excludedGalleryPhotoPaths = new Set([
+  '/day-1/DSC05551.JPG',
+  '/day-3/DSC07779.JPG',
+]);
+const heroIllustrations = [
+  {
+    src: '/youth-community-hero-v2.png',
+    alt: 'A diverse group of young people cooking together, sharing ideas and celebrating their community.',
+  },
+  {
+    src: '/youth-community-hero.png',
+    alt: 'A diverse group of young people listening, sharing ideas and supporting one another.',
+  },
+];
+
+const aboutPillars = [
+  {
+    icon: HeartHandshake,
+    title: 'Belonging and connection',
+    description: 'Building trusted spaces, lasting friendships and peer support beyond care.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Opportunities and leadership',
+    description: 'Growing skills, leadership and community-led opportunities from lived experience.',
+  },
+  {
+    icon: Megaphone,
+    title: 'Care-experienced voices shaping change',
+    description: 'Helping young people shape decisions about care, dignity and aftercare.',
+  },
+];
 
 const day2PreviewPaths = [
   '/day-2/DSC06956.JPG',
@@ -41,20 +74,12 @@ const day3PreviewPaths = [
   '/day-3/DSC07389.JPG',
 ];
 
-const galleryPreviewPhotos = day1Photos.slice(0, 2).flatMap((src, index) => [
-  {
-    src,
-    alt: `National Care Leavers Festival Day 1 moment ${index + 1}.`,
-  },
-  {
-    src: day2PreviewPaths[index],
-    alt: `National Care Leavers Festival Day 2 moment ${index + 1}.`,
-  },
-  {
-    src: day3PreviewPaths[index],
-    alt: `National Care Leavers Festival Day 3 moment ${index + 1}.`,
-  },
-]);
+const galleryPreviewPhotos = [
+  { src: day2PreviewPaths[0], alt: 'National Care Leavers Festival Day 2 moment 1.' },
+  { src: day1Photos[1], alt: 'National Care Leavers Festival Day 1 moment 2.' },
+  { src: day2PreviewPaths[1], alt: 'National Care Leavers Festival Day 2 moment 2.' },
+  { src: day3PreviewPaths[1], alt: 'National Care Leavers Festival Day 3 moment 2.' },
+];
 
 const festivalWhatsAppChannel = 'https://whatsapp.com/channel/0029Vb8wWtGJP21BAIBQU322';
 const festivalEmail = '2026nclf@gmail.com';
@@ -68,13 +93,6 @@ const socialLinks = [
 ];
 
 const careLeaders = [
-  {
-    name: 'Anand Biniya',
-    designation: 'Associate Product & Operations Manager · IFACET, IIT Kanpur Foundation for Advanced Technology',
-    summary: 'Anand Biniya is a care leaver, community builder and technology enthusiast passionate about creating opportunities for care-experienced young people.',
-    biography: 'Anand Biniya is a care leaver, community builder and technology enthusiast passionate about creating opportunities for care-experienced young people. Drawing from his lived experience of institutional care, he actively works towards strengthening support systems, promoting youth participation and creating inclusive spaces for care leavers. With a background in technology, product development and operations, he brings together social impact and digital innovation to address challenges faced by young people transitioning out of institutional care. He believes in the power of lived experiences, collective action and leadership in shaping a future where every care leaver has the opportunity to thrive.',
-    photo: anandBiniyaPhoto,
-  },
   {
     name: 'Jimadi Das',
     designation: 'Outreach Worker · FiT, Udayan Care',
@@ -90,14 +108,35 @@ const careLeaders = [
     photo: '/care-leaders/masooma.png',
   },
   {
+    name: 'Summi Munir',
+    designation: 'Counsellor · FiT, Udayan Care',
+    summary: 'A psychology professional passionate about social work and community well-being, dedicated to empowering families and nurturing individuals’ emotional and social growth.',
+    biography: 'A psychology professional passionate about social work and community well-being, dedicated to empowering families and nurturing individuals’ emotional and social growth. Working for a social cause gives my journey purpose and brings out my best.',
+    photo: '/care-leaders/summi-munir-updated.png',
+  },
+  {
+    name: 'Surja',
+    designation: 'Programme Coordinator, AOP (Delhi) & GCLC Secretariat \u00B7 A.R.T., Udayan Care',
+    summary: 'A passionate advocate with three years of experience supporting care-experienced youth and care leavers.',
+    biography: 'A passionate advocate with three years of experience supporting care-experienced youth and care leavers. I believe in the power of participation, empathy and initiative. I love connecting with people, managing impactful projects and sharing real stories through my blog. My goal is to create safe spaces where care leavers can speak up, be heard and shape their own futures.',
+    photo: '/care-leaders/surja.png',
+  },
+  {
     name: 'Rajkumar Sharma',
-    designation: 'Assistant Programme Coordinator, National LIFT for Care Leavers · A.R.T., Udayan Care; Global Fellow, South Asian Fellowship; Bachelor of Social Work student, IGNOU',
+    designation: 'Assistant Programme Coordinator, National LIFT for Care Leavers \u00B7 A.R.T., Udayan Care',
     summary: 'India’s first openly transgender woman with lived care experience, empowering care leavers to embrace their identities, drive change and lead a national Care Leaders’ project.',
     biography: 'India’s first openly transgender woman with lived care experience, empowering care leavers to embrace their identities, drive change and lead a national Care Leaders’ project.',
     photo: '/care-leaders/rajkumar-sharma.png',
   },
   {
-    name: 'Shakul Ali',
+    name: 'Anand Biniya',
+    designation: 'Associate Product & Operations Manager \u2013 IFACET, IIT Kanpur',
+    summary: 'Anand Biniya is a community builder and technology enthusiast passionate about creating opportunities for young people.',
+    biography: 'Anand Biniya is a community builder and technology enthusiast passionate about creating opportunities for young people. With a background in technology, product development and operations, he brings together digital innovation and social impact to address challenges faced by young people transitioning into independent adulthood.\n\nHe is interested in strengthening support systems, promoting youth participation and creating inclusive spaces where young people can connect, learn and grow. Through his work and community engagement, he believes in the power of lived experiences, collective action and youth leadership to create meaningful and lasting change.',
+    photo: anandBiniyaPhoto,
+  },
+  {
+    name: 'Shakur Ali',
     designation: 'Community Mobiliser · FiT, Udayan Care',
     summary: 'Currently pursuing a Bachelor of Social Work (BSW), building a strong foundation in social work principles, community development and human behaviour.',
     biography: 'Currently pursuing a Bachelor of Social Work (BSW), building a strong foundation in social work principles, community development and human behaviour. My studies are shaping my ability to understand individual and family needs and respond with empathy and practical support. I am eager to apply what I have learned in real-world settings and contribute to meaningful social change.',
@@ -109,27 +148,13 @@ const careLeaders = [
     summary: 'Works closely with communities and young people, learning from their stories and experiences and building positive connections.',
     biography: 'Work closely with communities and young people, and I enjoy every part of it. Their stories and experiences have taught me valuable lessons that have helped me grow personally and professionally. I love meeting new people, building connections, and learning from others, because every interaction is a chance to learn something new and make a positive difference in society.',
     photo: '/care-leaders/sohail.png',
-  },
-  {
-    name: 'Summi Munir',
-    designation: 'Counsellor · FiT, Udayan Care',
-    summary: 'A psychology professional passionate about social work and community well-being, dedicated to empowering families and nurturing individuals’ emotional and social growth.',
-    biography: 'A psychology professional passionate about social work and community well-being, dedicated to empowering families and nurturing individuals’ emotional and social growth. Working for a social cause gives my journey purpose and brings out my best.',
-    photo: '/care-leaders/summi-munir-updated.png',
-  },
-  {
-    name: 'Surja',
-    designation: 'Programme Coordinator, AOP (Delhi) & GCLC Secretariat · A.R.T., Udayan Care; Journalism & Mass Communication student, IGNOU',
-    summary: 'A passionate advocate with three years of experience supporting care-experienced youth and care leavers.',
-    biography: 'A passionate advocate with three years of experience supporting care-experienced youth and care leavers. I believe in the power of participation, empathy and initiative. I love connecting with people, managing impactful projects and sharing real stories through my blog. My goal is to create safe spaces where care leavers can speak up, be heard and shape their own futures.',
-    photo: '/care-leaders/surja.png',
-  },
+  }
 ];
 
 const festivalMoments = [
   { date: '17 JANUARY · DAY 1', title: 'Heal and Connect', detail: 'Making space to laugh, share experiences and begin building trust through creative and systems-led activities.', photo: day1Photos[0] || festivalPhotos[0] },
   { date: '18 JANUARY · DAY 2', title: 'Reconnect and Reflect', detail: 'Returning to shared memories, reconnecting with alumni and reflecting on the journeys that brought everyone together.', photo: '/day-2/DSC06961.JPG' },
-  { date: '19 JANUARY · DAY 3', title: 'Graduate and Lead', detail: 'Celebrating the LIFT Fellowship journey and exploring how theatre, learning and leadership can create the next opportunity.', photo: '/day-3/DSC07389.JPG' },
+  { date: '19 JANUARY · DAY 3', title: 'Graduate and Lead', detail: 'Celebrating the LIFT Fellowship journey and exploring how theatre, learning and leadership can create the next opportunity.', photo: '/day-3/DSC07451.JPG' },
   { date: '20 JANUARY · DAY 4', title: 'Speak to Policy', detail: 'Bringing care-experienced voices into a stakeholder conversation about aftercare and the future of support.', photo: day1Photos[3] || festivalPhotos[3] },
 ];
 
@@ -254,6 +279,34 @@ function Header() {
   );
 }
 
+function useSectionHeadingReveal(ref) {
+  useEffect(() => {
+    const heading = ref.current;
+    if (!heading || !('IntersectionObserver' in window)
+      || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    const items = [...heading.querySelectorAll('.section-kicker, h2, h3, p')];
+    if (!items.length) return undefined;
+
+    try {
+    items.forEach((item, index) => {
+      item.style.setProperty('--section-heading-order', index);
+      item.classList.add('section-heading-reveal-ready');
+    });
+      const observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        items.forEach((item) => item.classList.add('section-heading-reveal-visible'));
+        observer.disconnect();
+      }, { threshold: 0.15, rootMargin: '0px 0px -20px 0px' });
+      observer.observe(heading);
+      return () => observer.disconnect();
+    } catch {
+      items.forEach((item) => item.classList.remove('section-heading-reveal-ready', 'section-heading-reveal-visible'));
+      return undefined;
+    }
+  }, [ref]);
+}
+
 function Hero() {
   return (
     <section
@@ -261,14 +314,9 @@ function Hero() {
       id="home"
       aria-labelledby="hero-title"
     >
-      <img
-        className="hero-background-image"
-        src={day1Photos[0] || festivalPhotos[0]}
-        alt=""
-        aria-hidden="true"
-        fetchpriority="high"
-        decoding="async"
-      />
+      <picture className="hero-background-picture">
+        <img className="hero-background-image" src={festivalPhotos[6]} alt="" aria-hidden="true" fetchPriority="high" decoding="async" />
+      </picture>
       <div className="hero-copy">
         <span className="hero-kicker">National Care Leavers Festival</span>
         <h1 id="hero-title">A movement led by<br /><span>care-experienced youth.</span></h1>
@@ -288,30 +336,227 @@ function Hero() {
   );
 }
 
-function About() {
+function MovementHeroPreview() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [activeIllustration, setActiveIllustration] = useState(0);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const previewRef = useRef(null);
+
+  useEffect(() => {
+    const preview = previewRef.current;
+    if (!preview || !('IntersectionObserver' in window)) {
+      setIsVisible(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.2 });
+    observer.observe(preview);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMotionPreference = () => setPrefersReducedMotion(motionPreference.matches);
+    updateMotionPreference();
+    if (motionPreference.addEventListener) motionPreference.addEventListener('change', updateMotionPreference);
+    else motionPreference.addListener?.(updateMotionPreference);
+    return () => {
+      if (motionPreference.removeEventListener) motionPreference.removeEventListener('change', updateMotionPreference);
+      else motionPreference.removeListener?.(updateMotionPreference);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible || prefersReducedMotion) return undefined;
+
+    let rotationTimer;
+    const startRotation = () => {
+      window.clearInterval(rotationTimer);
+      if (document.visibilityState !== 'visible') return;
+      rotationTimer = window.setInterval(() => {
+        setActiveIllustration((current) => (current + 1) % heroIllustrations.length);
+      }, 5000);
+    };
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') window.clearInterval(rotationTimer);
+      else startRotation();
+    };
+
+    startRotation();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      window.clearInterval(rotationTimer);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [isVisible, prefersReducedMotion]);
+
   return (
-    <section className="about-section section-wrap section-space" id="about">
-      <div className="section-heading">
-        <span className="section-kicker">First of its kind festival for Care Leavers</span>
-        <h2>More than an event.<br /><span>A movement.</span></h2>
-      </div>
-      <div className="about-copy">
-        <p className="about-lead">
-          The movement exists because care-experienced young people deserve to be seen, heard and recognised as leaders—not only as beneficiaries of change.
-        </p>
-        <p>
-          It brings lived experience into everyday action: building belonging, strengthening friendships, creating opportunities and challenging the systems that shape life after care.
-        </p>
+    <section className="movement-hero-preview-section" id="home" aria-labelledby="movement-hero-kicker">
+      <div ref={previewRef} className={`movement-hero-preview${isVisible ? ' is-visible' : ''}`}>
+        <div className="movement-hero-shape movement-hero-shape-one" aria-hidden="true" />
+        <div className="movement-hero-shape movement-hero-shape-two" aria-hidden="true" />
+        <div className="movement-hero-layout">
+          <div className="movement-hero-copy">
+            <h2 className="movement-hero-title">
+              <span className="movement-hero-title-line movement-hero-title-first">A movement led by</span>
+              <span className="movement-hero-title-line movement-hero-title-second">care-experienced youth.</span>
+            </h2>
+            <p className="movement-hero-description">
+              We exist. Our voices matter. Together, we are creating belonging, opportunity and a future shaped by care-experienced leadership.
+            </p>
+            <div className="movement-hero-actions">
+              <a className="button button-primary movement-hero-cta movement-hero-cta-one" href="#about">Explore the Movement</a>
+              <a className="button button-quiet movement-hero-secondary-button movement-hero-cta movement-hero-cta-two" href="#day-1-highlight">Watch Our Journey</a>
+            </div>
+          </div>
+          <div className="movement-hero-art">
+            <span className="movement-hero-kicker movement-hero-art-kicker" id="movement-hero-kicker">
+              NATIONAL CARE LEAVERS FESTIVAL
+            </span>
+            <div className="movement-hero-art-stage">
+              <svg className="movement-hero-connections" viewBox="0 0 620 540" fill="none" aria-hidden="true">
+                <path className="movement-connection-path path-one" pathLength="1" d="M72 118 C168 86 228 168 306 156 S443 113 538 177" />
+                <path className="movement-connection-path path-two" pathLength="1" d="M44 310 C150 258 207 334 304 290 S447 251 576 335" />
+                <path className="movement-connection-path path-three" pathLength="1" d="M124 452 C205 398 268 422 333 384 S464 401 532 454" />
+                <circle className="movement-connection-point point-one" cx="72" cy="118" r="7" />
+                <circle className="movement-connection-point point-two" cx="306" cy="156" r="6" />
+                <circle className="movement-connection-point point-three" cx="538" cy="177" r="8" />
+                <circle className="movement-connection-point point-four" cx="44" cy="310" r="6" />
+                <circle className="movement-connection-point point-five" cx="304" cy="290" r="8" />
+                <circle className="movement-connection-point point-six" cx="576" cy="335" r="6" />
+                <circle className="movement-connection-point point-seven" cx="124" cy="452" r="8" />
+                <circle className="movement-connection-point point-eight" cx="532" cy="454" r="7" />
+              </svg>
+              {heroIllustrations.map((illustration, index) => (
+                <img
+                  className={`movement-hero-illustration${activeIllustration === index ? ' is-active' : ''}`}
+                  key={illustration.src}
+                  src={illustration.src}
+                  width="1536"
+                  height="1024"
+                  alt={activeIllustration === index ? illustration.alt : ''}
+                  aria-hidden={activeIllustration !== index}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
+function About() {
+  const aboutRef = useRef(null);
+
+  useEffect(() => {
+    const section = aboutRef.current;
+    if (!section || !('IntersectionObserver' in window)
+      || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    const revealItems = section.querySelectorAll(
+      '.section-heading .section-kicker, .section-heading h2, .about-copy, .about-pillar, .about-media img, .about-media figcaption',
+    );
+    let observer;
+    const fallbackTimers = new Map();
+
+    try {
+      observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const item = entry.target;
+          const finishAnimation = () => {
+            window.clearTimeout(fallbackTimers.get(item));
+            fallbackTimers.delete(item);
+          };
+          item.addEventListener('animationend', finishAnimation, { once: true });
+          item.classList.add('about-reveal-visible');
+          fallbackTimers.set(item, window.setTimeout(() => {
+            item.removeEventListener('animationend', finishAnimation);
+            item.classList.add('about-reveal-fallback');
+          }, 3000));
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -24px 0px' });
+
+      revealItems.forEach((item) => observer.observe(item));
+      revealItems.forEach((item) => item.classList.add('about-reveal-ready'));
+    } catch {
+      observer?.disconnect();
+      fallbackTimers.forEach((timer) => window.clearTimeout(timer));
+      revealItems.forEach((item) => item.classList.remove('about-reveal-ready', 'about-reveal-visible'));
+      return undefined;
+    }
+
+    return () => {
+      observer.disconnect();
+      fallbackTimers.forEach((timer) => window.clearTimeout(timer));
+    };
+  }, []);
+
+  return (
+    <section ref={aboutRef} className="about-section section-wrap section-space" id="about" aria-labelledby="about-title">
+      <div className="about-left">
+        <div className="section-heading">
+          <span className="section-kicker">First of its kind festival for Care Leavers</span>
+          <h2 id="about-title">
+            More than an event.<br />
+            <span>A movement.</span>
+          </h2>
+        </div>
+        <div className="about-copy">
+          <p className="about-lead">
+            Care-experienced young people deserve recognition as leaders, with real influence over decisions that shape their lives.
+          </p>
+          <p>
+            The movement turns lived experience into action: building connection and opportunity while challenging barriers after care.
+          </p>
+        </div>
+        <ul className="about-pillars" aria-label="Core ideas of the movement">
+          {aboutPillars.map(({ icon: PillarIcon, title, description }) => (
+            <li className="about-pillar" key={title}>
+              <span className="about-pillar-icon" aria-hidden="true">
+                <PillarIcon size={18} strokeWidth={2} />
+              </span>
+              <div>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <figure className="about-media">
+        <img
+          src="/day-2/DSC07150.JPG"
+          alt="Care-experienced young people gathered in conversation around a shared chart during the 2026 festival"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>
+          Lived experience guiding reflection, leadership and community action at the 2026 edition.
+        </figcaption>
+      </figure>
+    </section>
+  );
+}
+
 function Edition2026() {
+  const editionHeadingRef = useRef(null);
+  useSectionHeadingReveal(editionHeadingRef);
+
   return (
     <section className="edition-section section-space" aria-labelledby="edition-2026-title">
       <div className="section-wrap">
-        <div className="edition-heading">
+        <div className="edition-heading" ref={editionHeadingRef}>
           <div>
             <span className="section-kicker">Festival Editions · January 2026</span>
             <h2 id="edition-2026-title">2026 Edition:<br /><span>Honour the journey</span></h2>
@@ -321,16 +566,12 @@ function Edition2026() {
           </p>
         </div>
         <div className="edition-video" id="day-1-highlight">
-          <video
-            src="/Day%203%20highlight.mp4"
-            poster={day3PreviewPaths[0]}
-            controls
-            playsInline
-            preload="metadata"
-            aria-label="National Care Leavers Festival 2026 highlights"
-          >
-            Your browser does not support embedded video. You can play the festival highlights in a video-capable browser.
-          </video>
+          <img
+            src={festivalPhotos[6]}
+            alt="A group of young people gathered at the National Care Leavers Festival."
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div className="moments-heading edition-gallery-heading">
           <div>
@@ -346,17 +587,121 @@ function Edition2026() {
   );
 }
 
-function FestivalMomentsWall() {
+function FestivalImpact() {
+  const impactRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const section = impactRef.current;
+    if (!section || !('IntersectionObserver' in window)
+      || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setIsVisible(true);
+      observer.disconnect();
+    }, { threshold: 0.16 });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="moment-day-grid">
+    <section
+      ref={impactRef}
+      className={`festival-impact${isVisible ? ' is-visible' : ''}`}
+      aria-labelledby="festival-impact-title"
+    >
+      <header className="festival-impact-heading">
+        <span className="section-kicker">THE IMPACT WE ARE BUILDING</span>
+        <h3 id="festival-impact-title">A festival that moves beyond the moment</h3>
+      </header>
+      <div className="festival-impact-grid">
+        <article className="festival-impact-item">
+          <ImpactIllustration theme="journey" />
+          <h4>Days of lived experience</h4>
+          <p>A full journey of connection, reflection, graduation and policy conversation.</p>
+        </article>
+        <article className="festival-impact-item">
+          <ImpactIllustration theme="purpose" />
+          <h4>Purposes brought together</h4>
+          <p>Healing, reflection, leadership and policy voice shaped the 2026 edition.</p>
+        </article>
+        <article className="festival-impact-item">
+          <ImpactIllustration theme="movement" />
+          <h4>Shared movement</h4>
+          <p>Care-experienced people connected across the festival to lead and create change.</p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function ImpactIllustration({ theme }) {
+  const illustrations = {
+    journey: {
+      src: '/assets/impact/days-lived.webp',
+      alt: 'A diverse group of young people sharing a supportive conversation.',
+    },
+    purpose: {
+      src: '/assets/impact/purposes-together.webp',
+      alt: 'Young people learning and collaborating together around a workshop table.',
+    },
+    movement: {
+      src: '/assets/impact/shared-movement.webp',
+      alt: 'A diverse group of young people standing together and speaking up.',
+    },
+  };
+  const illustration = illustrations[theme];
+
+  return (
+    <img
+      className="festival-impact-illustration"
+      src={illustration.src}
+      alt={illustration.alt}
+      loading="lazy"
+      decoding="async"
+    />
+  );
+}
+
+function FestivalMomentsWall() {
+  const momentsRef = useRef(null);
+
+  useEffect(() => {
+    const grid = momentsRef.current;
+    if (!grid || !('IntersectionObserver' in window)
+      || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    let observer;
+    try {
+      observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('moment-day-card-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -20px 0px' });
+      grid.querySelectorAll('.moment-day-card').forEach((card) => observer.observe(card));
+    } catch {
+      observer?.disconnect();
+      return undefined;
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="moment-day-grid" ref={momentsRef}>
       {festivalMoments.map((moment) => (
         <article className="moment-day-card" key={moment.date}>
-          <img
-            src={moment.photo}
-            alt={`National Care Leavers Festival, ${moment.date}`}
-            loading="lazy"
-            decoding="async"
-          />
+          <div className="moment-day-media">
+            <img
+              src={moment.photo}
+              alt={`National Care Leavers Festival, ${moment.date}`}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
           <div className="moment-day-copy">
             <span className="moment-day-date">{moment.date}</span>
             <p>{moment.detail}</p>
@@ -368,35 +713,119 @@ function FestivalMomentsWall() {
   );
 }
 
-function FestivalImpact() {
-  const impacts = [
-    { number: '04', title: 'Days of lived experience', detail: 'A full journey of connection, reflection, graduation and policy conversation.' },
-    { number: '04', title: 'Purposes brought together', detail: 'Healing, reflection, leadership and policy voice shaped the 2026 edition.' },
-    { number: '01', title: 'Shared movement', detail: 'Care-experienced people connected across the festival to lead and create change.' },
-  ];
-
-  return (
-    <section className="festival-impact" aria-labelledby="festival-impact-title">
-      <div className="festival-impact-heading">
-        <span className="section-kicker">The Impact We Are Building</span>
-        <h3 id="festival-impact-title">A festival that moves beyond the moment</h3>
-      </div>
-      <div className="festival-impact-grid">
-        {impacts.map((impact) => (
-          <article className="festival-impact-card" key={impact.title}>
-            <span className="festival-impact-number">{impact.number}</span>
-            <h4>{impact.title}</h4>
-            <p>{impact.detail}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function CareLeaders() {
   const [selectedLeader, setSelectedLeader] = useState(null);
+  const [isMobileCarousel, setIsMobileCarousel] = useState(() => window.matchMedia('(max-width: 760px)').matches);
+  const [activeCarouselIndex, setActiveCarouselIndex] = useState(0);
+  const [carouselPhase, setCarouselPhase] = useState('visible');
+  const [carouselInteractionPaused, setCarouselInteractionPaused] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [hasEnteredViewport, setHasEnteredViewport] = useState(false);
   const dialogRef = useRef(null);
+  const leadersSectionRef = useRef(null);
+  const pointerStartXRef = useRef(null);
+  const suppressCardClickRef = useRef(false);
+  const pendingCarouselDirectionRef = useRef(1);
+  const resumeCarouselTimerRef = useRef(null);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia('(max-width: 760px)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMobile = () => {
+      setIsMobileCarousel(mobileQuery.matches);
+    };
+    const updateReducedMotion = () => setPrefersReducedMotion(reducedMotionQuery.matches);
+    updateMobile();
+    updateReducedMotion();
+    mobileQuery.addEventListener?.('change', updateMobile);
+    reducedMotionQuery.addEventListener?.('change', updateReducedMotion);
+    return () => {
+      mobileQuery.removeEventListener?.('change', updateMobile);
+      reducedMotionQuery.removeEventListener?.('change', updateReducedMotion);
+    };
+  }, []);
+
+  useEffect(() => {
+    const section = leadersSectionRef.current;
+    if (!section || !('IntersectionObserver' in window)) return undefined;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setHasEnteredViewport(true);
+      observer.disconnect();
+    }, { threshold: 0.12 });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isMobileCarousel || prefersReducedMotion || selectedLeader) return undefined;
+    let timer;
+    if (carouselPhase === 'visible') {
+      if (carouselInteractionPaused) return undefined;
+      timer = window.setTimeout(() => {
+        pendingCarouselDirectionRef.current = 1;
+        setCarouselPhase('fading-out');
+      }, 4500);
+    } else if (carouselPhase === 'fading-out') {
+      timer = window.setTimeout(() => {
+        setActiveCarouselIndex((current) => (current + pendingCarouselDirectionRef.current + careLeaders.length) % careLeaders.length);
+        setCarouselPhase('fading-in');
+      }, prefersReducedMotion ? 0 : 800);
+    } else if (carouselPhase === 'fading-in') {
+      timer = window.setTimeout(() => setCarouselPhase('visible'), prefersReducedMotion ? 0 : 800);
+    }
+    return () => window.clearTimeout(timer);
+  }, [isMobileCarousel, prefersReducedMotion, selectedLeader, carouselInteractionPaused, carouselPhase]);
+
+  useEffect(() => () => window.clearTimeout(resumeCarouselTimerRef.current), []);
+
+  function pauseCarousel() {
+    setCarouselInteractionPaused(true);
+    window.clearTimeout(resumeCarouselTimerRef.current);
+  }
+
+  function pauseCarouselAfterInteraction() {
+    pauseCarousel();
+    resumeCarouselTimerRef.current = window.setTimeout(() => setCarouselInteractionPaused(false), 5000);
+  }
+
+  function moveCarousel(direction) {
+    pauseCarouselAfterInteraction();
+    if (carouselPhase !== 'visible') return;
+    pendingCarouselDirectionRef.current = direction;
+    if (prefersReducedMotion) {
+      setActiveCarouselIndex((current) => (current + direction + careLeaders.length) % careLeaders.length);
+      return;
+    }
+    setCarouselPhase('fading-out');
+  }
+
+  function handleCarouselPointerDown(event) {
+    if (!isMobileCarousel) return;
+    pointerStartXRef.current = event.clientX;
+    suppressCardClickRef.current = false;
+    pauseCarousel();
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  }
+
+  function handleCarouselPointerUp(event) {
+    if (pointerStartXRef.current === null) return;
+    const distance = event.clientX - pointerStartXRef.current;
+    pointerStartXRef.current = null;
+    if (Math.abs(distance) > 36) {
+      suppressCardClickRef.current = true;
+      moveCarousel(distance < 0 ? 1 : -1);
+      window.setTimeout(() => { suppressCardClickRef.current = false; }, 0);
+    } else {
+      pauseCarouselAfterInteraction();
+    }
+  }
+
+  function handleCarouselKeyDown(event) {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    moveCarousel(event.key === 'ArrowRight' ? 1 : -1);
+  }
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -408,42 +837,80 @@ function CareLeaders() {
 
   return (
     <>
-      <section className="care-leaders-section section-space" id="care-leaders" aria-labelledby="care-leaders-title">
+      <section ref={leadersSectionRef} className={`care-leaders-section section-space${hasEnteredViewport ? ' is-revealed' : ''}`} id="care-leaders" aria-labelledby="care-leaders-title">
         <div className="section-wrap">
           <header className="care-leaders-heading">
-            <h2 id="care-leaders-title">THE PEOPLE BEHIND<br /><span>THE MOVEMENT</span></h2>
-            <p className="care-leaders-introduction">
-              Care Leaders bring lived experience, professional insight and community purpose to every part of the movement.
-            </p>
+            <div className="care-leaders-heading-copy">
+              <h2 id="care-leaders-title">THE PEOPLE BEHIND<br /><span>THE MOVEMENT</span></h2>
+              <p className="care-leaders-introduction">
+                Care Leaders bring lived experience, professional insight and community purpose to every part of the movement.
+              </p>
+            </div>
+            <HeartHandshake className="care-leaders-heading-illustration" aria-hidden="true" strokeWidth={1.4} />
           </header>
 
-          <div className="care-leaders-grid">
-            {careLeaders.map((leader, index) => (
-              <button
-                className="care-leader-card"
-                key={leader.name}
-                type="button"
-                aria-haspopup="dialog"
-                aria-label={`Read ${leader.name}'s full profile`}
-                onClick={() => setSelectedLeader(leader)}
-              >
-                <span className="care-leader-photo">
-                  <img
-                    src={leader.photo}
-                    alt={`${leader.name}, Care Leader at the National Care Leavers Festival`}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <span className="care-leader-number">0{index + 1}</span>
-                </span>
-                <span className="care-leader-copy">
-                  <span className="care-leader-name">{leader.name}</span>
-                  <span className="care-leader-designation">{leader.designation}</span>
-                  <span className="care-leader-summary">{leader.summary}</span>
-                  <span className="care-leader-link">Read full profile <Icon name="arrow" size={17} /></span>
-                </span>
-              </button>
-            ))}
+          <div
+            className={`care-leaders-carousel${isMobileCarousel ? ' is-mobile-carousel' : ''}`}
+            role={isMobileCarousel ? 'region' : undefined}
+            aria-label={isMobileCarousel ? 'Care Leaders profiles carousel' : undefined}
+            aria-roledescription={isMobileCarousel ? 'carousel' : undefined}
+            tabIndex={isMobileCarousel ? 0 : undefined}
+            onKeyDown={handleCarouselKeyDown}
+            onFocusCapture={pauseCarouselAfterInteraction}
+            onPointerDown={handleCarouselPointerDown}
+            onPointerUp={handleCarouselPointerUp}
+            onPointerCancel={() => {
+              pointerStartXRef.current = null;
+              pauseCarouselAfterInteraction();
+            }}
+            onClickCapture={(event) => {
+              if (!suppressCardClickRef.current) return;
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+          >
+            <div className="care-leaders-grid">
+              {careLeaders.map((leader, slideIndex) => {
+                const leaderIndex = slideIndex;
+                const isActiveSlide = !isMobileCarousel || activeCarouselIndex === slideIndex;
+                return (
+                  <div
+                    className={`care-leaders-slide${isActiveSlide ? ' is-active' : ''}${isActiveSlide && carouselPhase === 'fading-out' ? ' is-fading-out' : ''}${isActiveSlide && carouselPhase === 'fading-in' ? ' is-fading-in' : ''}`}
+                    key={leader.name}
+                    role={isMobileCarousel ? 'group' : undefined}
+                    aria-hidden={isMobileCarousel && !isActiveSlide ? 'true' : undefined}
+                    aria-roledescription={isMobileCarousel ? 'slide' : undefined}
+                    aria-label={isMobileCarousel ? `${leaderIndex + 1} of ${careLeaders.length}: ${leader.name}` : undefined}
+                  >
+                    <button
+                      className="care-leader-card"
+                      style={{ '--leader-order': leaderIndex }}
+                      type="button"
+                      tabIndex={isMobileCarousel && !isActiveSlide ? -1 : 0}
+                      aria-haspopup="dialog"
+                      aria-label={`Read ${leader.name}'s full profile`}
+                      onClick={() => setSelectedLeader(leader)}
+                    >
+                      <span className="care-leader-photo">
+                        <img
+                          src={leader.photo}
+                          className={leader.photo === '/care-leaders/rajkumar-sharma.png' ? 'care-leader-photo-rajkumar' : undefined}
+                          alt={`${leader.name}, Care Leader at the National Care Leavers Festival`}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </span>
+                      <span className="care-leader-copy">
+                        <span className="care-leader-name">{leader.name}</span>
+                        <span className="care-leader-designation">{leader.designation}</span>
+                        <span className="care-leader-summary">{leader.summary}</span>
+                        <span className="care-leader-link">Read full profile <Icon name="arrow" size={17} /></span>
+                      </span>
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -467,7 +934,7 @@ function CareLeaders() {
         {selectedLeader && (
           <article className="care-leader-dialog-content">
             <div className="care-leader-dialog-photo">
-              <img src={selectedLeader.photo} alt={`${selectedLeader.name}, Care Leader at the National Care Leavers Festival`} />
+              <img src={selectedLeader.photo} alt={`${selectedLeader.name}, Care Leader at the National Care Leavers Festival`} loading="eager" decoding="async" />
             </div>
             <div className="care-leader-dialog-copy">
               <button
@@ -494,9 +961,74 @@ function PhotoGallery() {
   const [galleryPhotos, setGalleryPhotos] = useState([]);
   const [galleryLoadError, setGalleryLoadError] = useState(false);
   const [showAllPhotos, setShowAllPhotos] = useState(false);
-  const visiblePhotos = showAllPhotos
-    ? galleryPhotos
-    : galleryPhotos.slice(0, galleryPreviewCount);
+  const [galleryInView, setGalleryInView] = useState(false);
+  const [isCollapsing, setIsCollapsing] = useState(false);
+  const galleryRef = useRef(null);
+  const galleryHeadingRef = useRef(null);
+  useSectionHeadingReveal(galleryHeadingRef);
+  const collapseTimerRef = useRef(null);
+  const previewPhotos = galleryPhotos.slice(0, galleryPreviewCount);
+  const extraPhotos = galleryPhotos.slice(galleryPreviewCount);
+
+  useEffect(() => {
+    const gallery = galleryRef.current;
+    if (!gallery) return undefined;
+    if (!('IntersectionObserver' in window)) {
+      setGalleryInView(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setGalleryInView(entry.isIntersecting);
+    });
+    observer.observe(gallery);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const gallery = galleryRef.current;
+    if (!gallery || window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      || !('IntersectionObserver' in window)) return undefined;
+
+    const revealItems = gallery.querySelectorAll('.gallery-reveal:not(.gallery-reveal-visible)');
+    if (!revealItems.length) return undefined;
+
+    let observer;
+    try {
+      observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('gallery-reveal-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.14, rootMargin: '0px 0px -24px 0px' });
+      revealItems.forEach((item) => observer.observe(item));
+    } catch {
+      observer?.disconnect();
+      return undefined;
+    }
+    return () => observer.disconnect();
+  }, [galleryPhotos.length, showAllPhotos]);
+
+  useEffect(() => () => window.clearTimeout(collapseTimerRef.current), []);
+
+  function toggleGallery() {
+    if (showAllPhotos) {
+      if (isCollapsing) return;
+      setIsCollapsing(true);
+      collapseTimerRef.current = window.setTimeout(() => {
+        setShowAllPhotos(false);
+        setIsCollapsing(false);
+        window.requestAnimationFrame(() => {
+          const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          galleryHeadingRef.current?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+        });
+      }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 240);
+      return;
+    }
+
+    setShowAllPhotos(true);
+  }
 
   useEffect(() => {
     let active = true;
@@ -530,7 +1062,7 @@ function PhotoGallery() {
           if (day3GalleryPhotos[index]) allGalleryPhotos.push(day3GalleryPhotos[index]);
         }
 
-        setGalleryPhotos(allGalleryPhotos);
+        setGalleryPhotos(allGalleryPhotos.filter((photo) => !excludedGalleryPhotoPaths.has(photo.src)));
       })
       .catch((error) => {
         console.error('Could not load the festival photo galleries.', error);
@@ -546,64 +1078,86 @@ function PhotoGallery() {
   }, []);
 
   return (
-    <div className="photo-gallery" id="festival-gallery" aria-labelledby="photo-gallery-title">
-      <div className="photo-gallery-heading">
+    <div className={`photo-gallery${showAllPhotos ? ' is-expanded' : ''}${isCollapsing ? ' is-collapsing' : ''}`} id="festival-gallery" ref={galleryRef} aria-labelledby="photo-gallery-title">
+      <div className="photo-gallery-heading" ref={galleryHeadingRef}>
         <span className="section-kicker">Festival gallery · 2026 Edition</span>
         <h3 id="photo-gallery-title">The people. The energy. <span>All together.</span></h3>
       </div>
 
       <div id="festival-gallery-images">
-        {/* Desktop View: Shared Element Interactive Grid */}
-        <div className="photo-gallery-desktop-view">
-          <Gallery>
+        <Gallery>
+          <div className="photo-gallery-desktop-view">
             <div className="photo-gallery-grid photo-gallery-desktop-grid">
-              {visiblePhotos.map((photo, index) => (
+            {previewPhotos.map((photo, index) => (
+              <GalleryImage
+                key={'desktop-photo-' + index}
+                id={'festival-photo-' + index}
+                src={photo.src}
+                alt={photo.alt}
+                className={'photo-gallery-item gallery-reveal photo-gallery-item-' + (index + 1) + ' festival-gallery-thumb'}
+                imgClassName="festival-gallery-img"
+              />
+            ))}
+            </div>
+          </div>
+
+          <div className="photo-gallery-mobile-view">
+            <div className="photo-gallery-grid" role="region" aria-label="National Care Leavers Festival photo gallery">
+              {previewPhotos.map((photo, index) => (
+                <figure className={'photo-gallery-item gallery-reveal photo-gallery-item-' + (index + 1)} key={photo.src}>
+                  <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+                </figure>
+              ))}
+            </div>
+          </div>
+
+      {galleryPhotos.length > galleryPreviewCount && (
+        <div className={`photo-gallery-actions-slot${showAllPhotos && galleryInView ? ' is-fixed' : ''}`}>
+          <div className={`photo-gallery-actions${showAllPhotos && galleryInView ? ' is-fixed' : ''}`}>
+            <button
+              type="button"
+              className="button button-primary"
+              aria-controls="festival-gallery-images"
+              aria-expanded={showAllPhotos}
+              disabled={isCollapsing}
+              onClick={toggleGallery}
+            >
+              {showAllPhotos ? 'Show Fewer Images' : 'View All Images'}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showAllPhotos && (
+        <>
+          <div className="photo-gallery-desktop-view">
+            <div className="photo-gallery-grid photo-gallery-desktop-grid gallery-extra-grid">
+              {extraPhotos.map((photo, index) => (
                 <GalleryImage
-                  key={'desktop-photo-' + index}
-                  id={'festival-photo-' + index}
+                  key={'desktop-extra-photo-' + index}
+                  id={'festival-extra-photo-' + index}
                   src={photo.src}
                   alt={photo.alt}
-                  className={'photo-gallery-item photo-gallery-item-' + (index + 1) + ' festival-gallery-thumb'}
+                  className={'photo-gallery-item gallery-reveal photo-gallery-item-' + (index + galleryPreviewCount + 1) + ' festival-gallery-thumb'}
                   imgClassName="festival-gallery-img"
                 />
               ))}
             </div>
-          </Gallery>
-        </div>
-
-        {/* Mobile View: Responsive Image Grid */}
-        <div className="photo-gallery-mobile-view">
-          <div className="photo-gallery-grid" role="region" aria-label="National Care Leavers Festival photo gallery">
-            {visiblePhotos.map((photo, index) => (
-              <figure
-                className={'photo-gallery-item photo-gallery-item-' + (index + 1)}
-                key={photo.src}
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </figure>
-            ))}
           </div>
-        </div>
-      </div>
-
-      {galleryPhotos.length > galleryPreviewCount && (
-        <div className="photo-gallery-actions">
-          <button
-            type="button"
-            className="button button-primary"
-            aria-controls="festival-gallery-images"
-            aria-expanded={showAllPhotos}
-            onClick={() => setShowAllPhotos((showingAll) => !showingAll)}
-          >
-            {showAllPhotos ? 'Show Fewer Images' : 'View All Images'}
-          </button>
-        </div>
+          <div className="photo-gallery-mobile-view">
+            <div className="photo-gallery-grid gallery-extra-grid" role="region" aria-label="More National Care Leavers Festival photos">
+              {extraPhotos.map((photo, index) => (
+                <figure className={'photo-gallery-item gallery-reveal photo-gallery-item-' + (index + galleryPreviewCount + 1)} key={photo.src}>
+                  <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+                </figure>
+              ))}
+            </div>
+          </div>
+        </>
       )}
+
+      </Gallery>
+      </div>
       {galleryLoadError && (
         <p className="photo-gallery-error" role="alert">
           Some festival photos could not be loaded. Please refresh to try again.
@@ -614,11 +1168,14 @@ function PhotoGallery() {
 }
 
 function GetInvolved() {
+  const involvedHeadingRef = useRef(null);
+  useSectionHeadingReveal(involvedHeadingRef);
+
   return (
     <section className="involved-section section-space" id="join-the-movement">
       <div className="section-wrap">
         <div className="involved-panel">
-          <div className="involved-heading">
+          <div className="involved-heading" ref={involvedHeadingRef}>
             <span className="section-kicker">Join the Movement</span>
             <h2>Keep the movement<br /><span>going.</span></h2>
             <p>The January 2026 festival has passed, but the movement continues. Choose how you would like to stay connected or contribute.</p>
@@ -716,7 +1273,8 @@ function App() {
       <a className="skip-link" href="#main-content">Skip to content</a>
       <Header />
       <main id="main-content">
-        <Hero />
+        {/* <Hero /> remains preserved for future use. */}
+        <MovementHeroPreview />
         <About />
         <div className="festival-editions-group" id="festival-editions">
           <Edition2026 />
