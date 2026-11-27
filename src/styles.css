@@ -30,7 +30,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
-  overflow-x: clip;
+  overflow-x: visible;
 }
 
 body {
@@ -584,6 +584,26 @@ h2 {
   margin: 0 0 clamp(10px, 1.2vw, 16px);
   color: var(--deep-green);
   text-align: center;
+}
+
+.movement-kicker-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.movement-kicker-letter {
+  display: inline-block;
+}
+
+.movement-hero-preview.is-visible .movement-kicker-letter {
+  animation: movement-letter-wave 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(420ms + var(--letter-order, 0) * 55ms);
+}
+
+@keyframes movement-letter-wave {
+  0% { opacity: 0; transform: translateY(12px) scale(0.92); }
+  55% { opacity: 1; transform: translateY(-3px) scale(1.03); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .movement-hero-title {
@@ -1611,10 +1631,9 @@ h2 {
 
 .care-leaders-heading-illustration {
   display: block;
-  width: clamp(56px, 7vw, 84px);
+  width: clamp(96px, 10vw, 136px);
   height: auto;
-  color: var(--green);
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .care-leaders-heading h2 {
@@ -2252,6 +2271,10 @@ h2 {
   background: var(--orange);
 }
 
+.video-bites-dot:not(.is-active) {
+  display: none;
+}
+
 /* ==========================================================================
    Registration pop-up
    ========================================================================== */
@@ -2262,11 +2285,11 @@ h2 {
   bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   width: min(360px, calc(100vw - 40px));
   padding: 22px 24px 24px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
+  border: 1px solid rgb(52 122 61 / 16%);
+  border-radius: 20px;
   color: var(--deep-green);
   background: var(--warm);
-  box-shadow: 0 18px 48px rgb(23 68 34 / 20%);
+  box-shadow: 0 2px 6px rgb(23 68 34 / 5%), 0 18px 50px rgb(23 68 34 / 18%);
   opacity: 0;
   transform: translateY(12px);
   pointer-events: none;
@@ -2291,6 +2314,9 @@ h2 {
   border-radius: 50%;
   color: var(--secondary);
   background: var(--light-orange);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 24px;
+  line-height: 1;
   cursor: pointer;
   transition: color 160ms ease, background-color 160ms ease, transform 160ms ease;
 }
@@ -2330,12 +2356,17 @@ h2 {
 
 @media (max-width: 760px) {
   .registration-popup {
-    right: 12px;
-    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-    left: 12px;
-    width: auto;
+    right: auto;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    width: min(360px, calc(100vw - 32px));
     padding: 18px 20px 20px;
     border-radius: 16px;
+    transform: translate(-50%, 12px);
+  }
+
+  .registration-popup.is-visible {
+    transform: translate(-50%, 0);
   }
 
   .registration-popup h2 {
@@ -2350,6 +2381,151 @@ h2 {
 
 @media (prefers-reduced-motion: reduce) {
   .registration-popup {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Registration section
+   ========================================================================== */
+.registration-section {
+  background: var(--deep-green);
+}
+
+.registration-section-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 72px);
+  padding: clamp(28px, 4vw, 56px);
+  border: 1px solid rgb(255 252 248 / 14%);
+  border-radius: 26px;
+  background: #235232;
+  box-shadow: 0 20px 50px rgb(11 32 17 / 20%);
+}
+
+.registration-section-copy {
+  min-width: 0;
+  text-align: left;
+}
+
+.registration-section-copy .section-kicker {
+  color: var(--light-orange);
+}
+
+.registration-section-copy h2 {
+  margin: 14px 0 16px;
+  color: var(--white);
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.registration-section-copy p {
+  max-width: 520px;
+  margin: 0 0 26px;
+  color: rgb(255 252 248 / 88%);
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.7;
+}
+
+.registration-section-button {
+  min-height: 50px;
+  padding-inline: 24px;
+  font-size: 15px;
+}
+
+.registration-section-button span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.registration-section-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgb(255 138 69 / 32%);
+}
+
+.registration-section-art {
+  min-width: 0;
+}
+
+.registration-section-art img {
+  display: block;
+  width: 100%;
+  max-width: clamp(300px, 32vw, 440px);
+  height: auto;
+  margin-inline: auto;
+  border-radius: 18px;
+}
+
+.registration-section-reveal-ready {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.registration-section-copy.registration-section-reveal-visible {
+  animation: registration-section-enter 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.registration-section-art.registration-section-reveal-visible {
+  animation: registration-section-enter 720ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
+}
+
+@keyframes registration-section-enter {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .registration-section-art {
+    transition: transform 300ms ease;
+  }
+
+  .registration-section-art:hover {
+    transform: translateY(-3px);
+  }
+}
+
+@media (max-width: 760px) {
+  .registration-section.section-space {
+    padding-block: 30px;
+  }
+
+  .registration-section-panel {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .registration-section-copy h2 {
+    margin: 6px 0 8px;
+    font-size: clamp(24px, 6.5vw, 30px);
+  }
+
+  .registration-section-copy p {
+    margin-bottom: 12px;
+  }
+
+  .registration-section-art img {
+    max-width: 255px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .registration-section-reveal-ready {
+    opacity: 1;
+    transform: none;
+  }
+
+  .registration-section-copy.registration-section-reveal-visible,
+  .registration-section-art.registration-section-reveal-visible {
+    animation: none !important;
+  }
+
+  .registration-section-art,
+  .registration-section-art:hover {
+    transform: none;
     transition: none;
   }
 }
@@ -3203,9 +3379,20 @@ h2 {
 
   /* Care Leaders: one vertical profile card per carousel slide */
   .care-leaders-heading {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
     margin-bottom: 24px;
     text-align: left;
-    justify-items: start;
+    gap: 12px;
+  }
+
+  .care-leaders-heading h2 {
+    font-size: clamp(24px, 7vw, 30px);
+  }
+
+  .care-leaders-heading-illustration {
+    width: clamp(48px, 14vw, 64px);
+    align-self: center;
   }
 
   .care-leaders-introduction {
@@ -3459,6 +3646,7 @@ h2 {
   .movement-hero-preview .movement-connection-point,
   .movement-hero-preview .movement-hero-art,
   .movement-hero-preview .movement-hero-kicker,
+  .movement-hero-preview .movement-kicker-letter,
   .movement-hero-preview .movement-hero-title-line,
   .movement-hero-preview .movement-hero-description,
   .movement-hero-preview .movement-hero-cta,

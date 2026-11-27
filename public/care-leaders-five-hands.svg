@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 560" role="img" aria-label="Five joined hands coming together">
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.13"/></feComponentTransfer>
+    </filter>
+    <style>
+      .outline { stroke:#2f3a2f; stroke-width:3.6; stroke-linecap:round; stroke-linejoin:round; }
+      .detail { fill:none; stroke:#2f3a2f; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; opacity:0.75; }
+    </style>
+  </defs>
+
+  <rect width="600" height="560" fill="#FFFCF8"/>
+
+  <!-- soft ground tint -->
+  <path d="M52 470 Q180 436 310 468 T556 458 L556 560 H44 Z" fill="#E8EFE2" opacity="0.7"/>
+
+  <!-- Hand 1: deep skin, forest-green sleeve -->
+  <g transform="translate(108 336) rotate(-12) scale(0.9)">
+    <path d="M-34 122 Q-30 34 -26 4 L26 4 Q30 34 34 122 Z" fill="#347A3D" class="outline"/>
+    <path d="M-32 24 Q0 32 32 24" class="detail" stroke="#174422"/>
+    <path d="M-27 4 Q-33 -32 -20 -58 Q-8 -81 16 -76 Q31 -72 28 -44 Q26 -16 24 4 Z" fill="#8C5A3C" class="outline"/>
+    <path d="M-20 -56 Q-27 -88 -18 -105 Q-11 -115 -3 -108 Q3 -101 -2 -87 L2 -58 Z" fill="#8C5A3C" class="outline"/>
+    <path d="M-5 -60 Q-10 -100 -2 -119 Q6 -129 14 -120 Q21 -111 14 -95 L10 -60 Z" fill="#8C5A3C" class="outline"/>
+    <path d="M11 -59 Q8 -104 18 -125 Q26 -135 32 -124 Q39 -113 30 -95 L24 -58 Z" fill="#8C5A3C" class="outline"/>
+    <path d="M25 -49 Q29 -85 39 -100 Q47 -111 52 -100 Q57 -90 46 -75 L34 -44 Z" fill="#8C5A3C" class="outline"/>
+    <path d="M-26 -29 Q-51 -37 -55 -60 Q-57 -75 -44 -72 Q-31 -68 -26 -49 Z" fill="#8C5A3C" class="outline"/>
+    <path d="M-14 -22 q12 8 26 2 M6 -50 q10 4 18 -2" class="detail"/>
+  </g>
+
+  <!-- Hand 2: medium skin, cream sleeve -->
+  <g transform="translate(204 366) rotate(8) scale(0.92)">
+    <path d="M-34 122 Q-30 34 -26 4 L26 4 Q30 34 34 122 Z" fill="#F3E9D2" class="outline"/>
+    <path d="M-32 24 Q0 32 32 24" class="detail" stroke="#6E7F4A"/>
+    <path d="M-27 4 Q-33 -32 -20 -58 Q-8 -81 16 -76 Q31 -72 28 -44 Q26 -16 24 4 Z" fill="#C9865A" class="outline"/>
+    <path d="M-20 -56 Q-27 -88 -18 -105 Q-11 -115 -3 -108 Q3 -101 -2 -87 L2 -58 Z" fill="#C9865A" class="outline"/>
+    <path d="M-5 -60 Q-10 -100 -2 -119 Q6 -129 14 -120 Q21 -111 14 -95 L10 -60 Z" fill="#C9865A" class="outline"/>
+    <path d="M11 -59 Q8 -104 18 -125 Q26 -135 32 -124 Q39 -113 30 -95 L24 -58 Z" fill="#C9865A" class="outline"/>
+    <path d="M25 -49 Q29 -85 39 -100 Q47 -111 52 -100 Q57 -90 46 -75 L34 -44 Z" fill="#C9865A" class="outline"/>
+    <path d="M-26 -29 Q-51 -37 -55 -60 Q-57 -75 -44 -72 Q-31 -68 -26 -49 Z" fill="#C9865A" class="outline"/>
+    <path d="M-14 -22 q12 8 26 2 M6 -50 q10 4 18 -2" class="detail"/>
+  </g>
+
+  <!-- Hand 3: light skin, warm orange sleeve -->
+  <g transform="translate(300 342) rotate(-6) scale(0.95)">
+    <path d="M-34 122 Q-30 34 -26 4 L26 4 Q30 34 34 122 Z" fill="#FF8A45" class="outline"/>
+    <path d="M-32 24 Q0 32 32 24" class="detail" stroke="#A5481F"/>
+    <path d="M-27 4 Q-33 -32 -20 -58 Q-8 -81 16 -76 Q31 -72 28 -44 Q26 -16 24 4 Z" fill="#E3B08A" class="outline"/>
+    <path d="M-20 -56 Q-27 -88 -18 -105 Q-11 -115 -3 -108 Q3 -101 -2 -87 L2 -58 Z" fill="#E3B08A" class="outline"/>
+    <path d="M-5 -60 Q-10 -100 -2 -119 Q6 -129 14 -120 Q21 -111 14 -95 L10 -60 Z" fill="#E3B08A" class="outline"/>
+    <path d="M11 -59 Q8 -104 18 -125 Q26 -135 32 -124 Q39 -113 30 -95 L24 -58 Z" fill="#E3B08A" class="outline"/>
+    <path d="M25 -49 Q29 -85 39 -100 Q47 -111 52 -100 Q57 -90 46 -75 L34 -44 Z" fill="#E3B08A" class="outline"/>
+    <path d="M-26 -29 Q-51 -37 -55 -60 Q-57 -75 -44 -72 Q-31 -68 -26 -49 Z" fill="#E3B08A" class="outline"/>
+    <path d="M-14 -22 q12 8 26 2 M6 -50 q10 4 18 -2" class="detail"/>
+  </g>
+
+  <!-- Hand 4: dark skin, muted blue sleeve -->
+  <g transform="translate(398 364) rotate(11) scale(0.92)">
+    <path d="M-34 122 Q-30 34 -26 4 L26 4 Q30 34 34 122 Z" fill="#6C8A9E" class="outline"/>
+    <path d="M-32 24 Q0 32 32 24" class="detail" stroke="#245F30"/>
+    <path d="M-27 4 Q-33 -32 -20 -58 Q-8 -81 16 -76 Q31 -72 28 -44 Q26 -16 24 4 Z" fill="#6E432C" class="outline"/>
+    <path d="M-20 -56 Q-27 -88 -18 -105 Q-11 -115 -3 -108 Q3 -101 -2 -87 L2 -58 Z" fill="#6E432C" class="outline"/>
+    <path d="M-5 -60 Q-10 -100 -2 -119 Q6 -129 14 -120 Q21 -111 14 -95 L10 -60 Z" fill="#6E432C" class="outline"/>
+    <path d="M11 -59 Q8 -104 18 -125 Q26 -135 32 -124 Q39 -113 30 -95 L24 -58 Z" fill="#6E432C" class="outline"/>
+    <path d="M25 -49 Q29 -85 39 -100 Q47 -111 52 -100 Q57 -90 46 -75 L34 -44 Z" fill="#6E432C" class="outline"/>
+    <path d="M-26 -29 Q-51 -37 -55 -60 Q-57 -75 -44 -72 Q-31 -68 -26 -49 Z" fill="#6E432C" class="outline"/>
+    <path d="M-14 -22 q12 8 26 2 M6 -50 q10 4 18 -2" class="detail"/>
+  </g>
+
+  <!-- Hand 5: front hand, olive sleeve -->
+  <g transform="translate(268 392) rotate(-2) scale(1)">
+    <path d="M-34 122 Q-30 34 -26 4 L26 4 Q30 34 34 122 Z" fill="#6E7F4A" class="outline"/>
+    <path d="M-32 24 Q0 32 32 24" class="detail" stroke="#245F30"/>
+    <path d="M-27 4 Q-33 -32 -20 -58 Q-8 -81 16 -76 Q31 -72 28 -44 Q26 -16 24 4 Z" fill="#B57A52" class="outline"/>
+    <path d="M-20 -56 Q-27 -88 -18 -105 Q-11 -115 -3 -108 Q3 -101 -2 -87 L2 -58 Z" fill="#B57A52" class="outline"/>
+    <path d="M-5 -60 Q-10 -100 -2 -119 Q6 -129 14 -120 Q21 -111 14 -95 L10 -60 Z" fill="#B57A52" class="outline"/>
+    <path d="M11 -59 Q8 -104 18 -125 Q26 -135 32 -124 Q39 -113 30 -95 L24 -58 Z" fill="#B57A52" class="outline"/>
+    <path d="M25 -49 Q29 -85 39 -100 Q47 -111 52 -100 Q57 -90 46 -75 L34 -44 Z" fill="#B57A52" class="outline"/>
+    <path d="M-26 -29 Q-51 -37 -55 -60 Q-57 -75 -44 -72 Q-31 -68 -26 -49 Z" fill="#B57A52" class="outline"/>
+    <path d="M-14 -22 q12 8 26 2 M6 -50 q10 4 18 -2" class="detail"/>
+  </g>
+
+  <!-- small connecting sparkles between the hands -->
+  <path d="M176 258 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5 Z" fill="#FF8A45" opacity="0.9"/>
+  <path d="M455 250 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#347A3D" opacity="0.9"/>
+
+  <rect width="600" height="560" filter="url(#grain)" opacity="0.16" pointer-events="none"/>
+</svg>

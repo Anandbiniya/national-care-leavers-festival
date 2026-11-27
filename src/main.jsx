@@ -42,6 +42,14 @@ const excludedGalleryPhotoPaths = new Set([
   '/day-1/DSC05551.JPG',
   '/day-3/DSC07779.JPG',
 ]);
+const heroKickerWords = (() => {
+  let order = 0;
+  return 'NATIONAL CARE LEAVERS FESTIVAL'.split(' ').map((word) => ({
+    word,
+    letters: [...word].map((letter) => ({ letter, order: order += 1 })),
+  }));
+})();
+
 const heroIllustrations = [
   {
     src: '/youth-community-hero-v2.png',
@@ -445,8 +453,27 @@ function MovementHeroPreview() {
             </div>
           </div>
           <div className="movement-hero-art">
-            <span className="movement-hero-kicker movement-hero-art-kicker" id="movement-hero-kicker">
-              NATIONAL CARE LEAVERS FESTIVAL
+            <span
+              className="movement-hero-kicker movement-hero-art-kicker"
+              id="movement-hero-kicker"
+              aria-label="National Care Leavers Festival"
+            >
+              {heroKickerWords.map(({ word, letters }, wordIndex) => (
+                <span className="movement-kicker-word" key={word} aria-hidden="true">
+                  {letters.map(({ letter, order }) => (
+                    <span
+                      className="movement-kicker-letter"
+                      key={`${word}-${order}`}
+                      style={{ '--letter-order': order }}
+                    >
+                      {letter}
+                    </span>
+                  ))}
+                  {wordIndex < heroKickerWords.length - 1 && (
+                    <span className="movement-kicker-space">&nbsp;</span>
+                  )}
+                </span>
+              ))}
             </span>
             <div className="movement-hero-art-stage">
               <svg className="movement-hero-connections" viewBox="0 0 620 540" fill="none" aria-hidden="true">
@@ -902,7 +929,12 @@ function CareLeaders() {
                 Care Leaders bring lived experience, professional insight and community purpose to every part of the movement.
               </p>
             </div>
-            <HeartHandshake className="care-leaders-heading-illustration" aria-hidden="true" strokeWidth={1.4} />
+            <img
+              className="care-leaders-heading-illustration"
+              src="/photos/Hands%20Together_%20Unity%20in%20Every%20Color.png"
+              alt=""
+              aria-hidden="true"
+            />
           </header>
 
           <div
@@ -1307,10 +1339,10 @@ function RegistrationPopup() {
         aria-label="Close registration invitation"
         onClick={closePopup}
       >
-        <Icon name="close" size={18} />
+        <span aria-hidden="true">&times;</span>
       </button>
-      <h2 id="registration-popup-title">Join Us for the 2026 Festival</h2>
-      <p id="registration-popup-description">Be part of four days of connection, learning and leadership.</p>
+      <h2 id="registration-popup-title">Join Us for the 2027 Festival</h2>
+      <p id="registration-popup-description">Be part of a movement led by care-experienced young people.</p>
       <a
         className="button button-primary registration-popup-button"
         href={festivalRegistrationUrl || undefined}
@@ -1371,6 +1403,70 @@ function GetInvolved() {
             </a>
           </div>
           <div className="involved-contact"><Icon name="arrow" size={17} /> Questions? <a href={`mailto:${festivalEmail}`}>{festivalEmail}</a></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RegistrationSection() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || !('IntersectionObserver' in window)
+      || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    const copy = section.querySelector('.registration-section-copy');
+    const art = section.querySelector('.registration-section-art');
+    const items = [copy, art].filter(Boolean);
+    items.forEach((item) => item.classList.add('registration-section-reveal-ready'));
+
+    try {
+      const observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        items.forEach((item) => item.classList.add('registration-section-reveal-visible'));
+        observer.disconnect();
+      }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+      observer.observe(section);
+      return () => observer.disconnect();
+    } catch {
+      items.forEach((item) => item.classList.remove('registration-section-reveal-ready'));
+      return undefined;
+    }
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="registration-section section-space"
+      id="take-action"
+      aria-labelledby="registration-section-title"
+    >
+      <div className="section-wrap registration-section-panel">
+        <div className="registration-section-copy">
+          <span className="section-kicker">JOIN THE MOVEMENT</span>
+          <h2 id="registration-section-title">Be Part of the Movement</h2>
+          <p>
+            Join us for the next National Care Leavers Festival. Be part of a community built on connection, leadership and lived experience.
+          </p>
+          <a
+            className="button button-primary registration-section-button"
+            href={festivalRegistrationUrl || undefined}
+            target={festivalRegistrationUrl ? '_blank' : undefined}
+            rel={festivalRegistrationUrl ? 'noopener noreferrer' : undefined}
+            aria-disabled={!festivalRegistrationUrl}
+          >
+            Register for Festival <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div className="registration-section-art">
+          <img
+            src="/photos/Youth%20Activists%20Taking%20Action.png"
+            alt="Five young activists taking action together, including a person with a megaphone, a young woman raising her fist and another person holding a placard."
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
     </section>
@@ -1441,6 +1537,7 @@ function App() {
         <CareLeaders />
         <VideoBites />
         <FaqSection />
+        <RegistrationSection />
         <GetInvolved />
       </main>
       <Footer />
