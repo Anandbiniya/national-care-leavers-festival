@@ -205,6 +205,8 @@ function BrandMark() {
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [headerHeight, setHeaderHeight] = useState(null);
+  const headerRef = useRef(null);
   const menuToggleRef = useRef(null);
   const navItems = [
     ['Home', '#home', 'home'],
@@ -213,6 +215,26 @@ function Header() {
     ['Care Leaders', '#care-leaders', 'care-leaders'],
     ['Join the Movement', '#join-the-movement', 'join-the-movement'],
   ];
+
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header || menuOpen) return undefined;
+
+    const syncHeight = () => {
+      const nextHeight = Math.ceil(header.getBoundingClientRect().height);
+      if (nextHeight > 0) setHeaderHeight(nextHeight);
+    };
+
+    syncHeight();
+    if (!('ResizeObserver' in window)) {
+      window.addEventListener('resize', syncHeight);
+      return () => window.removeEventListener('resize', syncHeight);
+    }
+
+    const observer = new ResizeObserver(syncHeight);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, [menuOpen]);
 
   useEffect(() => {
     const sections = navItems
@@ -241,7 +263,13 @@ function Header() {
   }, [menuOpen]);
 
   return (
-    <header className="site-header">
+    <>
+      <div
+        className="site-header-spacer"
+        aria-hidden="true"
+        style={headerHeight ? { height: `${headerHeight}px` } : undefined}
+      />
+      <header className="site-header" ref={headerRef}>
       <a className="brand" href="#home" aria-label={`${festival.title} home`} onClick={() => { setMenuOpen(false); setActiveSection('home'); }}>
         <BrandMark />
         <span className="brand-copy">
@@ -277,6 +305,7 @@ function Header() {
         ))}
       </nav>
     </header>
+    </>
   );
 }
 

@@ -290,10 +290,17 @@ h2 {
 /* ==========================================================================
    Navigation Header
    ========================================================================== */
+.site-header-spacer {
+  height: 76px;
+}
+
 .site-header {
-  position: sticky;
-  z-index: 30;
+  position: fixed;
+  z-index: 48;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   display: grid;
   min-height: 76px;
   grid-template-columns: auto 1fr;
@@ -2847,6 +2854,10 @@ h2 {
    Tablet Responsive Layout (<= 1079px)
    ========================================================================== */
 @media (max-width: 1079px) {
+  .site-header-spacer {
+    height: 70px;
+  }
+
   .site-header {
     grid-template-columns: 1fr auto;
     min-height: 70px;
@@ -2932,6 +2943,10 @@ h2 {
 
   .section-space {
     padding-block: 48px;
+  }
+
+  .site-header-spacer {
+    height: 66px;
   }
 
   .site-header {
