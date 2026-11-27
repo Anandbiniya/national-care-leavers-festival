@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HeartHandshake, Megaphone, Sparkles } from 'lucide-react';
-import FestivalChatbot from './components/FestivalChatbot';
 import VideoBites from './components/VideoBites';
 import { Gallery, GalleryImage } from './components/ui/shared-element-gallery';
 import anandBiniyaPhoto from './assets/care-leaders/Anand Biniya.png';
@@ -30,7 +29,13 @@ const festival = {
   title: 'National Care Leavers Festival',
 };
 
-const galleryPreviewCount = 4;
+// The gallery collection is built by interleaving the three day manifests
+// (day-1, day-2, day-3). The first three entries are the Community sign photo,
+// a Day 2 photo and the large hall group photo. Start the gallery at the 4th
+// entry of that collection so both excluded photographs are left out, then
+// filter exclusions again for any later entries.
+const galleryStartIndex = 3;
+const galleryPreviewCount = 6;
 const excludedGalleryPhotoPaths = new Set([
   '/day-1/DSC05551.JPG',
   '/day-3/DSC07779.JPG',
@@ -64,21 +69,15 @@ const aboutPillars = [
   },
 ];
 
-const day2PreviewPaths = [
-  '/day-2/DSC06956.JPG',
-  '/day-2/DSC06958.JPG',
-];
-
-const day3PreviewPaths = [
-  '/day-3/DSC07779.JPG',
-  '/day-3/DSC07389.JPG',
-];
-
+// Fallback images if the gallery manifests cannot be loaded. These mirror the
+// first six eligible images from the interleaved collection.
 const galleryPreviewPhotos = [
-  { src: day2PreviewPaths[0], alt: 'National Care Leavers Festival Day 2 moment 1.' },
-  { src: day1Photos[1], alt: 'National Care Leavers Festival Day 1 moment 2.' },
-  { src: day2PreviewPaths[1], alt: 'National Care Leavers Festival Day 2 moment 2.' },
-  { src: day3PreviewPaths[1], alt: 'National Care Leavers Festival Day 3 moment 2.' },
+  { src: '/day-1/DSC05562.JPG', alt: 'Festival entrance with the Udayan Care stand on day 1.' },
+  { src: '/day-2/DSC06958.JPG', alt: 'Participants listening during a day 2 session.' },
+  { src: '/day-3/DSC07389.JPG', alt: 'A participant setting up a camera during the festival.' },
+  { src: '/day-1/DSC05563.JPG', alt: 'The decorated festival entrance on day 1.' },
+  { src: '/day-2/DSC06961.JPG', alt: 'Participants gathered in a circle outdoors on day 2.' },
+  { src: '/day-3/DSC07387.JPG', alt: 'Two participants talking at a laptop during day 3.' },
 ];
 
 const festivalWhatsAppChannel = 'https://whatsapp.com/channel/0029Vb8wWtGJP21BAIBQU322';
@@ -1009,8 +1008,20 @@ function PhotoGallery() {
   const galleryHeadingRef = useRef(null);
   useSectionHeadingReveal(galleryHeadingRef);
   const collapseTimerRef = useRef(null);
-  const previewPhotos = galleryPhotos.slice(0, galleryPreviewCount);
-  const extraPhotos = galleryPhotos.slice(galleryPreviewCount);
+  // Start at the 4th image of the interleaved collection, while keeping every
+  // eligible photograph in the expanded gallery exactly once.
+  const galleryStartInEligible = Math.max(
+    0,
+    galleryPhotos.findIndex((photo) => photo.order >= galleryStartIndex),
+  );
+  const previewPhotos = galleryPhotos.slice(
+    galleryStartInEligible,
+    galleryStartInEligible + galleryPreviewCount,
+  );
+  const extraPhotos = [
+    ...galleryPhotos.slice(0, galleryStartInEligible),
+    ...galleryPhotos.slice(galleryStartInEligible + galleryPreviewCount),
+  ];
 
   useEffect(() => {
     const gallery = galleryRef.current;
@@ -1022,7 +1033,7 @@ function PhotoGallery() {
 
     const observer = new IntersectionObserver(([entry]) => {
       setGalleryInView(entry.isIntersecting);
-    });
+    }, { rootMargin: '-12% 0px -12% 0px' });
     observer.observe(gallery);
     return () => observer.disconnect();
   }, []);
@@ -1044,9 +1055,13 @@ function PhotoGallery() {
           observer.unobserve(entry.target);
         });
       }, { threshold: 0.14, rootMargin: '0px 0px -24px 0px' });
-      revealItems.forEach((item) => observer.observe(item));
+      revealItems.forEach((item) => {
+        item.classList.add('gallery-reveal-ready');
+        observer.observe(item);
+      });
     } catch {
       observer?.disconnect();
+      revealItems.forEach((item) => item.classList.remove('gallery-reveal-ready'));
       return undefined;
     }
     return () => observer.disconnect();
@@ -1084,27 +1099,33 @@ function PhotoGallery() {
     Promise.all([loadManifest('day-1'), loadManifest('day-2'), loadManifest('day-3')])
       .then(([day1Names, day2Names, day3Names]) => {
         if (!active) return;
-        const day1GalleryPhotos = day1Names.map((name, index) => ({
-          src: `/day-1/${encodeURIComponent(name)}`,
-          alt: `National Care Leavers Festival Day 1 moment ${index + 1}.`,
-        }));
-        const day2GalleryPhotos = day2Names.map((name, index) => ({
-          src: `/day-2/${encodeURIComponent(name)}`,
-          alt: `National Care Leavers Festival Day 2 moment ${index + 1}.`,
-        }));
-        const day3GalleryPhotos = day3Names.map((name, index) => ({
-          src: `/day-3/${encodeURIComponent(name)}`,
-          alt: `National Care Leavers Festival Day 3 moment ${index + 1}.`,
-        }));
+        const days = [
+          ['day-1', day1Names],
+          ['day-2', day2Names],
+          ['day-3', day3Names],
+        ];
         const allGalleryPhotos = [];
+        const seenSources = new Set();
 
-        for (let index = 0; index < Math.max(day1GalleryPhotos.length, day2GalleryPhotos.length, day3GalleryPhotos.length); index += 1) {
-          if (day1GalleryPhotos[index]) allGalleryPhotos.push(day1GalleryPhotos[index]);
-          if (day2GalleryPhotos[index]) allGalleryPhotos.push(day2GalleryPhotos[index]);
-          if (day3GalleryPhotos[index]) allGalleryPhotos.push(day3GalleryPhotos[index]);
+        for (let index = 0; index < Math.max(...days.map(([, names]) => names.length)); index += 1) {
+          days.forEach(([day, names]) => {
+            if (!names[index]) return;
+            const src = `/${day}/${encodeURIComponent(names[index])}`;
+            if (seenSources.has(src)) return;
+            seenSources.add(src);
+            allGalleryPhotos.push({
+              src,
+              order: allGalleryPhotos.length,
+              alt: `National Care Leavers Festival ${day.replace('day-', 'Day ')} moment ${index + 1}.`,
+            });
+          });
         }
 
-        setGalleryPhotos(allGalleryPhotos.filter((photo) => !excludedGalleryPhotoPaths.has(photo.src)));
+        // Keep the interleaved manifest order and drop excluded photographs.
+        // The 4th-image start is applied when splitting preview / expanded photos.
+        setGalleryPhotos(
+          allGalleryPhotos.filter((photo) => !excludedGalleryPhotoPaths.has(photo.src)),
+        );
       })
       .catch((error) => {
         console.error('Could not load the festival photo galleries.', error);
@@ -1128,77 +1149,59 @@ function PhotoGallery() {
 
       <div id="festival-gallery-images">
         <Gallery>
-          <div className="photo-gallery-desktop-view">
-            <div className="photo-gallery-grid photo-gallery-desktop-grid">
+          <div
+            className="photo-gallery-grid"
+            role="region"
+            aria-label="National Care Leavers Festival photo gallery"
+          >
             {previewPhotos.map((photo, index) => (
               <GalleryImage
-                key={'desktop-photo-' + index}
+                key={'festival-photo-' + photo.src}
                 id={'festival-photo-' + index}
                 src={photo.src}
                 alt={photo.alt}
-                className={'photo-gallery-item gallery-reveal photo-gallery-item-' + (index + 1) + ' festival-gallery-thumb'}
+                className="photo-gallery-item gallery-reveal festival-gallery-thumb"
                 imgClassName="festival-gallery-img"
               />
             ))}
-            </div>
           </div>
 
-          <div className="photo-gallery-mobile-view">
-            <div className="photo-gallery-grid" role="region" aria-label="National Care Leavers Festival photo gallery">
-              {previewPhotos.map((photo, index) => (
-                <figure className={'photo-gallery-item gallery-reveal photo-gallery-item-' + (index + 1)} key={photo.src}>
-                  <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
-                </figure>
-              ))}
+          {galleryPhotos.length > galleryPreviewCount && (
+            <div className={`photo-gallery-actions-slot${showAllPhotos && galleryInView ? ' is-fixed' : ''}`}>
+              <div className={`photo-gallery-actions${showAllPhotos && galleryInView ? ' is-fixed' : ''}`}>
+                <button
+                  type="button"
+                  className="button button-primary"
+                  aria-controls="festival-gallery-images"
+                  aria-expanded={showAllPhotos}
+                  disabled={isCollapsing}
+                  onClick={toggleGallery}
+                >
+                  {showAllPhotos ? 'Show Fewer Images' : 'View All Images'}
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
-      {galleryPhotos.length > galleryPreviewCount && (
-        <div className={`photo-gallery-actions-slot${showAllPhotos && galleryInView ? ' is-fixed' : ''}`}>
-          <div className={`photo-gallery-actions${showAllPhotos && galleryInView ? ' is-fixed' : ''}`}>
-            <button
-              type="button"
-              className="button button-primary"
-              aria-controls="festival-gallery-images"
-              aria-expanded={showAllPhotos}
-              disabled={isCollapsing}
-              onClick={toggleGallery}
+          {showAllPhotos && (
+            <div
+              className="photo-gallery-grid gallery-extra-grid"
+              role="region"
+              aria-label="More National Care Leavers Festival photos"
             >
-              {showAllPhotos ? 'Show Fewer Images' : 'View All Images'}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {showAllPhotos && (
-        <>
-          <div className="photo-gallery-desktop-view">
-            <div className="photo-gallery-grid photo-gallery-desktop-grid gallery-extra-grid">
               {extraPhotos.map((photo, index) => (
                 <GalleryImage
-                  key={'desktop-extra-photo-' + index}
-                  id={'festival-extra-photo-' + index}
+                  key={'festival-extra-photo-' + photo.src}
+                  id={'festival-extra-photo-' + (index + galleryPreviewCount)}
                   src={photo.src}
                   alt={photo.alt}
-                  className={'photo-gallery-item gallery-reveal photo-gallery-item-' + (index + galleryPreviewCount + 1) + ' festival-gallery-thumb'}
+                  className="photo-gallery-item gallery-reveal festival-gallery-thumb"
                   imgClassName="festival-gallery-img"
                 />
               ))}
             </div>
-          </div>
-          <div className="photo-gallery-mobile-view">
-            <div className="photo-gallery-grid gallery-extra-grid" role="region" aria-label="More National Care Leavers Festival photos">
-              {extraPhotos.map((photo, index) => (
-                <figure className={'photo-gallery-item gallery-reveal photo-gallery-item-' + (index + galleryPreviewCount + 1)} key={photo.src}>
-                  <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
-                </figure>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-
-      </Gallery>
+          )}
+        </Gallery>
       </div>
       {galleryLoadError && (
         <p className="photo-gallery-error" role="alert">
@@ -1206,6 +1209,89 @@ function PhotoGallery() {
         </p>
       )}
     </div>
+  );
+}
+
+const registrationPopupSessionKey = 'nclf-registration-popup-seen';
+const registrationPopupOpenDelay = 12000;
+const registrationPopupVisibleDuration = 12000;
+
+function RegistrationPopup() {
+  const [phase, setPhase] = useState('hidden');
+  const delayTimerRef = useRef(null);
+  const closeTimerRef = useRef(null);
+  const exitTimerRef = useRef(null);
+
+  useEffect(() => {
+    let alreadySeen = false;
+    try {
+      alreadySeen = window.sessionStorage.getItem(registrationPopupSessionKey) === 'true';
+    } catch {
+      alreadySeen = false;
+    }
+    if (alreadySeen) return undefined;
+
+    delayTimerRef.current = window.setTimeout(() => setPhase('visible'), registrationPopupOpenDelay);
+    return () => {
+      window.clearTimeout(delayTimerRef.current);
+      window.clearTimeout(closeTimerRef.current);
+      window.clearTimeout(exitTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (phase !== 'visible') return undefined;
+    closeTimerRef.current = window.setTimeout(closePopup, registrationPopupVisibleDuration);
+    return () => window.clearTimeout(closeTimerRef.current);
+  }, [phase]);
+
+  function markAsSeen() {
+    try {
+      window.sessionStorage.setItem(registrationPopupSessionKey, 'true');
+    } catch {
+      // Storage can be unavailable in private browsing; session state still holds.
+    }
+  }
+
+  function closePopup() {
+    window.clearTimeout(delayTimerRef.current);
+    window.clearTimeout(closeTimerRef.current);
+    markAsSeen();
+    setPhase('closing');
+    exitTimerRef.current = window.setTimeout(() => setPhase('hidden'), 280);
+  }
+
+  if (phase === 'hidden') return null;
+
+  return (
+    <aside
+      className={`registration-popup${phase === 'visible' ? ' is-visible' : ''}`}
+      role="dialog"
+      aria-labelledby="registration-popup-title"
+      aria-describedby="registration-popup-description"
+    >
+      <button
+        className="registration-popup-close"
+        type="button"
+        aria-label="Close registration invitation"
+        onClick={closePopup}
+      >
+        <Icon name="close" size={18} />
+      </button>
+      <h2 id="registration-popup-title">Join Us for the 2026 Festival</h2>
+      <p id="registration-popup-description">Be part of four days of connection, learning and leadership.</p>
+      <a
+        className="button button-primary registration-popup-button"
+        href={festivalRegistrationUrl || undefined}
+        target={festivalRegistrationUrl ? '_blank' : undefined}
+        rel={festivalRegistrationUrl ? 'noopener noreferrer' : undefined}
+        aria-disabled={!festivalRegistrationUrl}
+        onClick={closePopup}
+      >
+        Register Now
+        <Icon name="arrow" size={17} />
+      </a>
+    </aside>
   );
 }
 
@@ -1326,7 +1412,7 @@ function App() {
         <GetInvolved />
       </main>
       <Footer />
-      <FestivalChatbot email={festivalEmail} whatsappUrl={festivalWhatsAppChannel} />
+      <RegistrationPopup />
     </>
   );
 }
