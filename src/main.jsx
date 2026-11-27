@@ -719,6 +719,7 @@ function CareLeaders() {
   const [activeCarouselIndex, setActiveCarouselIndex] = useState(0);
   const [carouselPhase, setCarouselPhase] = useState('visible');
   const [carouselInteractionPaused, setCarouselInteractionPaused] = useState(false);
+  const [showAllLeaders, setShowAllLeaders] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const [hasEnteredViewport, setHasEnteredViewport] = useState(false);
   const dialogRef = useRef(null);
@@ -746,6 +747,15 @@ function CareLeaders() {
   }, []);
 
   useEffect(() => {
+    if (!isMobileCarousel && showAllLeaders) {
+      setShowAllLeaders(false);
+      setActiveCarouselIndex(0);
+      setCarouselPhase('visible');
+      setCarouselInteractionPaused(false);
+    }
+  }, [isMobileCarousel, showAllLeaders]);
+
+  useEffect(() => {
     const section = leadersSectionRef.current;
     if (!section || !('IntersectionObserver' in window)) return undefined;
     const observer = new IntersectionObserver(([entry]) => {
@@ -758,7 +768,7 @@ function CareLeaders() {
   }, []);
 
   useEffect(() => {
-    if (!isMobileCarousel || prefersReducedMotion || selectedLeader) return undefined;
+    if (!isMobileCarousel || prefersReducedMotion || selectedLeader || showAllLeaders) return undefined;
     let timer;
     if (carouselPhase === 'visible') {
       if (carouselInteractionPaused) return undefined;
@@ -775,7 +785,7 @@ function CareLeaders() {
       timer = window.setTimeout(() => setCarouselPhase('visible'), prefersReducedMotion ? 0 : 800);
     }
     return () => window.clearTimeout(timer);
-  }, [isMobileCarousel, prefersReducedMotion, selectedLeader, carouselInteractionPaused, carouselPhase]);
+  }, [isMobileCarousel, prefersReducedMotion, selectedLeader, showAllLeaders, carouselInteractionPaused, carouselPhase]);
 
   useEffect(() => () => window.clearTimeout(resumeCarouselTimerRef.current), []);
 
@@ -787,6 +797,22 @@ function CareLeaders() {
   function pauseCarouselAfterInteraction() {
     pauseCarousel();
     resumeCarouselTimerRef.current = window.setTimeout(() => setCarouselInteractionPaused(false), 5000);
+  }
+
+  function viewAllLeaders() {
+    pauseCarousel();
+    setShowAllLeaders(true);
+  }
+
+  function showLessLeaders() {
+    setShowAllLeaders(false);
+    setActiveCarouselIndex(0);
+    setCarouselPhase('visible');
+    setCarouselInteractionPaused(false);
+    window.requestAnimationFrame(() => {
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      leadersSectionRef.current?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    });
   }
 
   function moveCarousel(direction) {
@@ -869,16 +895,16 @@ function CareLeaders() {
               event.stopPropagation();
             }}
           >
-            <div className="care-leaders-grid">
+            <div className={`care-leaders-grid${showAllLeaders && isMobileCarousel ? ' care-leaders-grid--all' : ''}`}>
               {careLeaders.map((leader, slideIndex) => {
                 const leaderIndex = slideIndex;
-                const isActiveSlide = !isMobileCarousel || activeCarouselIndex === slideIndex;
+                const isActiveSlide = !isMobileCarousel || activeCarouselIndex === slideIndex || showAllLeaders;
                 return (
                   <div
                     className={`care-leaders-slide${isActiveSlide ? ' is-active' : ''}${isActiveSlide && carouselPhase === 'fading-out' ? ' is-fading-out' : ''}${isActiveSlide && carouselPhase === 'fading-in' ? ' is-fading-in' : ''}`}
                     key={leader.name}
                     role={isMobileCarousel ? 'group' : undefined}
-                    aria-hidden={isMobileCarousel && !isActiveSlide ? 'true' : undefined}
+                    aria-hidden={isMobileCarousel && !showAllLeaders && !isActiveSlide ? 'true' : undefined}
                     aria-roledescription={isMobileCarousel ? 'slide' : undefined}
                     aria-label={isMobileCarousel ? `${leaderIndex + 1} of ${careLeaders.length}: ${leader.name}` : undefined}
                   >
@@ -886,7 +912,7 @@ function CareLeaders() {
                       className="care-leader-card"
                       style={{ '--leader-order': leaderIndex }}
                       type="button"
-                      tabIndex={isMobileCarousel && !isActiveSlide ? -1 : 0}
+                      tabIndex={isMobileCarousel && !showAllLeaders && !isActiveSlide ? -1 : 0}
                       aria-haspopup="dialog"
                       aria-label={`Read ${leader.name}'s full profile`}
                       onClick={() => setSelectedLeader(leader)}
@@ -912,6 +938,22 @@ function CareLeaders() {
               })}
             </div>
           </div>
+
+          {isMobileCarousel && !showAllLeaders && (
+            <div className="care-leaders-view-all-slot">
+              <button type="button" className="button button-primary" onClick={viewAllLeaders}>
+                View All Care Leaders
+              </button>
+            </div>
+          )}
+
+          {isMobileCarousel && showAllLeaders && (
+            <div className="care-leaders-view-all-slot">
+              <button type="button" className="button button-primary" onClick={showLessLeaders}>
+                Show Less
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
