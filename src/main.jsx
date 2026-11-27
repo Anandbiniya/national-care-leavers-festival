@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HeartHandshake, Megaphone, Sparkles } from 'lucide-react';
+import FaqSection from './components/FaqSection';
+import FestivalChatbot from './components/FestivalChatbot';
 import VideoBites from './components/VideoBites';
 import { Gallery, GalleryImage } from './components/ui/shared-element-gallery';
 import anandBiniyaPhoto from './assets/care-leaders/Anand Biniya.png';
@@ -1409,10 +1411,12 @@ function App() {
         </div>
         <CareLeaders />
         <VideoBites />
+        <FaqSection />
         <GetInvolved />
       </main>
       <Footer />
       <RegistrationPopup />
+      <FestivalChatbot email={festivalEmail} whatsappUrl={festivalWhatsAppChannel} />
     </>
   );
 }
